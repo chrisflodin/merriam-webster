@@ -20,6 +20,11 @@ const userSchema = new mongoose.Schema<IUser>({
       }
     },
   },
+  password: {
+    type: String,
+    required: true,
+    validate: (val: string) => val.length > 8,
+  },
 });
 
 export const User = mongoose.model("user", userSchema);
