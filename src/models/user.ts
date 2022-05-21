@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import validator from "validator";
+import IUser from "./../types/user";
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema<IUser>({
   firstName: {
     type: String,
     required: true,
@@ -13,7 +14,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    validate(val) {
+    validate(val: string) {
       if (!validator.isEmail(val)) {
         throw new Error("email is invalid");
       }
