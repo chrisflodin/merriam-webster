@@ -1,9 +1,11 @@
 import { ObjectId } from "mongoose";
 
-export default interface User {
-  id: ObjectId;
+export interface IUser {
+  _id: ObjectId;
   firstName: string;
   lastName: string;
   email: string;
   password: string;
+  tokens: { token: string }[];
+  generateAuthToken: () => string;
 }
