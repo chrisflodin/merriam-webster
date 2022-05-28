@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { User } from "../models/user";
 import bcrypt from "bcrypt";
 import { IUser } from "../types/user";
@@ -51,4 +51,10 @@ export const loginUser = async ({ body }: UserRequest, res: Response) => {
   } catch (error: any) {
     res.status(401).send({ error: error.message });
   }
+};
+
+export const getData = async (req: Request, res: Response) => {
+  try {
+    res.status(200).send("Fetching data!");
+  } catch (error) {}
 };
