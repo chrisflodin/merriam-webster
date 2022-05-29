@@ -7,7 +7,7 @@ function Login() {
   return (
     <div className={loginStyles.page}>
       <div className={loginStyles.container}>
-        <h1 className={loginStyles.title}>merriam webster api</h1>
+        <h1 className={loginStyles.title}>merriam webster</h1>
         <p className={""}>email</p>
         <input type="text" placeholder="email" />
         <p className={""}>password</p>
