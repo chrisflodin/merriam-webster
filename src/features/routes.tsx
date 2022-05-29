@@ -4,12 +4,12 @@ import Main from "./main/Main";
 
 function Routes() {
   return (
-    <div>
+    <>
       <Switch>
         <Route exact path={"/"} component={Main}></Route>
         <Route path={"/login"} component={Login}></Route>
       </Switch>
-    </div>
+    </>
   );
 }
 
