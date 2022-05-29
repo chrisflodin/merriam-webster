@@ -1,6 +1,7 @@
 import { Route, Switch } from "react-router-dom";
-import Login from "./login/Login";
-import Main from "./main/Main";
+import Login from "./login";
+import Main from "./main";
+import SignUp from "./login/SignUp";
 
 function Routes() {
   return (
@@ -8,6 +9,7 @@ function Routes() {
       <Switch>
         <Route exact path={"/"} component={Main}></Route>
         <Route exact path={"/login"} component={Login}></Route>
+        <Route exact path={"/sign-up"} component={SignUp}></Route>
       </Switch>
     </div>
   );

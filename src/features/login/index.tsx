@@ -1,19 +1,20 @@
-import React from "react";
 import { Link } from "react-router-dom";
-
 import loginStyles from "./Login.module.scss";
+
+const { page, container, title, subTitle, switchPrompt } = loginStyles;
 
 function Login() {
   return (
-    <div className={loginStyles.page}>
-      <div className={loginStyles.container}>
-        <h1 className={loginStyles.title}>merriam webster</h1>
-        <p className={""}>email</p>
+    <div className={page}>
+      <div className={container}>
+        <h1 className={title}>merriam webster</h1>
+        <h3 className={subTitle}>LOGIN</h3>
+        <p>Email</p>
         <input type="text" placeholder="email" />
-        <p className={""}>password</p>
+        <p>Password</p>
         <input type="password" placeholder="password" />
         <button>login</button>
-        <p className={loginStyles.signUp}>
+        <p className={switchPrompt}>
           Don't have an account? <Link to="/sign-up">sign up</Link>
         </p>
       </div>
