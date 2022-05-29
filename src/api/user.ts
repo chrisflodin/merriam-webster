@@ -3,12 +3,17 @@ import { User } from "../models/user";
 import bcrypt from "bcrypt";
 import { IUser } from "../types/user";
 import mongoose from "mongoose";
+import { fetchWord } from "./merriam-webster";
 
-type UserRequest = {
+interface UserRequest extends Request {
   body: IUser;
-};
+  query: {
+    search: string;
+  };
+}
 
-export const createUser = async ({ body }: UserRequest, res: Response) => {
+export const createUser = async (req: Request, res: Response) => {
+  const { body } = req;
   const { email, password, firstName, lastName } = body;
   const userExists = (await User.count({ email })) > 0;
 
@@ -36,25 +41,33 @@ export const createUser = async ({ body }: UserRequest, res: Response) => {
 
 export const loginUser = async ({ body }: UserRequest, res: Response) => {
   const { email, password } = body;
-  const errMessage = "Email or password is invalid.";
 
   try {
     const user: (IUser & mongoose.Document<IUser>) | null = await User.findOne({ email });
-    if (!user) throw new Error(errMessage);
+    if (!user) throw new Error();
 
     const pswdMatces = await bcrypt.compare(password, user.password);
-    if (!pswdMatces) throw new Error(errMessage);
+    if (!pswdMatces) throw new Error();
 
     const token = user.generateAuthToken();
+
     user.save();
+
     res.status(200).send({ user, token });
   } catch (error: any) {
-    res.status(401).send({ error: error.message });
+    res.status(500).send({ error: "Email or password is invalid." });
   }
 };
 
-export const getData = async (req: Request, res: Response) => {
+export const getData = async ({ query }: UserRequest, res: Response) => {
   try {
-    res.status(200).send("Fetching data!");
-  } catch (error) {}
+    if (!query?.search) throw new Error("Must provide a search key");
+
+    const data = await fetchWord(query.search);
+    if (!data) throw new Error();
+
+    res.status(200).send(data);
+  } catch (error: any) {
+    res.status(500).send({ error: error.message });
+  }
 };

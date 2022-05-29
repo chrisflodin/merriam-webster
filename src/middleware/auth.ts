@@ -19,10 +19,8 @@ export const auth = async (req: Request, res: AuthResponse, next: NextFunction) 
 
     const user = await User.findOne({ _id: decoded._id, "tokens.token": token });
     if (!user) throw new Error();
-
-    next();
   } catch (error: any) {
-    res.status(500).send({ error: "Please authenticate" });
+    res.status(401).send({ error: "Please authenticate" });
   }
   next();
 };
