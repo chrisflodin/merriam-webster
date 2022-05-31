@@ -11,12 +11,15 @@
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
     "@types/react-router-dom": "^5.3.3",
+    "fetch": "^1.1.0",
+    "mongoose": "^6.3.4",
     "node-sass": "^7.0.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^5.3.0",
     "react-scripts": "5.0.1",
     "typescript": "^4.7.2",
+    "validator": "^13.7.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -42,5 +45,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.11.97",
+    "@types/validator": "^13.7.2"
   }
 }
