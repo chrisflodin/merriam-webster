@@ -1,7 +1,8 @@
 import URLS from "../constants/urls";
 import { IUser } from "../types/user";
 
-export const signUpUser = async (profile: IUser) => {
+export const signUpUser = async (profile: IUser): Promise<{ data: IUser; token: string }> => {
+  let data;
   try {
     const res = await fetch(URLS.SIGN_UP_URL, {
       method: "POST",
@@ -11,9 +12,10 @@ export const signUpUser = async (profile: IUser) => {
       },
       body: JSON.stringify(profile),
     });
-    const data = await res.json();
+    data = await res.json();
     return data;
   } catch (error: any) {
     console.log(error.message);
   }
+  return data;
 };

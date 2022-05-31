@@ -1,25 +1,18 @@
-import { Link } from "react-router-dom";
-import loginStyles from "./Login.module.scss";
+import { useState } from "react";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
+import SignIn from "./sign-in";
+import SignUp from "./sign-up";
 
-const { page, container, title, subTitle, switchPrompt } = loginStyles;
+const Login = () => {
+  let { path } = useRouteMatch();
+  // const [jwt, setJwt]: [string, React.Dispatch<string>] = useState(JSON.parse(localStorage.getItem("jwt") || "{}"));
 
-function Login() {
   return (
-    <div className={page}>
-      <div className={container}>
-        <h1 className={title}>merriam webster</h1>
-        <h3 className={subTitle}>LOGIN</h3>
-        <p>Email</p>
-        <input type="text" placeholder="Email" />
-        <p>Password</p>
-        <input type="password" placeholder="Password" />
-        <button>login</button>
-        <p className={switchPrompt}>
-          Don't have an account? <Link to="/sign-up">sign up</Link>
-        </p>
-      </div>
-    </div>
+    <Switch>
+      <Route exact path={path + "/"} component={SignIn}></Route>
+      <Route exact path={path + "/sign-up"} component={SignUp}></Route>
+    </Switch>
   );
-}
+};
 
 export default Login;

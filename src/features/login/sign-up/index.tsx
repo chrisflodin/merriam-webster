@@ -1,9 +1,9 @@
-import { SyntheticEvent, useEffect, useReducer } from "react";
-import { Link } from "react-router-dom";
-import loginStyles from "./Login.module.scss";
-import { InputActionType, InputState, InputType } from "./types";
-import { signUpUser } from "../../api/auth";
-import { formReducer } from "./utils";
+import React, { SyntheticEvent, useEffect, useReducer, useState } from "react";
+import { Link, useRouteMatch } from "react-router-dom";
+import loginStyles from "../Login.module.scss";
+import { InputActionType, InputState, InputType } from "../types";
+import { signUpUser } from "../../../api/auth";
+import { formReducer } from "../utils";
 
 const { page, container, title, subTitle, switchPrompt, isValid, isInvalid } = loginStyles;
 
@@ -23,8 +23,6 @@ function SignUp() {
   const [form, formDispatch] = useReducer(formReducer, initState);
 
   const submitHandler = async (event: SyntheticEvent) => {
-    console.log(form);
-
     event.preventDefault();
     if (!form.valid) return;
 
@@ -36,6 +34,7 @@ function SignUp() {
     };
 
     const data = await signUpUser(user);
+    localStorage.setItem("Authorization", data.token);
   };
 
   const handleInputChange = (event: SyntheticEvent) => {
@@ -47,10 +46,6 @@ function SignUp() {
       payload: target.value,
     });
   };
-
-  useEffect(() => {
-    console.log(form);
-  }, [form]);
 
   return (
     <div className={page}>
@@ -96,7 +91,7 @@ function SignUp() {
 
         <button type="submit">Sign up</button>
         <p className={switchPrompt}>
-          Already have an account? <Link to="/login">Log in</Link>
+          Already have an account? <Link to={"/login/"}>Log in</Link>
         </p>
       </form>
     </div>
