@@ -6,17 +6,23 @@ import { JWT_SECRET } from "../config/auth-config";
 import { JWT_EXPIRATION } from "../config/auth-config";
 
 const userSchema = new mongoose.Schema<IUser>({
-  firstName: {
+  username: {
     type: String,
     required: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
+    trim: true,
+    validate: (val: string) => {
+      return (
+        val.length >= 3 &&
+        validator.isAlphanumeric(val, undefined, {
+          ignore: "_-",
+        })
+      );
+    },
   },
   email: {
     type: String,
     required: true,
+    trim: true,
     validate(val: string) {
       if (!validator.isEmail(val)) {
         throw new Error("email is invalid");
@@ -26,7 +32,8 @@ const userSchema = new mongoose.Schema<IUser>({
   password: {
     type: String,
     required: true,
-    validate: (val: string) => val.length > 8,
+    trim: true,
+    validate: (val: string) => val.length >= 8,
   },
   tokens: [
     {
