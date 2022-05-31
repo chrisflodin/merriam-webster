@@ -14,7 +14,7 @@ interface UserRequest extends Request {
 
 export const createUser = async (req: Request, res: Response) => {
   const { body } = req;
-  const { email, password, firstName, lastName } = body;
+  const { username, email, password } = body;
   const userExists = (await User.count({ email })) > 0;
 
   if (userExists) {
@@ -26,8 +26,7 @@ export const createUser = async (req: Request, res: Response) => {
   const newUser = new User({
     email,
     password: hashedPsw,
-    firstName,
-    lastName,
+    username,
   });
   const token = newUser.generateAuthToken();
 
