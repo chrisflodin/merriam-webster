@@ -1,37 +1,29 @@
-import React, { SyntheticEvent, useEffect, useReducer, useState } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { SyntheticEvent, useReducer } from "react";
+import { Link } from "react-router-dom";
 import loginStyles from "../Login.module.scss";
-import { InputActionType, InputState, InputType } from "../types";
+import { InputActionType, InputType } from "../types";
 import { signUpUser } from "../../../api/auth";
-import { formReducer } from "../utils";
+import { formReducer } from "../reducer";
+import SignUpForm from "./config";
+import TextInput from "../../../components/TextInput/TextInput";
 
-const { page, container, title, subTitle, switchPrompt, isValid, isInvalid } = loginStyles;
-
-const initState: any = { valid: false };
-
-["username", "email", "password", "confirmPassword"].forEach((cur: string) => {
-  initState[cur] = {
-    value: {
-      touched: false,
-      valid: false,
-      value: "",
-    } as InputState,
-  };
-});
+const { page, container, title, subTitle, switchPrompt } = loginStyles;
 
 function SignUp() {
-  const [form, formDispatch] = useReducer(formReducer, initState);
+  const [form, formDispatch] = useReducer(formReducer, SignUpForm);
 
   const submitHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
     if (!form.valid) return;
 
     const user = {
-      username: form.username?.value!,
-      email: form.email?.value!,
-      password: form.password?.value!,
-      confirmPassword: form.confirmPassword?.value!,
+      username: form.inputFields.find((input) => input.type === InputType.USERNAME)?.value!,
+      email: form.inputFields.find((input) => input.type === InputType.EMAIL)?.value!,
+      password: form.inputFields.find((input) => input.type === InputType.PASSWORD)?.value!,
+      confirm: form.inputFields.find((input) => input.type === InputType.CONFIRM_PASSWORD)?.value!,
     };
+
+    formDispatch({ type: InputActionType.SUBMIT });
 
     const data = await signUpUser(user);
     localStorage.setItem("Authorization", data.token);
@@ -47,48 +39,16 @@ function SignUp() {
     });
   };
 
+  const inputs = form.inputFields.map((input) => (
+    <TextInput handleInputChange={handleInputChange} {...input} key={input.type} />
+  ));
+
   return (
     <div className={page}>
       <form className={container} onSubmit={submitHandler}>
         <h1 className={title}>merriam webster</h1>
         <h3 className={subTitle}>SIGN UP</h3>
-
-        <p>Username</p>
-        <input
-          className={form.username.valid ? isValid : form.username.touched ? isInvalid : ""}
-          onChange={handleInputChange}
-          id={InputType.USERNAME}
-          type="text"
-          placeholder="Username"
-        />
-
-        <p>Email</p>
-        <input
-          className={form.email.valid ? isValid : form.email.touched ? isInvalid : ""}
-          onChange={handleInputChange}
-          id={InputType.EMAIL}
-          type="text"
-          placeholder="Email"
-        />
-
-        <p>Enter password</p>
-        <input
-          className={form.password.valid ? isValid : form.password.touched ? isInvalid : ""}
-          onChange={handleInputChange}
-          id={InputType.PASSWORD}
-          type="text"
-          placeholder="Password (min. 8 chars, 1 number)"
-        />
-
-        <p>Confirm password</p>
-        <input
-          className={form.confirmPassword.valid ? isValid : form.confirmPassword.touched ? isInvalid : ""}
-          onChange={handleInputChange}
-          id={InputType.CONFIRM_PASSWORD}
-          type="text"
-          placeholder="Password"
-        />
-
+        {inputs}
         <button type="submit">Sign up</button>
         <p className={switchPrompt}>
           Already have an account? <Link to={"/login/"}>Log in</Link>

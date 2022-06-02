@@ -5,7 +5,6 @@ import SignUp from "./sign-up";
 
 const Login = () => {
   let { path } = useRouteMatch();
-  // const [jwt, setJwt]: [string, React.Dispatch<string>] = useState(JSON.parse(localStorage.getItem("jwt") || "{}"));
 
   return (
     <Switch>

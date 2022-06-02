@@ -1,0 +1,16 @@
+input {
+  border-radius: 3px;
+  padding: 5px;
+}
+
+label {
+  font-size: 1.5rem;
+}
+
+.isValid {
+  border: 1px solid green;
+}
+
+.isInvalid {
+  border: 1px solid red;
+}
