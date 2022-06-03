@@ -23,10 +23,9 @@ function SignUp() {
       confirm: form.inputFields.find((input) => input.type === InputType.CONFIRM_PASSWORD)?.value!,
     };
 
-    formDispatch({ type: InputActionType.SUBMIT });
-
     const data = await signUpUser(user);
     localStorage.setItem("Authorization", data.token);
+    formDispatch({ type: InputActionType.SUBMIT });
   };
 
   const handleInputChange = (event: SyntheticEvent) => {

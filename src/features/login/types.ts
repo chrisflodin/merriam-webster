@@ -17,6 +17,7 @@ export interface InputField {
   label: string;
   placeholder: string;
   textType?: "text" | "password";
+  showsValidation?: boolean;
   validator: (val: string, inputArr: InputField[]) => boolean;
 }
 

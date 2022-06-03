@@ -1,8 +1,9 @@
-import { SyntheticEvent, useEffect, useReducer } from "react";
+import { SyntheticEvent, useContext, useEffect, useReducer } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { AuthContext } from "../../../context/auth-context";
 import loginStyles from "../Login.module.scss";
 import { InputActionType, InputType } from "../types";
-import { signUpUser } from "../../../api/auth";
+import { signInUser } from "../../../api/auth";
 import { formReducer } from "../reducer";
 import SignInForm from "./config";
 import TextInput from "../../../components/TextInput/TextInput";
@@ -13,14 +14,9 @@ function SignUp() {
   const [form, formDispatch] = useReducer(formReducer, SignInForm);
 
   const history = useHistory();
+  const authCtx = useContext(AuthContext);
 
-  useEffect(() => {
-    if (true) {
-      // history.push("/main");
-    }
-  }, []);
-
-  const submitHandler = async (event: SyntheticEvent) => {
+  const signIn = async (event: SyntheticEvent) => {
     event.preventDefault();
     if (!form.valid) return;
 
@@ -29,10 +25,11 @@ function SignUp() {
       password: form.inputFields.find((input) => input.type === InputType.PASSWORD)?.value!,
     };
 
+    const data = await signInUser(loginData);
+    localStorage.setItem("Authorization", data.token);
+    authCtx.signInHandler(data.token);
     formDispatch({ type: InputActionType.SUBMIT });
-
-    // const data = await signUpUser(loginData);
-    // localStorage.setItem("Authorization", data.token);
+    history.replace("/");
   };
 
   const handleInputChange = (event: SyntheticEvent) => {
@@ -46,12 +43,12 @@ function SignUp() {
   };
 
   const inputs = form.inputFields.map((input) => (
-    <TextInput handleInputChange={handleInputChange} {...input} key={input.type} />
+    <TextInput handleInputChange={handleInputChange} showsValidation={false} {...input} key={input.type} />
   ));
 
   return (
     <div className={page}>
-      <form className={container} onSubmit={submitHandler}>
+      <form className={container} onSubmit={signIn}>
         <h1 className={title}>merriam webster</h1>
         <h3 className={subTitle}>SIGN IN</h3>
         {inputs}

@@ -8,12 +8,25 @@ interface TextInputProps extends InputField {
   handleInputChange: (event: SyntheticEvent) => void;
 }
 
-function TextInput({ label, placeholder, type, textType, touched, valid, value, handleInputChange }: TextInputProps) {
+function TextInput({
+  showsValidation = true,
+  label,
+  placeholder,
+  type,
+  textType,
+  touched,
+  valid,
+  value,
+  handleInputChange,
+}: TextInputProps) {
+  let validationStyles;
+  if (showsValidation) validationStyles = valid ? isValid : touched ? isInvalid : "";
+
   return (
     <>
       <label>{label}</label>
       <input
-        className={valid ? isValid : touched ? isInvalid : ""}
+        className={validationStyles}
         value={value}
         onChange={handleInputChange}
         id={type}

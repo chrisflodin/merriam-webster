@@ -1,13 +1,29 @@
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Main from "./main";
 import Login from "./login";
+import { useContext } from "react";
+import { AuthContext } from "../context/auth-context";
+import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 
 function Routes() {
+  const { isAuthenticated } = useContext(AuthContext);
+  console.log(isAuthenticated);
+
   return (
     <div style={{ height: "100vh" }}>
       <Switch>
-        <Route exact path={"/"} component={Main}></Route>
-        <Route path={"/login"} component={Login}></Route>
+        <ProtectedRoute exact path="/">
+          <Main></Main>
+        </ProtectedRoute>
+
+        <Route
+          path={"/login"}
+          render={() => (isAuthenticated ? <Redirect to="/"></Redirect> : <Login></Login>)}
+        ></Route>
+
+        <Route path="*">
+          <div>404</div>
+        </Route>
       </Switch>
     </div>
   );
