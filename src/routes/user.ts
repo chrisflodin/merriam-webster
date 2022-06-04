@@ -1,12 +1,12 @@
 import express from "express";
 import { auth } from "../middleware/auth";
-import { createUser, getData, loginUser } from "../api/user";
+import { createUser, getData, loginUser } from "../api/user/user";
 
 const router = express.Router();
 
 // prettier-ignore
 router.post("/new", createUser)
-    .get("/login", loginUser)
+    .post("/login", loginUser)
     .get("/fetch-data", auth, getData);
 
 export default router;

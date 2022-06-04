@@ -1,4 +1,4 @@
-import { API_KEY } from "../fake-env";
+import { API_KEY } from "../../fake-env";
 import { RequestInfo, RequestInit } from "node-fetch";
 
 const fetch = (url: RequestInfo, init?: RequestInit) =>

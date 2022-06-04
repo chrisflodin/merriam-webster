@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema<IUser>({
       );
     },
   },
+
   email: {
     type: String,
     required: true,
@@ -29,12 +30,14 @@ const userSchema = new mongoose.Schema<IUser>({
       }
     },
   },
+
   password: {
     type: String,
     required: true,
     trim: true,
     validate: (val: string) => val.length >= 8,
   },
+
   tokens: [
     {
       token: {

@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import { User } from "../models/user";
+import { User } from "../../models/user";
 import bcrypt from "bcrypt";
-import { IUser } from "../types/user";
+import { IUser } from "../../types/user";
 import mongoose from "mongoose";
-import { fetchWord } from "./merriam-webster";
+import { fetchWord } from "../merriam-webster/merriam-webster";
+import { normalizeData } from "../merriam-webster/utils";
 
 interface UserRequest extends Request {
   body: IUser;
@@ -63,9 +64,10 @@ export const getData = async ({ query }: UserRequest, res: Response) => {
     if (!query?.search) throw new Error("Must provide a search key");
 
     const data = await fetchWord(query.search);
-    if (!data) throw new Error();
+    const normalized = normalizeData(data);
 
-    res.status(200).send(data);
+    if (!data) throw new Error();
+    res.status(200).send(normalized);
   } catch (error: any) {
     res.status(500).send({ error: error.message });
   }

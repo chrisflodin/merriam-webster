@@ -18,9 +18,11 @@ export const auth = async (req: Request, res: AuthResponse, next: NextFunction) 
     const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
 
     const user = await User.findOne({ _id: decoded._id, "tokens.token": token });
+
     if (!user) throw new Error();
   } catch (error: any) {
     res.status(401).send({ error: "Please authenticate" });
+    return;
   }
   next();
 };
