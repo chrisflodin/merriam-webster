@@ -11,6 +11,7 @@
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
     "@types/react-router-dom": "^5.3.3",
+    "classnames": "^2.3.1",
     "fetch": "^1.1.0",
     "mongoose": "^6.3.4",
     "node-sass": "^7.0.1",
@@ -47,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@types/classnames": "^2.3.1",
     "@types/mongoose": "^5.11.97",
     "@types/validator": "^13.7.2"
   }

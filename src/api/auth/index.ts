@@ -1,5 +1,5 @@
-import URLS from "../constants/urls";
-import { IUser } from "../types/user";
+import URLS from "../urls";
+import { IUser } from "../../types/user";
 import { LoginCredentials } from "./types";
 
 export const signUpUser = async (profile: IUser): Promise<{ data: IUser; token: string }> => {

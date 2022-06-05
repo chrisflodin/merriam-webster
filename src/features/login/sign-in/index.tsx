@@ -10,7 +10,7 @@ import TextInput from "../../../components/TextInput/TextInput";
 
 const { page, container, title, subTitle, switchPrompt } = loginStyles;
 
-function SignUp() {
+function SignIn() {
   const [form, formDispatch] = useReducer(formReducer, SignInForm);
 
   const history = useHistory();
@@ -61,4 +61,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default SignIn;

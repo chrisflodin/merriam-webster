@@ -7,7 +7,6 @@ import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 
 function Routes() {
   const { isAuthenticated } = useContext(AuthContext);
-  console.log(isAuthenticated);
 
   return (
     <div style={{ height: "100vh" }}>
