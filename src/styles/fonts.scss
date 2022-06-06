@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,700&display=swap");
 
 :root {
-  font-size: 62.5%;
+  font-size: 0.391vw;
 }
 
 * {
@@ -10,3 +10,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+// @media screen and (min-width: 1500px) {
+//   :root {
+//     font-size: 80%;
+//   }
+// }
