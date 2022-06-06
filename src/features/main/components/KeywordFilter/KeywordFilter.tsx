@@ -4,17 +4,18 @@ import Button from "../../../../components/Button/Button";
 const { containerStyle, searchTermButton } = style;
 
 interface KeywordFilterProps {
-  filter: string[];
+  filter: Map<string, boolean>;
+  updateFilterHandler: (filterItem: string) => void;
 }
 
-const KeywordFilter = ({ filter }: KeywordFilterProps) => {
-  const filterHandler = () => {};
-
-  const keywords = filter.map((word, i) => (
-    <Button className={searchTermButton} onClick={filterHandler} key={i}>
-      {word}
-    </Button>
-  ));
+const KeywordFilter = ({ filter, updateFilterHandler }: KeywordFilterProps) => {
+  const keywords = Array.from(filter.entries()).map((word, i) => {
+    return (
+      <Button classes={searchTermButton} onClick={() => updateFilterHandler(word[0])} selected={word[1]} key={i}>
+        {word[0]}
+      </Button>
+    );
+  });
 
   return <div className={containerStyle}>{keywords}</div>;
 };

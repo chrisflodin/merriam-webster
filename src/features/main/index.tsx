@@ -1,82 +1,71 @@
+import style from "./Main.module.scss";
 import { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { fetchWord } from "../../api/merriam-webster";
 import { MerriamWord } from "../../api/merriam-webster/types";
-import Button from "../../components/Button/Button";
 import { AuthContext } from "../../context/auth-context";
+import { DefaultWord, WordFilterMap } from "./config";
+import { updateUrl } from "./components/SynonymsList/utils";
+import { getActiveFilter, validateQuery } from "./components/utils";
+import Button from "../../components/Button/Button";
+import Loader from "../../components/Loader/Loader";
+import KeywordFilter from "./components/KeywordFilter/KeywordFilter";
+import SynonymsList from "./components/SynonymsList/SynonymsList";
 import { useQuery } from "../../hooks/useQuery";
-import { WordFilterConfig } from "./config";
-import Synonyms from "./components/Synonyms/Synonyms";
-import style from "./Main.module.scss";
 
-const { signOutButton } = style;
-
-const tempData = {
-  id: "strength",
-  senses: [
-    {
-      meaning: "the ability to exert effort for the accomplishment of a task",
-      synonyms: [
-        "energy",
-        "firepower",
-        "force",
-        "horsepower",
-        "might",
-        "muscle",
-        "potence",
-        "potency",
-        "power",
-        "puissance",
-        "sinew",
-        "vigor",
-      ],
-      antonyms: ["impotence", "impotency", "powerlessness", "weakness"],
-    },
-    {
-      meaning: "the ability to withstand force or stress without being distorted, dislodged, or damaged",
-      synonyms: ["firmness", "soundness", "stability", "sturdiness"],
-      antonyms: ["insecurity", "instability", "precariousness", "shakiness", "unstableness", "unsteadiness"],
-    },
-  ],
-} as MerriamWord;
+const { signOutButton, h1, container } = style;
 
 const Main = () => {
   const auth = useContext(AuthContext);
-  const query = useQuery();
-  const [isLoading, setIsLoading] = useState(true);
-  const [word, setWords] = useState<MerriamWord>();
   const history = useHistory();
-  const searchTermRegEx = new RegExp(WordFilterConfig.map((word: string) => `^${word}^`).join("|"));
-  const [activeFilter, setActiveFilter] = useState<string>(WordFilterConfig[0]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [wordData, setWordData] = useState<MerriamWord>();
+  const [filter, setFilter] = useState<Map<string, boolean>>(WordFilterMap);
+  const query = useQuery();
+
+  const updateFilterHandler = (filterItem: string): void => {
+    setIsLoading(true);
+    updateUrl(filterItem, history);
+    setActiveFilter(filterItem);
+  };
+
+  const getMerriamData = async (filterItem: string): Promise<void> => {
+    const data = await fetchWord(filterItem, auth.token);
+    setWordData(data);
+    setIsLoading(false);
+  };
+
+  const setActiveFilter = (filterItem: string): void => {
+    const newFilter = new Map(filter);
+    for (let [key, val] of newFilter.entries()) {
+      if (val) newFilter.set(key, false);
+    }
+    newFilter.set(filterItem, true);
+    setFilter(newFilter);
+  };
 
   useEffect(() => {
-    init();
-  }, []);
+    getMerriamData(getActiveFilter(filter));
+  }, [filter]);
 
-  const init = () => {
-    let search = query.get("search") || "";
-    if (!searchTermRegEx.test(search)) {
-      search = activeFilter;
+  useEffect(() => {
+    if (!validateQuery(query.get("search"), filter)) {
       history.push({
         pathname: "",
-        search: "?search=" + search,
+        search: "?search=" + DefaultWord,
       });
+      setActiveFilter(DefaultWord);
     }
-
-    const getMerriamData = async () => {
-      const data = await fetchWord(search, auth.token);
-      setWords(data);
-      setIsLoading(false);
-    };
-    setIsLoading(false);
-
-    // getMerriamData();
-  };
+  }, [history]);
 
   return (
     <>
-      {!isLoading && <Synonyms filter={WordFilterConfig} data={tempData}></Synonyms>}
-      <Button className={signOutButton} onClick={auth.signOutHandler}>
+      <div className={container}>
+        <h1 className={h1}>keywords</h1>
+        <KeywordFilter filter={filter} updateFilterHandler={updateFilterHandler}></KeywordFilter>
+        {isLoading ? <Loader /> : <SynonymsList data={wordData}></SynonymsList>}
+      </div>
+      <Button classes={signOutButton} onClick={auth.signOutHandler}>
         Sign out
       </Button>
     </>

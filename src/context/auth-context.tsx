@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-interface AuthContext {
+interface AuthorizationContext {
   token: string;
   isAuthenticated: boolean;
   signInHandler: (token: string) => void;
   signOutHandler: () => void;
 }
 
-export const AuthContext = React.createContext<AuthContext>({
+export const AuthContext = React.createContext<AuthorizationContext>({
   token: "",
   isAuthenticated: false,
   signOutHandler: () => {},

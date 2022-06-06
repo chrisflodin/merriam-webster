@@ -1,4 +1,4 @@
-import { SyntheticEvent, useContext, useEffect, useReducer } from "react";
+import { SyntheticEvent, useContext, useReducer } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { AuthContext } from "../../../context/auth-context";
 import loginStyles from "../Login.module.scss";
