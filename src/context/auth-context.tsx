@@ -16,7 +16,9 @@ export const AuthContext = React.createContext<AuthorizationContext>({
 
 export const AuthContextProvider = (props: { children: any }) => {
   const [token, setToken] = useState(localStorage.getItem("Authorization") || "");
-  const isAuthenticated = !!token;
+  console.log(token);
+  const isAuthenticated = token.length > 0;
+  console.log(isAuthenticated);
 
   const signInHandler = (token: string) => {
     localStorage.setItem("Authorization", token);

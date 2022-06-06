@@ -30,7 +30,6 @@ const SignUpForm: FormState = {
       type: InputType.CONFIRM_PASSWORD,
       label: "Confirm password",
       textType: "password",
-      // Fix
       placeholder: "Confirm password",
       validator: (val: string, inputArr: InputField[]) =>
         validator.isStrongPassword(val, pswRequirement) &&
@@ -39,6 +38,7 @@ const SignUpForm: FormState = {
     },
   ],
   valid: false,
+  error: null,
 };
 
 const DefaultFormFields = {

@@ -2,7 +2,7 @@ import { SyntheticEvent } from "react";
 import { InputField } from "../../features/login/types";
 import inputStyles from "./TextInput.module.scss";
 
-const { isValid, isInvalid } = inputStyles;
+const { container, isValid, isInvalid } = inputStyles;
 
 interface TextInputProps extends InputField {
   handleInputChange: (event: SyntheticEvent) => void;
@@ -24,15 +24,17 @@ function TextInput({
 
   return (
     <>
-      <label>{label}</label>
-      <input
-        className={validationStyles}
-        value={value}
-        onChange={handleInputChange}
-        id={type}
-        type={textType}
-        placeholder={placeholder}
-      />
+      <div className={container}>
+        <label>{label}</label>
+        <input
+          className={validationStyles}
+          value={value}
+          onChange={handleInputChange}
+          id={type}
+          type={textType}
+          placeholder={placeholder}
+        />
+      </div>
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { Redirect, Route, Switch } from "react-router-dom";
 import Main from "./main";
-import Login from "./login";
+import Login from "./login/routes";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth-context";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";

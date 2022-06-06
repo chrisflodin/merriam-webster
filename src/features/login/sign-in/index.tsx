@@ -1,4 +1,5 @@
 import { SyntheticEvent, useContext, useReducer } from "react";
+import { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { AuthContext } from "../../../context/auth-context";
 import loginStyles from "../Login.module.scss";
@@ -7,14 +8,23 @@ import { signInUser } from "../../../api/auth";
 import { formReducer } from "../reducer";
 import SignInForm from "./config";
 import TextInput from "../../../components/TextInput/TextInput";
+import Button from "../../../components/Button/Button";
+import { ServerError } from "../../../types/error";
+import { AuthSuccessResponse } from "../../../types/response-data";
 
-const { page, container, title, subTitle, switchPrompt } = loginStyles;
+const { page, container, title, subTitle, switchPrompt, formError } = loginStyles;
 
 function SignIn() {
   const [form, formDispatch] = useReducer(formReducer, SignInForm);
 
   const history = useHistory();
   const authCtx = useContext(AuthContext);
+
+  useEffect(() => {
+    return () => {
+      formDispatch({ type: InputActionType.SUBMIT });
+    };
+  }, []);
 
   const signIn = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -25,10 +35,18 @@ function SignIn() {
       password: form.inputFields.find((input) => input.type === InputType.PASSWORD)?.value!,
     };
 
-    const data = await signInUser(loginData);
+    const res = await signInUser(loginData);
+
+    if (res.statusCode !== 200) {
+      let error: ServerError = res.body as ServerError;
+      formDispatch({ type: InputActionType.ERROR_THROWN, payload: error.error });
+      return;
+    }
+    let data = res.body as AuthSuccessResponse;
+
     localStorage.setItem("Authorization", data.token);
-    authCtx.signInHandler(data.token);
     formDispatch({ type: InputActionType.SUBMIT });
+    authCtx.signInHandler(data.token);
     history.replace("/");
   };
 
@@ -52,7 +70,10 @@ function SignIn() {
         <h1 className={title}>merriam webster</h1>
         <h3 className={subTitle}>SIGN IN</h3>
         {inputs}
-        <button type="submit">Sign in</button>
+        {form.error && <p className={formError}>{form.error}</p>}
+        <Button type="submit" variant="outlined">
+          Sign in
+        </Button>
         <p className={switchPrompt}>
           Already have an account? <Link to={"/login/sign-up"}>Sign up</Link>
         </p>

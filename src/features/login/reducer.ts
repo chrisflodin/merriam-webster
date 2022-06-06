@@ -20,6 +20,20 @@ export const formReducer: InputReducer = (prevState, action) => {
       state = updateInputFormState(prevState, InputType.CONFIRM_PASSWORD, action.payload!);
       break;
 
+    case InputActionType.ERROR_THROWN:
+      state = {
+        ...prevState,
+        error: action.payload!,
+      };
+      break;
+
+    case InputActionType.ERROR_RESET:
+      state = {
+        ...prevState,
+        error: null,
+      };
+      break;
+
     case InputActionType.SUBMIT:
       state = resetInputFormState(prevState);
       break;
@@ -60,5 +74,9 @@ const resetInputFormState = (state: FormState) => {
     };
   });
 
-  return state;
+  return {
+    ...state,
+    error: null,
+    valid: false,
+  } as FormState;
 };

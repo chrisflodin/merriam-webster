@@ -1,6 +1,7 @@
 export interface FormState {
   inputFields: InputField[];
   valid?: boolean;
+  error: string | null;
 }
 
 export interface InputState {
@@ -39,6 +40,8 @@ export enum InputActionType {
   CONFIRM_PASSWORD_CHANGED = "CONFIRM_PASSWORD_CHANGED",
   EMAIL_CHANGED = "EMAIL_CHANGED",
   SUBMIT = "SUBMIT",
+  ERROR_THROWN = "ERROR_THROWN",
+  ERROR_RESET = "ERROR_RESET",
 }
 
 export type InputReducer = (state: FormState, action: InputAction) => FormState;

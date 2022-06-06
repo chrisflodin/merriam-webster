@@ -18,6 +18,7 @@ const SignInForm: FormState = {
       validator: (val: string) => validator.isStrongPassword(val, pswRequirement) && validator.isAlphanumeric(val),
     },
   ],
+  error: null,
   valid: false,
 };
 

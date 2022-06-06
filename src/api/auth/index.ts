@@ -1,8 +1,9 @@
 import URLS from "../urls";
 import { IUser } from "../../types/user";
 import { LoginCredentials } from "./types";
+import { ResponseData } from "../../types/response-data";
 
-export const signUpUser = async (profile: IUser): Promise<{ data: IUser; token: string }> => {
+export const signUpUser = async (profile: IUser): Promise<ResponseData> => {
   let data;
   try {
     const res = await fetch(URLS.SIGN_UP_URL, {
@@ -14,14 +15,17 @@ export const signUpUser = async (profile: IUser): Promise<{ data: IUser; token: 
       body: JSON.stringify(profile),
     });
     data = await res.json();
-    return data;
+    return {
+      statusCode: res.status,
+      body: data,
+    } as ResponseData;
   } catch (error: any) {
     console.log(error.message);
   }
   return data;
 };
 
-export const signInUser = async (credentials: LoginCredentials): Promise<{ data: IUser; token: string }> => {
+export const signInUser = async (credentials: LoginCredentials): Promise<ResponseData> => {
   let data;
   try {
     const res = await fetch(URLS.SIGN_IN_URL, {
@@ -34,7 +38,10 @@ export const signInUser = async (credentials: LoginCredentials): Promise<{ data:
     });
     JSON.stringify(credentials);
     data = await res.json();
-    return data;
+    return {
+      statusCode: res.status,
+      body: data,
+    } as ResponseData;
   } catch (error: any) {
     console.log(error.message);
   }

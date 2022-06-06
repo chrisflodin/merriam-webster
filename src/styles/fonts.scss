@@ -3,7 +3,6 @@
 :root {
   font-size: 0.391vw;
 }
-
 * {
   font-family: "lato", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
     "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
@@ -11,8 +10,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-// @media screen and (min-width: 1500px) {
-//   :root {
-//     font-size: 80%;
-//   }
-// }
+@media screen and (max-width: 1500px) {
+  :root {
+    font-size: 0.591vw;
+  }
+}

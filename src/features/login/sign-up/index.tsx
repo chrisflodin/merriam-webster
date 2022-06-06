@@ -1,16 +1,25 @@
-import { SyntheticEvent, useReducer } from "react";
-import { Link } from "react-router-dom";
+import { SyntheticEvent, useEffect, useReducer } from "react";
 import loginStyles from "../Login.module.scss";
+import { Link } from "react-router-dom";
 import { InputActionType, InputType } from "../types";
 import { signUpUser } from "../../../api/auth";
 import { formReducer } from "../reducer";
 import SignUpForm from "./config";
 import TextInput from "../../../components/TextInput/TextInput";
+import Button from "../../../components/Button/Button";
+import { ServerError } from "../../../types/error";
+import { AuthSuccessResponse } from "../../../types/response-data";
 
-const { page, container, title, subTitle, switchPrompt } = loginStyles;
+const { page, container, title, subTitle, switchPrompt, formError } = loginStyles;
 
 function SignUp() {
   const [form, formDispatch] = useReducer(formReducer, SignUpForm);
+
+  useEffect(() => {
+    return () => {
+      formDispatch({ type: InputActionType.SUBMIT });
+    };
+  }, []);
 
   const submitHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -23,7 +32,14 @@ function SignUp() {
       confirm: form.inputFields.find((input) => input.type === InputType.CONFIRM_PASSWORD)?.value!,
     };
 
-    const data = await signUpUser(user);
+    const res = await signUpUser(user);
+
+    if (res.statusCode !== 200) {
+      let error: ServerError = res.body as ServerError;
+      formDispatch({ type: InputActionType.ERROR_THROWN, payload: error.error });
+      return;
+    }
+    let data = res.body as AuthSuccessResponse;
     localStorage.setItem("Authorization", data.token);
     formDispatch({ type: InputActionType.SUBMIT });
   };
@@ -48,9 +64,12 @@ function SignUp() {
         <h1 className={title}>merriam webster</h1>
         <h3 className={subTitle}>SIGN UP</h3>
         {inputs}
-        <button type="submit">Sign up</button>
+        {form.error && <p className={formError}>{form.error}</p>}
+        <Button type="submit" variant="outlined">
+          Sign up
+        </Button>
         <p className={switchPrompt}>
-          Already have an account? <Link to={"/login/"}>Log in</Link>
+          Already have an account? <Link to={"/login"}>Log in</Link>
         </p>
       </form>
     </div>
