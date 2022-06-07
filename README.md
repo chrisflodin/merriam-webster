@@ -28,6 +28,7 @@ I really enjoyed doing this assignment, feel free to reach out if you have any q
 **Frontend**
 
 - Adding tests.
+- Ordering imports and props, and making sure optional props are given a default value.
 - Storing API_KEYS and other info in environment variables instead of a config file.
 - The app stores the JWT in localStorage, which is not best practice because of security issues. Changing this would be necessary in a real-world app.
 - Making the form's property "inputField" into maps instead of arrays.
