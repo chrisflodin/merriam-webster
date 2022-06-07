@@ -1,4 +1,5 @@
 import validator from "validator";
+import { DefaultFormFields, pswRequirement } from "../config";
 import { FormState, InputType } from "../types";
 
 const SignInForm: FormState = {
@@ -20,20 +21,6 @@ const SignInForm: FormState = {
   ],
   error: null,
   valid: false,
-};
-
-const DefaultFormFields = {
-  touched: false,
-  valid: false,
-  value: "",
-};
-
-const pswRequirement = {
-  minLength: 4,
-  minLowercase: 1,
-  minUppercase: 0,
-  minNumbers: 0,
-  minSymbols: 0,
 };
 
 SignInForm.inputFields = SignInForm.inputFields.map((input) => ({ ...input, ...DefaultFormFields }));

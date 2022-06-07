@@ -26,6 +26,7 @@ const SignIn = () => {
 
   const signInHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
+
     if (!form.valid) return;
 
     const loginData = {
@@ -42,7 +43,6 @@ const SignIn = () => {
     }
 
     let data = res.body as AuthSuccessResponse;
-
     localStorage.setItem("Authorization", data.token);
     formDispatch({ type: InputActionType.RESET_FORM });
     authCtx.signInHandler(data.token);

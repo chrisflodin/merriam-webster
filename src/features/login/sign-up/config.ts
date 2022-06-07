@@ -1,4 +1,5 @@
 import validator from "validator";
+import { DefaultFormFields, pswRequirement } from "../config";
 import { FormState, InputField, InputType } from "../types";
 
 const SignUpForm: FormState = {
@@ -39,20 +40,6 @@ const SignUpForm: FormState = {
   ],
   valid: false,
   error: null,
-};
-
-const DefaultFormFields = {
-  touched: false,
-  valid: false,
-  value: "",
-};
-
-const pswRequirement = {
-  minLength: 4,
-  minLowercase: 1,
-  minUppercase: 0,
-  minNumbers: 0,
-  minSymbols: 0,
 };
 
 SignUpForm.inputFields = SignUpForm.inputFields.map((input) => ({ ...input, ...DefaultFormFields }));
