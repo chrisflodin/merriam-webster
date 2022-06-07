@@ -34,7 +34,7 @@ export const formReducer: InputReducer = (prevState, action) => {
       };
       break;
 
-    case InputActionType.SUBMIT:
+    case InputActionType.RESET_FORM:
       state = resetInputFormState(prevState);
       break;
 

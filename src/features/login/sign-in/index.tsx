@@ -1,5 +1,4 @@
-import { SyntheticEvent, useContext, useReducer } from "react";
-import { useEffect } from "react";
+import { SyntheticEvent, useContext, useReducer, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { AuthContext } from "../../../context/auth-context";
 import loginStyles from "../Login.module.scss";
@@ -14,19 +13,18 @@ import { AuthSuccessResponse } from "../../../types/response-data";
 
 const { page, container, title, subTitle, switchPrompt, formError } = loginStyles;
 
-function SignIn() {
+const SignIn = () => {
   const [form, formDispatch] = useReducer(formReducer, SignInForm);
-
   const history = useHistory();
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
     return () => {
-      formDispatch({ type: InputActionType.SUBMIT });
+      formDispatch({ type: InputActionType.RESET_FORM });
     };
   }, []);
 
-  const signIn = async (event: SyntheticEvent) => {
+  const signInHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
     if (!form.valid) return;
 
@@ -42,10 +40,11 @@ function SignIn() {
       formDispatch({ type: InputActionType.ERROR_THROWN, payload: error.error });
       return;
     }
+
     let data = res.body as AuthSuccessResponse;
 
     localStorage.setItem("Authorization", data.token);
-    formDispatch({ type: InputActionType.SUBMIT });
+    formDispatch({ type: InputActionType.RESET_FORM });
     authCtx.signInHandler(data.token);
     history.replace("/");
   };
@@ -66,7 +65,7 @@ function SignIn() {
 
   return (
     <div className={page}>
-      <form className={container} onSubmit={signIn}>
+      <form className={container} onSubmit={signInHandler}>
         <h1 className={title}>merriam webster</h1>
         <h3 className={subTitle}>SIGN IN</h3>
         {inputs}
@@ -80,6 +79,6 @@ function SignIn() {
       </form>
     </div>
   );
-}
+};
 
 export default SignIn;

@@ -8,7 +8,7 @@ interface TextInputProps extends InputField {
   handleInputChange: (event: SyntheticEvent) => void;
 }
 
-function TextInput({
+const TextInput = ({
   showsValidation = true,
   label,
   placeholder,
@@ -18,7 +18,7 @@ function TextInput({
   valid,
   value,
   handleInputChange,
-}: TextInputProps) {
+}: TextInputProps) => {
   let validationStyles;
   if (showsValidation) validationStyles = valid ? isValid : touched ? isInvalid : "";
 
@@ -37,6 +37,6 @@ function TextInput({
       </div>
     </>
   );
-}
+};
 
 export default TextInput;

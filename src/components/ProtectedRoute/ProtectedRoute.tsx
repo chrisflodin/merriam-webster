@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
   exact?: boolean;
 }
 
-function ProtectedRoute({ children, path, exact = false }: ProtectedRouteProps) {
+const ProtectedRoute = ({ children, path, exact = false }: ProtectedRouteProps) => {
   const { isAuthenticated } = useContext(AuthContext);
 
   return (
@@ -18,6 +18,6 @@ function ProtectedRoute({ children, path, exact = false }: ProtectedRouteProps) 
       render={() => (isAuthenticated ? children : <Redirect to={"/login"}></Redirect>)}
     ></Route>
   );
-}
+};
 
 export default ProtectedRoute;

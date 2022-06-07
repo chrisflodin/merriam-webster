@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/auth-context";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 
-function Routes() {
+const Routes = () => {
   const { isAuthenticated } = useContext(AuthContext);
 
   return (
@@ -26,6 +26,6 @@ function Routes() {
       </Switch>
     </div>
   );
-}
+};
 
 export default Routes;

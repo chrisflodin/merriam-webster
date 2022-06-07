@@ -12,16 +12,16 @@ import { AuthSuccessResponse } from "../../../types/response-data";
 
 const { page, container, title, subTitle, switchPrompt, formError } = loginStyles;
 
-function SignUp() {
+const SignUp = () => {
   const [form, formDispatch] = useReducer(formReducer, SignUpForm);
 
   useEffect(() => {
     return () => {
-      formDispatch({ type: InputActionType.SUBMIT });
+      formDispatch({ type: InputActionType.RESET_FORM });
     };
   }, []);
 
-  const submitHandler = async (event: SyntheticEvent) => {
+  const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
     if (!form.valid) return;
 
@@ -41,7 +41,7 @@ function SignUp() {
     }
     let data = res.body as AuthSuccessResponse;
     localStorage.setItem("Authorization", data.token);
-    formDispatch({ type: InputActionType.SUBMIT });
+    formDispatch({ type: InputActionType.RESET_FORM });
   };
 
   const handleInputChange = (event: SyntheticEvent) => {
@@ -60,7 +60,7 @@ function SignUp() {
 
   return (
     <div className={page}>
-      <form className={container} onSubmit={submitHandler}>
+      <form className={container} onSubmit={handleSubmit}>
         <h1 className={title}>merriam webster</h1>
         <h3 className={subTitle}>SIGN UP</h3>
         {inputs}
@@ -74,6 +74,6 @@ function SignUp() {
       </form>
     </div>
   );
-}
+};
 
 export default SignUp;

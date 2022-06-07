@@ -18,10 +18,10 @@ const { signOutButton, h1, container } = style;
 const Main = () => {
   const auth = useContext(AuthContext);
   const history = useHistory();
+  const query = useQuery();
   const [isLoading, setIsLoading] = useState(true);
   const [wordData, setWordData] = useState<MerriamWord>();
   const [filter, setFilter] = useState<Map<string, boolean>>(WordFilterMap);
-  const query = useQuery();
 
   const updateFilterHandler = (filterItem: string): void => {
     setIsLoading(true);
@@ -59,16 +59,14 @@ const Main = () => {
   }, [history]);
 
   return (
-    <>
-      <div className={container}>
-        <h1 className={h1}>keywords</h1>
-        <KeywordFilter filter={filter} updateFilterHandler={updateFilterHandler}></KeywordFilter>
-        {isLoading ? <Loader /> : <SynonymsList data={wordData}></SynonymsList>}
-      </div>
+    <div className={container}>
+      <h1 className={h1}>keywords</h1>
+      <KeywordFilter filter={filter} updateFilterHandler={updateFilterHandler}></KeywordFilter>
+      {isLoading ? <Loader /> : <SynonymsList data={wordData}></SynonymsList>}
       <Button classes={signOutButton} onClick={auth.signOutHandler}>
         Sign out
       </Button>
-    </>
+    </div>
   );
 };
 
