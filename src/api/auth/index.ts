@@ -5,6 +5,7 @@ import { ResponseData } from "../../types/response-data";
 
 export const signUpUser = async (profile: IUser): Promise<ResponseData> => {
   let data;
+
   try {
     const res = await fetch(URLS.SIGN_UP_URL, {
       method: "POST",
@@ -14,7 +15,9 @@ export const signUpUser = async (profile: IUser): Promise<ResponseData> => {
       },
       body: JSON.stringify(profile),
     });
+
     data = await res.json();
+
     return {
       statusCode: res.status,
       body: data,
@@ -22,11 +25,13 @@ export const signUpUser = async (profile: IUser): Promise<ResponseData> => {
   } catch (error: any) {
     console.log(error.message);
   }
+
   return data;
 };
 
 export const signInUser = async (credentials: LoginCredentials): Promise<ResponseData> => {
   let data;
+
   try {
     const res = await fetch(URLS.SIGN_IN_URL, {
       method: "POST",
@@ -36,8 +41,10 @@ export const signInUser = async (credentials: LoginCredentials): Promise<Respons
       },
       body: JSON.stringify(credentials),
     });
+
     JSON.stringify(credentials);
     data = await res.json();
+
     return {
       statusCode: res.status,
       body: data,

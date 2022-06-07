@@ -10,6 +10,7 @@ import TextInput from "../../../components/TextInput/TextInput";
 import Button from "../../../components/Button/Button";
 import { ServerError } from "../../../types/error";
 import { AuthSuccessResponse } from "../../../types/response-data";
+import { getFormValue } from "../utils";
 
 const { page, container, title, subTitle, switchPrompt, formError } = loginStyles;
 
@@ -26,15 +27,14 @@ const SignIn = () => {
 
   const signInHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
-
     if (!form.valid) return;
 
-    const loginData = {
-      email: form.inputFields.find((input) => input.type === InputType.EMAIL)?.value!,
-      password: form.inputFields.find((input) => input.type === InputType.PASSWORD)?.value!,
+    const credentials = {
+      email: getFormValue(InputType.EMAIL, form),
+      password: getFormValue(InputType.PASSWORD, form),
     };
 
-    const res = await signInUser(loginData);
+    const res = await signInUser(credentials);
 
     if (res.statusCode !== 200) {
       let error: ServerError = res.body as ServerError;
