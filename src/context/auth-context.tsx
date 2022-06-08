@@ -3,27 +3,27 @@ import React, { useState } from "react";
 interface AuthorizationContext {
   token: string;
   isAuthenticated: boolean;
-  signInHandler: (token: string) => void;
-  signOutHandler: () => void;
+  handleSignIn: (token: string) => void;
+  handleSignOut: () => void;
 }
 
 export const AuthContext = React.createContext<AuthorizationContext>({
   token: "",
   isAuthenticated: false,
-  signOutHandler: () => {},
-  signInHandler: () => {},
+  handleSignOut: () => {},
+  handleSignIn: () => {},
 });
 
 export const AuthContextProvider = (props: { children: any }) => {
   const [token, setToken] = useState(localStorage.getItem("Authorization") || "");
   const isAuthenticated = token.length > 0;
 
-  const signInHandler = (token: string) => {
+  const handleSignIn = (token: string) => {
     localStorage.setItem("Authorization", token);
     setToken(token);
   };
 
-  const signOutHandler = () => {
+  const handleSignOut = () => {
     localStorage.removeItem("Authorization");
     setToken("");
   };
@@ -31,8 +31,8 @@ export const AuthContextProvider = (props: { children: any }) => {
   const context = {
     token,
     isAuthenticated,
-    signInHandler,
-    signOutHandler,
+    handleSignIn,
+    handleSignOut,
   };
 
   return <AuthContext.Provider value={context}>{props.children}</AuthContext.Provider>;

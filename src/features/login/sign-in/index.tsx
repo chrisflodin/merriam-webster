@@ -19,16 +19,7 @@ const SignIn = () => {
   const history = useHistory();
   const authCtx = useContext(AuthContext);
 
-  useEffect(() => {
-    return () => {
-      formDispatch({
-        inputType: InputType.FORM,
-        actionType: InputActionType.RESET,
-      });
-    };
-  }, []);
-
-  const signInHandler = async (event: SyntheticEvent) => {
+  const handleSignIn = async (event: SyntheticEvent) => {
     event.preventDefault();
     if (!form.valid) return;
 
@@ -52,7 +43,7 @@ const SignIn = () => {
     }
 
     let data = res.body as AuthSuccessResponse;
-    authCtx.signInHandler(data.token);
+    authCtx.handleSignIn(data.token);
     history.replace("/");
 
     formDispatch({
@@ -72,13 +63,22 @@ const SignIn = () => {
     });
   };
 
+  useEffect(() => {
+    return () => {
+      formDispatch({
+        inputType: InputType.FORM,
+        actionType: InputActionType.RESET,
+      });
+    };
+  }, []);
+
   const inputs = form.inputFields.map((input) => (
     <TextInput handleInputChange={handleInputChange} showsValidation={false} {...input} key={input.type} />
   ));
 
   return (
     <div className={page}>
-      <form className={container} onSubmit={signInHandler}>
+      <form className={container} onSubmit={handleSignIn}>
         <h1 className={title}>merriam webster</h1>
         <h3 className={subTitle}>SIGN IN</h3>
         {inputs}

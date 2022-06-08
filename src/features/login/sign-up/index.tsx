@@ -44,7 +44,7 @@ const SignUp = () => {
     }
 
     let data = res.body as AuthSuccessResponse;
-    authCtx.signInHandler(data.token);
+    authCtx.handleSignIn(data.token);
     history.replace("/");
 
     formDispatch({

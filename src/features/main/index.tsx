@@ -69,7 +69,7 @@ const Main = () => {
       <h1 className={h1}>keywords</h1>
       <KeywordFilter filter={filter} updateFilterHandler={updateFilterHandler}></KeywordFilter>
       {isLoading ? <Loader /> : <SynonymsList data={wordData}></SynonymsList>}
-      <Button classes={signOutButton} onClick={auth.signOutHandler}>
+      <Button classes={signOutButton} onClick={auth.handleSignOut}>
         Sign out
       </Button>
     </div>
