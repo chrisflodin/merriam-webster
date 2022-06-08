@@ -45,11 +45,6 @@ const SignIn = () => {
     let data = res.body as AuthSuccessResponse;
     authCtx.handleSignIn(data.token);
     history.replace("/");
-
-    formDispatch({
-      inputType: InputType.FORM,
-      actionType: InputActionType.RESET,
-    });
   };
 
   const handleInputChange = (event: SyntheticEvent) => {
