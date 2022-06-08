@@ -21,7 +21,10 @@ const SignIn = () => {
 
   useEffect(() => {
     return () => {
-      formDispatch({ type: InputActionType.RESET_FORM });
+      formDispatch({
+        inputType: InputType.FORM,
+        actionType: InputActionType.RESET,
+      });
     };
   }, []);
 
@@ -38,23 +41,33 @@ const SignIn = () => {
 
     if (res.statusCode !== 200) {
       let error: ServerError = res.body as ServerError;
-      formDispatch({ type: InputActionType.ERROR_THROWN, payload: error.error });
+
+      formDispatch({
+        inputType: InputType.ERROR,
+        actionType: InputActionType.ERROR_THROWN,
+        payload: error.error,
+      });
+
       return;
     }
 
     let data = res.body as AuthSuccessResponse;
-    localStorage.setItem("Authorization", data.token);
-    formDispatch({ type: InputActionType.RESET_FORM });
     authCtx.signInHandler(data.token);
     history.replace("/");
+
+    formDispatch({
+      inputType: InputType.FORM,
+      actionType: InputActionType.RESET,
+    });
   };
 
   const handleInputChange = (event: SyntheticEvent) => {
     const target = event.target as HTMLInputElement;
-    const actionType = `${target.id}_CHANGED` as InputActionType;
+    const inputType = target.id as InputType;
 
     formDispatch({
-      type: actionType,
+      inputType: inputType,
+      actionType: InputActionType.CHANGED,
       payload: target.value,
     });
   };

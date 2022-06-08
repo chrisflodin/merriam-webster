@@ -1,6 +1,6 @@
-import { SyntheticEvent, useEffect, useReducer } from "react";
+import { SyntheticEvent, useContext, useEffect, useReducer } from "react";
 import loginStyles from "../Login.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { InputActionType, InputType } from "../types";
 import { signUpUser } from "../../../api/auth";
 import { formReducer } from "../reducer";
@@ -10,11 +10,14 @@ import Button from "../../../components/Button/Button";
 import { ServerError } from "../../../types/error";
 import { AuthSuccessResponse } from "../../../types/response-data";
 import { getFormValue } from "../utils";
+import { AuthContext } from "../../../context/auth-context";
 
 const { page, container, title, subTitle, switchPrompt, formError } = loginStyles;
 
 const SignUp = () => {
   const [form, formDispatch] = useReducer(formReducer, SignUpForm);
+  const history = useHistory();
+  const authCtx = useContext(AuthContext);
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -30,21 +33,33 @@ const SignUp = () => {
 
     if (res.statusCode !== 200) {
       let error: ServerError = res.body as ServerError;
-      formDispatch({ type: InputActionType.ERROR_THROWN, payload: error.error });
+
+      formDispatch({
+        inputType: InputType.ERROR,
+        actionType: InputActionType.ERROR_THROWN,
+        payload: error.error,
+      });
+
       return;
     }
 
     let data = res.body as AuthSuccessResponse;
-    localStorage.setItem("Authorization", data.token);
-    formDispatch({ type: InputActionType.RESET_FORM });
+    authCtx.signInHandler(data.token);
+    history.replace("/");
+
+    formDispatch({
+      inputType: InputType.FORM,
+      actionType: InputActionType.RESET,
+    });
   };
 
   const handleInputChange = (event: SyntheticEvent) => {
     const target = event.target as HTMLInputElement;
-    const actionType = `${target.id}_CHANGED` as InputActionType;
+    const inputType = target.id as InputType;
 
     formDispatch({
-      type: actionType,
+      inputType: inputType,
+      actionType: InputActionType.CHANGED,
       payload: target.value,
     });
   };
@@ -55,7 +70,10 @@ const SignUp = () => {
 
   useEffect(() => {
     return () => {
-      formDispatch({ type: InputActionType.RESET_FORM });
+      formDispatch({
+        inputType: InputType.FORM,
+        actionType: InputActionType.RESET,
+      });
     };
   }, []);
 

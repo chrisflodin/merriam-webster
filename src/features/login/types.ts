@@ -4,12 +4,6 @@ export interface FormState {
   error: string | null;
 }
 
-export interface InputState {
-  touched?: boolean;
-  valid?: boolean;
-  value?: string;
-}
-
 export interface InputField {
   type: InputType;
   value?: string;
@@ -27,21 +21,20 @@ export enum InputType {
   PASSWORD = "PASSWORD",
   CONFIRM_PASSWORD = "CONFIRM_PASSWORD",
   EMAIL = "EMAIL",
-}
-
-export interface InputAction {
-  type: InputActionType;
-  payload?: string;
+  FORM = "FORM",
+  ERROR = "ERROR",
 }
 
 export enum InputActionType {
-  USERNAME_CHANGED = "USERNAME_CHANGED",
-  PASSWORD_CHANGED = "PASSWORD_CHANGED",
-  CONFIRM_PASSWORD_CHANGED = "CONFIRM_PASSWORD_CHANGED",
-  EMAIL_CHANGED = "EMAIL_CHANGED",
-  RESET_FORM = "RESET_FORM",
+  CHANGED = "CHANGED",
+  RESET = "RESET",
   ERROR_THROWN = "ERROR_THROWN",
-  ERROR_RESET = "ERROR_RESET",
+}
+
+export interface InputAction {
+  actionType: InputActionType;
+  inputType: InputType;
+  payload?: string;
 }
 
 export type InputReducer = (state: FormState, action: InputAction) => FormState;
