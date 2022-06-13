@@ -37,7 +37,7 @@ const SignUp = () => {
       formDispatch({
         inputType: InputType.ERROR,
         actionType: InputActionType.ERROR_THROWN,
-        payload: error.error,
+        payload: error.message,
       });
 
       return;

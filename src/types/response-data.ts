@@ -6,7 +6,7 @@ export interface AuthSuccessResponse {
   data: IUser;
 }
 
-export interface ResponseData {
+export interface Response {
   statusCode: number;
   body: ServerError | AuthSuccessResponse;
 }

@@ -1,9 +1,9 @@
 import URLS from "../urls";
 import { IUser } from "../../types/user";
 import { LoginCredentials } from "./types";
-import { ResponseData } from "../../types/response-data";
+import { Response } from "../../types/response-data";
 
-export const signUpUser = async (profile: IUser): Promise<ResponseData> => {
+export const signUpUser = async (profile: IUser): Promise<Response> => {
   let data;
 
   try {
@@ -21,7 +21,7 @@ export const signUpUser = async (profile: IUser): Promise<ResponseData> => {
     return {
       statusCode: res.status,
       body: data,
-    } as ResponseData;
+    } as Response;
   } catch (error: any) {
     console.log(error.message);
   }
@@ -29,7 +29,7 @@ export const signUpUser = async (profile: IUser): Promise<ResponseData> => {
   return data;
 };
 
-export const signInUser = async (credentials: LoginCredentials): Promise<ResponseData> => {
+export const signInUser = async (credentials: LoginCredentials): Promise<Response> => {
   let data;
 
   try {
@@ -48,7 +48,7 @@ export const signInUser = async (credentials: LoginCredentials): Promise<Respons
     return {
       statusCode: res.status,
       body: data,
-    } as ResponseData;
+    } as Response;
   } catch (error: any) {
     console.log(error.message);
   }
