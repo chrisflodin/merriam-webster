@@ -23,7 +23,7 @@ I really enjoyed doing this assignment, feel free to reach out if you have any q
 
 - Did a slip when committing and accidentally ended up with two identical commits (May 31st).
 
-## Suggestions of improvements
+## Suggestions of improvements / Things I didn't have time to do
 
 **Frontend**
 

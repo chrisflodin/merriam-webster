@@ -10,14 +10,7 @@ const userSchema = new mongoose.Schema<IUser>({
     type: String,
     required: true,
     trim: true,
-    validate: (val: string) => {
-      return (
-        val.length >= 3 &&
-        validator.isAlphanumeric(val, undefined, {
-          ignore: "_-",
-        })
-      );
-    },
+    validate: (val: string) => val.length >= 3 && validator.isAlphanumeric(val, undefined, { ignore: "_-" }),
   },
 
   email: {

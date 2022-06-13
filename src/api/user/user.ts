@@ -1,17 +1,10 @@
 import { Request, Response } from "express";
 import { User } from "../../models/user";
 import bcrypt from "bcrypt";
-import { IUser } from "../../types/user";
+import { IUser, UserRequest } from "../../types/user";
 import mongoose from "mongoose";
 import { fetchWord } from "../merriam-webster/merriam-webster";
 import { normalizeData } from "../merriam-webster/utils";
-
-interface UserRequest extends Request {
-  body: IUser;
-  query: {
-    search: string;
-  };
-}
 
 export const createUser = async (req: Request, res: Response) => {
   const { body } = req;
