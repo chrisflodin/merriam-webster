@@ -1,55 +1,32 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { User } from "../../models/user";
-import bcrypt from "bcrypt";
-import { IUser, UserRequest } from "../../types/user";
-import mongoose from "mongoose";
+import { MongooseUser, UserRequest } from "../../types/user";
 import { fetchWord } from "../merriam-webster/merriam-webster";
 import { normalizeData } from "../merriam-webster/utils";
+import { promiseHandler } from "../../utils/error/promise-handler";
 
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = async (req: Request, res: Response, next: NextFunction) => {
   const { body } = req;
-  const { username, email, password } = body;
-  const userExists = (await User.count({ email })) > 0;
-
-  if (userExists) {
-    res.status(500).send({ error: "User already exists" });
-    return;
-  }
-
-  const hashedPsw = await bcrypt.hash(password, 8);
-  const newUser = new User({
-    email,
-    password: hashedPsw,
-    username,
-  });
-  const token = newUser.generateAuthToken();
-
-  try {
-    newUser.save();
-    res.status(200).send({ newUser, token });
-  } catch (error: any) {
-    res.status(500).send({ error: error.message });
-  }
-};
-
-export const loginUser = async ({ body }: UserRequest, res: Response) => {
   const { email, password } = body;
 
-  try {
-    const user: (IUser & mongoose.Document<IUser>) | null = await User.findOne({ email });
-    if (!user) throw new Error();
+  const newUser: MongooseUser = new User({ email, password: password, tokens: [] });
 
-    const pswdMatces = await bcrypt.compare(password, user.password);
-    if (!pswdMatces) throw new Error();
+  const token = newUser.generateAuthToken();
 
-    const token = user.generateAuthToken();
+  const [err, savedUser] = await promiseHandler(newUser.save());
+  if (err) return next(err);
 
-    user.save();
+  res.status(200).send({ savedUser, token });
+};
 
-    res.status(200).send({ user, token });
-  } catch (error: any) {
-    res.status(500).send({ error: "Email or password is invalid." });
-  }
+export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+  const user = res.locals.user as MongooseUser;
+  const token = user.generateAuthToken();
+
+  const [err, savedUser] = await promiseHandler(user.save());
+  if (err) return next(err);
+
+  res.status(200).send({ savedUser, token });
 };
 
 export const getData = async ({ query }: UserRequest, res: Response) => {

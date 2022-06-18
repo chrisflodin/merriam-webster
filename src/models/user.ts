@@ -4,33 +4,22 @@ import { IUser } from "./../types/user";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/auth-config";
 import { JWT_EXPIRATION } from "../config/auth-config";
+import { hashText } from "../utils/error/bcrypt";
 
 const userSchema = new mongoose.Schema<IUser>({
-  username: {
-    type: String,
-    required: true,
-    trim: true,
-    validate: (val: string) => val.length >= 3 && validator.isAlphanumeric(val, undefined, { ignore: "_-" }),
-  },
-
   email: {
+    unique: true,
     type: String,
     required: true,
     trim: true,
-    validate(val: string) {
-      if (!validator.isEmail(val)) {
-        throw new Error("email is invalid");
-      }
-    },
+    validate: (val: string) => validator.isEmail(val),
   },
-
   password: {
     type: String,
     required: true,
     trim: true,
-    validate: (val: string) => val.length >= 8,
+    validate: (val: string) => val.length >= 4,
   },
-
   tokens: [
     {
       token: {
@@ -41,10 +30,17 @@ const userSchema = new mongoose.Schema<IUser>({
   ],
 });
 
+userSchema.pre("save", async function () {
+  this.password = await hashText(this.password);
+  return;
+});
+
 userSchema.methods.generateAuthToken = function (): string {
   // To do: Type this
   const user: any = this;
+
   const token = jwt.sign({ _id: user._id.toString() }, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
+
   user.tokens = user.tokens.concat({ token });
   return token;
 };

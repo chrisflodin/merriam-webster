@@ -5,6 +5,7 @@ import userRoute from "./routes/user";
 import { MONGODB_URI } from "./config/db-config";
 import { returnError } from "./middleware/error/return-error";
 import { logError } from "./middleware/error/log-error";
+import { setUpExceptionHandlingListeners } from "./utils/error/exception-handlers";
 
 const cors = require("cors");
 const app = express();
@@ -16,12 +17,13 @@ app.use("/user", userRoute);
 app.use(logError);
 app.use(returnError);
 
-const connection = mongoose
+mongoose
   .connect(MONGODB_URI, {})
   .then(() => {
     console.log("Database connected");
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
       console.log("App is running on port: " + PORT);
     });
+    setUpExceptionHandlingListeners(server);
   })
   .catch((error) => console.log("Error: " + error.message));
