@@ -27,3 +27,7 @@ mongoose
     setUpExceptionHandlingListeners(server);
   })
   .catch((error) => console.log("Error: " + error.message));
+
+// Todo-list
+// Swap out errors to error object
+// Remove promisify?

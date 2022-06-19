@@ -1,5 +1,5 @@
 import express from "express";
-import { auth } from "../middleware/auth/auth";
+import { authResource } from "../middleware/auth/auth-resource";
 import { createUser, getData, loginUser } from "../api/user/user";
 import { validateInput } from "../middleware/validation/validate-input";
 import { authLogin } from "../middleware/auth/auth-login";
@@ -19,7 +19,7 @@ router.post("/login",
         loginUser);
 
 router.get("/fetch-data", 
-        auth, 
+        authResource, 
         getData);
 
 export default router;
