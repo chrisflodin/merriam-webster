@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-import { JWT_SECRET } from "../config/auth-config";
-import { User } from "../models/user";
-import { IUser } from "../types/user";
+import { JWT_SECRET } from "../../config/auth-config";
+import { User } from "../../models/user";
+import { IUser } from "../../types/user";
 
 interface AuthResponse extends Response {
   user?: IUser;

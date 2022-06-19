@@ -1,8 +1,8 @@
 import express from "express";
-import { auth } from "../middleware/auth";
+import { auth } from "../middleware/auth/auth";
 import { createUser, getData, loginUser } from "../api/user/user";
 import { validateInput } from "../middleware/validation/validate-input";
-import { validateLogin } from "../middleware/validation/validate-login";
+import { authLogin } from "../middleware/auth/auth-login";
 import { validateSignUp } from "../middleware/validation/validate-sign-up";
 
 const router = express.Router();
@@ -15,7 +15,7 @@ router.post("/new",
 
 router.post("/login", 
         validateInput, 
-        validateLogin, 
+        authLogin, 
         loginUser);
 
 router.get("/fetch-data", 
