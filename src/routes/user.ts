@@ -1,9 +1,10 @@
 import express from "express";
-import { authResource } from "../middleware/auth/auth-resource";
 import { createUser, getData, loginUser } from "../api/user/user";
+import { authorizeResource } from "../middleware/auth/authorize-resource";
 import { validateInput } from "../middleware/validation/validate-input";
-import { authLogin } from "../middleware/auth/auth-login";
 import { validateSignUp } from "../middleware/validation/validate-sign-up";
+import { validateQuery } from "../middleware/validation/validate-query";
+import { authenticateLogin } from "../middleware/auth/authenticate-login";
 
 const router = express.Router();
 
@@ -15,11 +16,12 @@ router.post("/new",
 
 router.post("/login", 
         validateInput, 
-        authLogin, 
+        authenticateLogin, 
         loginUser);
 
 router.get("/fetch-data", 
-        authResource, 
+        validateQuery,
+        authorizeResource, 
         getData);
 
 export default router;

@@ -13,7 +13,7 @@ interface AuthResponse extends Response {
 
 type JWTVerifyResult = [any, null] | [null, jwt.JwtPayload];
 
-export const authResource = async (req: Request, res: AuthResponse, next: NextFunction) => {
+export const authorizeResource = async (req: Request, res: AuthResponse, next: NextFunction) => {
   const authStr = req.get("Authorization");
   if (!authStr) return next(ERROR.UNAUTHORIZED());
 
