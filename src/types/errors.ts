@@ -22,7 +22,7 @@ export class BaseError extends Error {
 
 export class Api400Error extends BaseError {
   constructor(message = "Bad request.") {
-    super(message, HttpStatusCode.INTERNAL_SERVER);
+    super(message, HttpStatusCode.BAD_REQUEST);
   }
 }
 export class Api401Error extends BaseError {
@@ -42,9 +42,9 @@ export class Api500Error extends BaseError {
   }
 }
 
-export const STANDARD_ERROR = {
-  BAD_REQUEST: new Api400Error(),
-  UNAUTHORIZED: new Api401Error(),
-  NOT_FOUND: new Api404Error(),
-  INTERNAL_SERVER: new Api500Error(),
+export const ERROR = {
+  BAD_REQUEST: (message?: string) => new Api400Error(message),
+  UNAUTHORIZED: (message?: string) => new Api401Error(message),
+  NOT_FOUND: (message?: string) => new Api404Error(message),
+  INTERNAL_SERVER: (message?: string) => new Api500Error(message),
 };

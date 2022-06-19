@@ -6,8 +6,6 @@ export const setUpExceptionHandlingListeners = (server: Server) => {
 };
 
 const listener = (err: any, server: Server) => {
-  // if (err instanceof Error) console.error(err);
-
   server.close(() => {
     process.exit(1);
   });

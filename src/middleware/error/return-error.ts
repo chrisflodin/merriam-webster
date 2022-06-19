@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { Api500Error, BaseError } from "../../types/errors";
-import { errIsOperational } from "../../utils/error/isOperational";
+import { BaseError, ERROR } from "../../types/errors";
+import { errIsOperational } from "../../utils/error/errIsOperational";
 
 export const returnError = (err: BaseError, req: Request, res: Response, next: NextFunction) => {
   if (res.headersSent || !errIsOperational(err)) {
-    const internalErr = new Api500Error();
+    const internalErr = ERROR.INTERNAL_SERVER();
     res.status(internalErr.statusCode);
     return next(internalErr);
   }
