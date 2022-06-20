@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema<IUser>({
 });
 
 userSchema.pre("save", async function () {
-  this.password = await hashText(this.password);
+  if (this.isNew) this.password = await hashText(this.password);
   return;
 });
 

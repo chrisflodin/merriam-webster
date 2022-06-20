@@ -8,7 +8,6 @@ import { authenticateLogin } from "../middleware/auth/authenticate-login";
 
 const router = express.Router();
 
-//prettier-ignore
 router.post("/new", 
         validateInput, 
         validateSignUp, 
