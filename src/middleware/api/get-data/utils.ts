@@ -1,4 +1,4 @@
-import { MerriamWord } from "../../types/merriam-webster";
+import { MerriamWord } from "../../../types/merriam-webster";
 
 interface Target {
   tuuid: string;
