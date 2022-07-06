@@ -1,5 +1,5 @@
 import express from "express";
-import {  getData } from "../middleware/api/get-data";
+import { getData } from "../middleware/api/get-data";
 import { createUser } from "../middleware/api/user/create-user";
 import { loginUser } from "../middleware/api/user/login-user";
 import { authorizeResource } from "../middleware/auth/authorize-resource";

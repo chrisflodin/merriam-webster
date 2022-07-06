@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import validator from "validator";
 
-const userSchema = new mongoose.Schema<IUser>({
+export const userSchema = new mongoose.Schema<IUser>({
   email: {
     unique: true,
     type: String,
