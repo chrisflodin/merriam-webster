@@ -5,7 +5,7 @@ export interface IUser {
   email: string;
   password: string;
   tokens?: { token: string }[];
-  generateAuthToken: () => string;
+  generateAuthToken?: () => string;
 }
 
 export type MongooseUser = mongoose.Document<any, IUser> & IUser;

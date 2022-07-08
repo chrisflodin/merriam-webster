@@ -1,23 +1,30 @@
-import request from "supertest";
-import app from "../../../../app";
 import { User } from "../../../../models/user";
 import { shutDownDb, startDb } from "../../../../utils/db";
+import { fakeCreateUser, fakeLoginUser } from "../../../../utils/tests/userSuperTest";
 
 beforeAll(async () => {
   startDb();
-})
-
-afterAll(() => {
-  shutDownDb();
-})
+});
 
 beforeEach(async () => {
   await User.deleteMany();
-})
+});
 
-test("Create user", async () => {  
-    await request(app)
-      .post("/user/new")
-      .send({ email: "dcflodin@gmail.com", password: "1234"})
-      .expect(200);
+describe("User", () => {
+  test("Create user", async () => {
+    await fakeCreateUser();
+  });
+
+  test("Log in user", async () => {
+    await fakeCreateUser();
+    await fakeLoginUser();
+  });
+});
+
+afterEach(async () => {
+  await User.deleteMany();
+});
+
+afterAll(() => {
+  shutDownDb();
 });

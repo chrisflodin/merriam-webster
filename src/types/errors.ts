@@ -1,4 +1,4 @@
-import { HttpStatusCode } from "./http-status-codes";
+import { StatusCodes } from "http-status-codes";
 
 export class BaseError extends Error {
   constructor(
@@ -23,24 +23,24 @@ export class BaseError extends Error {
 
 export class Api400Error extends BaseError {
   constructor(isOperational?: boolean, message = "Bad request.", log?: any) {
-    super(isOperational, message, HttpStatusCode.BAD_REQUEST, log);
+    super(isOperational, message, StatusCodes.BAD_REQUEST, log);
   }
 }
 
 export class Api401Error extends BaseError {
   constructor(isOperational?: boolean, message = "Unauthorized.", log?: any) {
-    super(isOperational, message, HttpStatusCode.UNAUTHORIZED, log);
+    super(isOperational, message, StatusCodes.UNAUTHORIZED, log);
   }
 }
 
 export class Api404Error extends BaseError {
   constructor(isOperational?: boolean, message = "Not found.", log?: any) {
-    super(isOperational, message, HttpStatusCode.NOT_FOUND, log);
+    super(isOperational, message, StatusCodes.NOT_FOUND, log);
   }
 }
 
 export class Api500Error extends BaseError {
   constructor(isOperational?: boolean, message = "Internal server error.", log?: any) {
-    super(isOperational, message, HttpStatusCode.INTERNAL_SERVER, log);
+    super(isOperational, message, StatusCodes.INTERNAL_SERVER_ERROR, log);
   }
 }

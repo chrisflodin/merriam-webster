@@ -1,11 +1,12 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-import { JWT_SECRET } from "../../config/auth-config";
 import { User } from "../../models/user";
 import { IUser } from "../../types/user";
 import { promiseHandler } from "../../utils/promise-handler";
 import { tryCatchWrapper } from "../../utils/try-catch-wrapper";
 import { Api401Error } from "../../types/errors";
+
+const { JWT_SECRET, JWT_EXPIRATION } = process.env;
 
 interface AuthResponse extends Response {
   user?: IUser;

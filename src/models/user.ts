@@ -1,10 +1,11 @@
 import { IUser } from "./../types/user";
-import { JWT_SECRET } from "../config/auth-config";
-import { JWT_EXPIRATION } from "../config/auth-config";
 import { hashText } from "../utils/bcrypt";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import "dotenv/config";
 import validator from "validator";
+
+const { JWT_SECRET, JWT_EXPIRATION } = process.env;
 
 export const userSchema = new mongoose.Schema<IUser>({
   email: {
@@ -38,8 +39,7 @@ userSchema.pre("save", async function () {
 userSchema.methods.generateAuthToken = function (): string {
   // To do: Type this
   const user: any = this;
-
-  const token = jwt.sign({ _id: user._id.toString() }, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
+  const token = jwt.sign({ _id: user._id.toString() }, JWT_SECRET!, { expiresIn: JWT_EXPIRATION });
 
   user.tokens = user.tokens.concat({ token });
   return token;
