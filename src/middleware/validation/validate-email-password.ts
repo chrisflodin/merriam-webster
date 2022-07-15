@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
+import { RequestHandler } from "express";
 import { Api400Error } from "../../types/errors";
 import { UserRequest } from "../../types/user";
 import { EmailPasswordSchema } from "../api/user/validation";
 
-export const validateEmailPassword = async (req: Request, res: Response, next: NextFunction) => {
+export const validateEmailPassword: RequestHandler = async (req, res, next) => {
   const { body } = req as UserRequest;
 
   const { error } = EmailPasswordSchema.validate(body);

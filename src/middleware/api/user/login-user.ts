@@ -10,7 +10,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
   const token = user.generateAuthToken!();
 
   const [err, savedUser] = await promiseHandler(user.save());
-  if (errIsOperational(err)) return next(new Api500Error(false, err.message));
+  if (err) return next(new Api500Error(false, err.message));
 
   res.status(StatusCodes.OK).send({ savedUser, token });
 };
