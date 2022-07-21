@@ -6,7 +6,7 @@ import { promiseHandler } from "../../utils/promise-handler";
 import { tryCatchWrapper } from "../../utils/try-catch-wrapper";
 import { Api401Error } from "../../types/errors";
 
-const { JWT_SECRET, JWT_EXPIRATION } = process.env;
+const { JWT_SECRET } = process.env;
 
 interface AuthResponse extends Response {
   user?: IUser;
@@ -23,7 +23,7 @@ export const authorizeResource = async (req: Request, res: AuthResponse, next: N
   if (!decoded) return next(verifyErr);
 
   const [err] = await promiseHandler(User.findOne({ _id: decoded._id, "tokens.token": token }).exec());
-  if (err) return next(new Api401Error());
+  if (err) return next(new Api401Error(true, "No user found"));
 
   next();
 };

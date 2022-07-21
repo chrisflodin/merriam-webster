@@ -1,0 +1,148 @@
+[
+  {
+    "meta": {
+      "id": "strength",
+      "uuid": "bbf7caee-6a58-45a4-8a2b-7947f5058fb0",
+      "src": "coll_thes",
+      "section": "alpha",
+      "target": { "tuuid": "43ecf556-6bb2-4ae7-93aa-84f156a38cac", "tsrc": "collegiate" },
+      "stems": ["strength", "from strength to strength", "strengths"],
+      "syns": [
+        [
+          "energy",
+          "firepower",
+          "force",
+          "horsepower",
+          "might",
+          "muscle",
+          "potence",
+          "potency",
+          "power",
+          "puissance",
+          "sinew",
+          "vigor"
+        ],
+        ["firmness", "soundness", "stability", "sturdiness"]
+      ],
+      "ants": [
+        ["impotence", "impotency", "powerlessness", "weakness"],
+        ["insecurity", "instability", "precariousness", "shakiness", "unstableness", "unsteadiness"]
+      ],
+      "offensive": false
+    },
+    "hwi": { "hw": "strength" },
+    "fl": "noun",
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "sn": "1",
+                "dt": [
+                  ["text", "the ability to exert effort for the accomplishment of a task "],
+                  [
+                    "vis",
+                    [{ "t": "the murdered man's wife didn't have the emotional {it}strength{/it} to face reporters" }]
+                  ]
+                ],
+                "syn_list": [
+                  [
+                    { "wd": "energy" },
+                    { "wd": "firepower" },
+                    { "wd": "force" },
+                    { "wd": "horsepower" },
+                    { "wd": "might" },
+                    { "wd": "muscle" },
+                    { "wd": "potence" },
+                    { "wd": "potency" },
+                    { "wd": "power" },
+                    { "wd": "puissance" },
+                    { "wd": "sinew" },
+                    { "wd": "vigor" }
+                  ]
+                ],
+                "rel_list": [
+                  [
+                    { "wd": "aptitude" },
+                    { "wd": "capability" },
+                    { "wd": "capacity" },
+                    { "wd": "competence" },
+                    { "wd": "competency" }
+                  ],
+                  [{ "wd": "adequacy" }, { "wd": "effectiveness" }, { "wd": "effectualness" }, { "wd": "usefulness" }]
+                ],
+                "near_list": [
+                  [
+                    { "wd": "disability" },
+                    { "wd": "inability" },
+                    { "wd": "inaptitude" },
+                    { "wd": "incapability" },
+                    { "wd": "incapableness" },
+                    { "wd": "incapacity" },
+                    { "wd": "incompetence" },
+                    { "wd": "incompetency" }
+                  ],
+                  [
+                    { "wd": "ineffectiveness" },
+                    { "wd": "ineffectuality" },
+                    { "wd": "ineffectualness" },
+                    { "wd": "inefficaciousness" },
+                    { "wd": "inefficacy" },
+                    { "wd": "uselessness" }
+                  ],
+                  [{ "wd": "helplessness" }, { "wd": "paralysis" }]
+                ],
+                "ant_list": [
+                  [{ "wd": "impotence" }, { "wd": "impotency" }, { "wd": "powerlessness" }, { "wd": "weakness" }]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "2",
+                "dt": [
+                  ["text", "the ability to withstand force or stress without being distorted, dislodged, or damaged "],
+                  [
+                    "vis",
+                    [{ "t": "this cheap shelving unit doesn't have the {it}strength{/it} to hold all those books" }]
+                  ]
+                ],
+                "syn_list": [
+                  [{ "wd": "firmness" }, { "wd": "soundness" }, { "wd": "stability" }, { "wd": "sturdiness" }]
+                ],
+                "rel_list": [
+                  [{ "wd": "dependability" }, { "wd": "durability" }, { "wd": "reliability" }],
+                  [{ "wd": "solidity" }, { "wd": "solidness" }],
+                  [{ "wd": "cohesion" }, { "wd": "toughness" }]
+                ],
+                "near_list": [
+                  [{ "wd": "insubstantiality" }, { "wd": "unsoundness" }, { "wd": "unsubstantiality" }],
+                  [{ "wd": "weakness" }]
+                ],
+                "ant_list": [
+                  [
+                    { "wd": "insecurity" },
+                    { "wd": "instability" },
+                    { "wd": "precariousness" },
+                    { "wd": "shakiness" },
+                    { "wd": "unstableness" },
+                    { "wd": "unsteadiness" }
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "shortdef": [
+      "the ability to exert effort for the accomplishment of a task",
+      "the ability to withstand force or stress without being distorted, dislodged, or damaged"
+    ]
+  }
+]

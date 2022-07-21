@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from "express";
+import { RequestHandler } from "express";
 import { UserRequest } from "../../types/user";
 import { User } from "../../models/user";
 import { Api400Error } from "../../types/errors";
 
-export const checkIfUserExists = async (req: Request, res: Response, next: NextFunction) => {
-  const { body } = req as UserRequest;
+export const checkIfUserExists: RequestHandler = async (request, response, next) => {
+  const { body } = request as UserRequest;
   const { email } = body;
 
   const count = await User.count({ email });

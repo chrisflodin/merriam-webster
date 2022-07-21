@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch",
+    "test": "jest",
+    "test-watch": "jest --watch",
     "test-detect": "jest --detectOpenHandles",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",

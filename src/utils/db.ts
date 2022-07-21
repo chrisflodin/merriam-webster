@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
-
-const MONGODB_URI = process.env.MONGODB_URI!;
+import { MONGODB_URI } from "../consts";
 
 export const startDb = async () => {
-  return await mongoose.connect(MONGODB_URI, {}).then(() => console.log("Databse connected"));
+  await mongoose.connect(MONGODB_URI, {});
 };
 
 export const shutDownDb = async () => {
