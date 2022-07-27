@@ -1,4 +1,4 @@
-import { IUser } from "./../types/user";
+import { IUser } from "../types/user";
 import { hashText } from "../utils/bcrypt";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
@@ -53,4 +53,4 @@ userSchema.methods.toJSON = function () {
   return userData;
 };
 
-export const User = mongoose.model("user", userSchema);
+export const UserModel = mongoose.model("user", userSchema);

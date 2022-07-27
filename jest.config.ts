@@ -1,5 +1,6 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
-  setupFiles: ["<rootDir>/src/utils/setEnvVars.ts"],
+  setupFiles: ["<rootDir>/src/config/tests.ts"],
+  verbose: true,
 };

@@ -1,9 +1,12 @@
-import { User } from "../../../../models/user";
-import { shutDownDb, startDb } from "../../../../utils/db";
 import request from "supertest";
+import { UserModel } from "../../../../models/user";
+import { shutDownDb, startDb } from "../../../../utils/db";
+import { createApp } from "../../../../app";
 import { IUser } from "../../../../types/user";
 import { StatusCodes } from "http-status-codes";
-import app from "../../../../app";
+import mongoose from "mongoose";
+
+const app = createApp();
 
 const mockUser: IUser = {
   email: "dcflodin@gmail.com",
@@ -13,29 +16,26 @@ const mockUser: IUser = {
 describe("User", () => {
   beforeEach(async () => {
     await startDb();
-    await User.deleteMany();
+    await UserModel.deleteMany();
   });
 
-  test("Create user", async () => {
+  it("creates a user", async () => {
     await testCreateUser();
   });
 
-  test("Log in user", async () => {
+  test("login user", async () => {
     await testCreateUser();
     await fakeLoginUser();
   });
 
   afterEach(async () => {
-    await User.deleteMany();
+    await UserModel.deleteMany();
     await shutDownDb();
   });
 });
 
 const testCreateUser = async () => {
-  return request(app)
-    .post("/user/new")
-    .send({ email: "dcflodin@gmail.com", password: "1234" })
-    .expect(StatusCodes.CREATED);
+  return request(app).post("/user/new").send(mockUser).expect(StatusCodes.CREATED);
 };
 
 const fakeLoginUser = async () => {

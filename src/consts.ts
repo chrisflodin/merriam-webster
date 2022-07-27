@@ -1,9 +1,11 @@
+const { env } = process;
+
 const envVars = {
-  PORT: process.env.PORT!,
-  MONGODB_URI: process.env.MONGODB_URI!,
-  API_KEY: process.env.API_KEY!,
-  JWT_SECRET: process.env.JWT_SECRET!,
-  JWT_EXPIRATION: process.env.JWT_EXPIRATION!,
+  PORT: env.PORT!,
+  MONGODB_URI: env.MONGODB_URI!,
+  API_KEY: env.API_KEY!,
+  JWT_SECRET: env.JWT_SECRET!,
+  JWT_EXPIRATION: env.JWT_EXPIRATION!,
 };
 
 Object.entries(envVars).forEach(([key, value]) => {

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-import { User } from "../../models/user";
+import { UserModel } from "../../models/user";
 import { IUser } from "../../types/user";
 import { promiseHandler } from "../../utils/promise-handler";
 import { tryCatchWrapper } from "../../utils/try-catch-wrapper";
@@ -22,7 +22,7 @@ export const authorizeResource = async (req: Request, res: AuthResponse, next: N
   const [verifyErr, decoded] = tryCatchWrapper(jwt.verify, token, JWT_SECRET) as JWTVerifyResult;
   if (!decoded) return next(verifyErr);
 
-  const [err] = await promiseHandler(User.findOne({ _id: decoded._id, "tokens.token": token }).exec());
+  const [err] = await promiseHandler(UserModel.findOne({ _id: decoded._id, "tokens.token": token }).exec());
   if (err) return next(new Api401Error(true, "No user found"));
 
   next();

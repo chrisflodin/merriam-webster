@@ -1,19 +1,17 @@
 import express from "express";
-import { getData } from "../middleware/api/get-data";
-import { createUser } from "../middleware/api/user/create-user";
-import { loginUser } from "../middleware/api/user/login-user";
 import { authorizeResource } from "../middleware/auth/authorize-resource";
-import { userValidator } from "../middleware/validation/validate-email-password";
+import { userValidator } from "../middleware/validation/userValidator";
 import { checkIfUserExists } from "../middleware/validation/user-exists";
-import { validateQueryString } from "../middleware/validation/validate-query-string";
+import { validateQueryString } from "../middleware/validation/validateQueryString";
 import { authenticateLogin } from "../middleware/auth/authenticate-login";
-import { deleteAllUsers } from "../middleware/api/user/delete-users";
+import { createUser, removeAllUsers, loginUser } from "../controllers/user";
+import { getData } from "../controllers/merriam-webster";
 
 const router = express.Router();
 
 router.post("/new", 
         userValidator,
-        checkIfUserExists, 
+        checkIfUserExists,
         createUser
         );
 
@@ -29,6 +27,6 @@ router.get("/fetch-data",
         getData
         );
 
-router.delete('/deleteAll', deleteAllUsers)
+router.delete('/deleteAll', removeAllUsers)
 
 export default router;
