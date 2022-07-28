@@ -6,5 +6,5 @@ export const startDb = async () => {
 };
 
 export const shutDownDb = async () => {
-  await mongoose.disconnect();
+  await mongoose.connection.close();
 };

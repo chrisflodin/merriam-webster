@@ -21,12 +21,6 @@ router.post("/login",
         loginUser
         );
 
-router.get("/fetch-data", 
-        validateQueryString,
-        authorizeResource, 
-        getData
-        );
-
 router.delete('/deleteAll', removeAllUsers)
 
 export default router;
