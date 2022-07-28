@@ -42,7 +42,7 @@ describe("Merriam webster", () => {
         const fetchWordMock = jest.spyOn(merriamWebster, "fetchWord").mockReturnValue(mockFetchWord());
 
         const { status } = await request(app)
-          .get("/user/fetch-data/?search=strengtth")
+          .get("/user/fetch-data/?search=strength")
           .set("Authorization", `Bearer ${userData.tokens![0].token}`);
 
         expect(fetchWordMock).toHaveBeenCalled();
@@ -61,6 +61,22 @@ describe("Merriam webster", () => {
         // .spyOn calls the function once, should not be called in-app
         expect(fetchWordMock).toHaveBeenCalledTimes(1);
         expect(status).toBe(400);
+      });
+    });
+
+    describe("given the user does not have a JWT", () => {
+      it("should return a 401 status code", async () => {
+        const { status } = await request(app).get("/user/fetch-data/?search=strength");
+        expect(status).toBe(401);
+      });
+    });
+
+    describe("given the user has an invalid JWT", () => {
+      it("should return a 401 status code", async () => {
+        const { status } = await request(app)
+          .get("/user/fetch-data/?search=strength")
+          .set("Authorization", `Bearer 1234`);
+        expect(status).toBe(401);
       });
     });
   });

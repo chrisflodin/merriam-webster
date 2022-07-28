@@ -4,8 +4,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import "dotenv/config";
 import validator from "validator";
-
-const { JWT_SECRET, JWT_EXPIRATION } = process.env;
+import { JWT_EXPIRATION, JWT_SECRET } from "../consts";
 
 export const userSchema = new mongoose.Schema<IUser>({
   email: {
