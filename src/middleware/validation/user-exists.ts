@@ -3,7 +3,7 @@ import { UserRequest } from "../../types/user";
 import { UserModel } from "../../models/user";
 import { Api400Error } from "../../types/errors";
 
-export const checkIfUserExists: RequestHandler = async (request, response, next) => {
+export const createUserValidation: RequestHandler = async (request, response, next) => {
   const { body } = request as UserRequest;
   const { email } = body;
 

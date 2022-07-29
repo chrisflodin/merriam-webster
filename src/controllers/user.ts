@@ -4,6 +4,7 @@ import { UserModel } from "../models/user";
 import { deleteAllUsers } from "../services/user";
 import { Api500Error } from "../types/errors";
 import { MongooseUser } from "../types/user";
+import { hideUserData } from "../utils/hideUserData";
 import { promiseHandler } from "../utils/promise-handler";
 
 export const createUser: RequestHandler = async (request, response, next) => {
@@ -17,7 +18,7 @@ export const createUser: RequestHandler = async (request, response, next) => {
   const [err, savedUser] = await promiseHandler(newUser.save());
   if (err) return next(err);
 
-  response.status(StatusCodes.CREATED).send({ savedUser, token });
+  response.status(StatusCodes.CREATED).send({ savedUser: hideUserData(savedUser), token });
 };
 
 export const loginUser: RequestHandler = async (request, response, next) => {
@@ -27,7 +28,7 @@ export const loginUser: RequestHandler = async (request, response, next) => {
   const [err, savedUser] = await promiseHandler(user.save());
   if (err) return next(new Api500Error(false, err.message));
 
-  response.status(StatusCodes.OK).send({ savedUser, token });
+  response.status(StatusCodes.OK).send({ savedUser: hideUserData(savedUser), token });
 };
 
 export const removeAllUsers: RequestHandler = async (request, response, next) => {

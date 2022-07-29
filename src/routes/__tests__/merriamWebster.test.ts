@@ -25,7 +25,7 @@ const userData: IUser = {
 };
 
 describe("Merriam webster Routes", () => {
-  describe("Route: /fetch-data/?key=value", () => {
+  describe("Route: /fetch-data/?search=value", () => {
     beforeAll(async () => {
       await startDb();
       const user = await new UserModel(userData);
@@ -66,15 +66,16 @@ describe("Merriam webster Routes", () => {
 
     describe("given the user does not have a JWT", () => {
       it("should return a 401 status code", async () => {
-        const { status } = await request(app).get("/fetch-data/?search=strength");
-        expect(status).toBe(401);
+        const { status } = await request(app).get("/fetch-data/?search=strength").expect(401);
       });
     });
 
     describe("given the user has an invalid JWT", () => {
       it("should return a 401 status code", async () => {
-        const { status } = await request(app).get("/fetch-data/?search=strength").set("Authorization", `Bearer 1234`);
-        expect(status).toBe(401);
+        const { status } = await request(app)
+          .get("/fetch-data/?search=strength")
+          .set("Authorization", `Bearer 1234`)
+          .expect(401);
       });
     });
   });

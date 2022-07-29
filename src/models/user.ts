@@ -44,12 +44,4 @@ userSchema.methods.generateAuthToken = function (): string {
   return token;
 };
 
-// To do: Type this
-userSchema.methods.toJSON = function () {
-  const userData = this.toObject();
-  delete userData.password;
-  delete userData.tokens;
-  return userData;
-};
-
 export const UserModel = mongoose.model("user", userSchema);
