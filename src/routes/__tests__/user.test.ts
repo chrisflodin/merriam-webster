@@ -2,7 +2,7 @@ import request from "supertest";
 import { createApp } from "../../app";
 import { shutDownDb, startDb } from "../../utils/db";
 import { deleteAllUsers } from "../../services/user";
-import { createMockUser } from "../../utils/tests";
+import { createMockUser } from "../../utils/createMockUser";
 
 interface SaveUserResponse {
   savedUser: {
@@ -20,17 +20,17 @@ const userCredentials = {
   password: "1234",
 };
 
-describe("User Routes", () => {
+describe("User routes", () => {
   beforeAll(async () => {
     await startDb();
   });
 
-  afterAll(async () => {
-    await shutDownDb();
-  });
-
   afterEach(async () => {
     await deleteAllUsers();
+  });
+
+  afterAll(async () => {
+    await shutDownDb();
   });
 
   describe("Route: /user/new", () => {
@@ -47,6 +47,30 @@ describe("User Routes", () => {
           expect.objectContaining({
             email: expect.any(String),
             _id: expect.any(String),
+          })
+        );
+      });
+
+      it("should only return: EMAIL, ID, TOKEN", async () => {
+        const { body }: { status: number; body: SaveUserResponse } = await request(app)
+          .post("/user/new")
+          .send(userCredentials);
+
+        const { savedUser } = body;
+
+        expect(Object.keys(body)).toEqual(["savedUser", "token"]);
+        expect(body).toEqual(
+          expect.objectContaining({
+            savedUser: expect.any(Object),
+            token: expect.any(String),
+          })
+        );
+
+        expect(Object.keys(savedUser)).toEqual(["email", "_id"]);
+        expect(savedUser).toEqual(
+          expect.objectContaining({
+            _id: expect.any(String),
+            email: expect.any(String),
           })
         );
       });
