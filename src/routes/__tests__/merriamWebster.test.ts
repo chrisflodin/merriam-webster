@@ -5,9 +5,10 @@ import { createApp } from "../../app";
 import { IUser } from "../../types/user";
 import { shutDownDb, startDb } from "../../utils/db";
 import { UserModel } from "../../models/user";
-import * as merriamWebster from "../../services/merriamWebster";
+import * as merriamWebster from "../../services/merriamService";
 import { mockFetchWord } from "../../services/mocks/merriamWebster";
 import { deleteAllUsers, saveUser } from "../../services/user";
+import { JWT_SECRET } from "../../consts";
 
 const app = createApp();
 
@@ -19,7 +20,7 @@ const userData: IUser = {
   password: "1234",
   tokens: [
     {
-      token: jwt.sign({ _id: userId.toString() }, process.env.JWT_SECRET!),
+      token: jwt.sign({ _id: userId.toString() }, JWT_SECRET),
     },
   ],
 };

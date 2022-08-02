@@ -38,7 +38,7 @@ userSchema.pre("save", async function () {
 userSchema.methods.generateAuthToken = function (): string {
   // To do: Type this
   const user: any = this;
-  const token = jwt.sign({ _id: user._id.toString() }, JWT_SECRET!, { expiresIn: JWT_EXPIRATION });
+  const token = jwt.sign({ _id: user._id.toString() }, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
 
   user.tokens = user.tokens.concat({ token });
   return token;

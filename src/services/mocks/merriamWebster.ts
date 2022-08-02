@@ -1,5 +1,4 @@
 import fs from "fs";
-import { Response } from "../../types/response";
 import path from "path";
 import { promiseHandler } from "../../utils/promise-handler";
 
