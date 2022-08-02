@@ -1,6 +1,7 @@
 import express from "express";
 import { userValidator } from "../middleware/validation/userValidator";
-import { createUserValidation } from "../middleware/validation/user-exists";
+import { createUserValidation } from "../middleware/validation/createUserValidation";
+import { loginUserValidation } from "../middleware/validation/loginUserValidation";
 import { createNewUser, removeAllUsers, loginUser } from "../controllers/user";
 
 const router = express.Router();
@@ -12,7 +13,8 @@ router.post("/new",
         );
 
 router.post("/login", 
-        userValidator, 
+        userValidator,
+        loginUserValidation,
         loginUser
         );
 

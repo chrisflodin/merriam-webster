@@ -18,10 +18,7 @@ export const createNewUser: RequestHandler = async (request, response, next) => 
 };
 
 export const loginUser: RequestHandler = async (request, response, next) => {
-  const { body } = request as UserRequest;
-
-  const [err, user] = (await authService.verifyUserCredentials(body)) as [Error, MongooseUser];
-  if (err) return next(err);
+  const user: MongooseUser = response.locals.user;
 
   const [error, result] = await authService.signIn(user);
   if (error) return next(new Api500Error(false, error.message));

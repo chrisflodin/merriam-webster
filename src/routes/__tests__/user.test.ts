@@ -88,6 +88,18 @@ describe("User routes", () => {
         await request(app).post("/user/new").expect(400);
       });
     });
+
+    describe("given user already exists", () => {
+      // beforeAll(async () => {
+      //   await createMockUser(userCredentials);
+      // });
+
+      it("should return a 400 status code", async () => {
+        // Arrange
+        const [err, user] = await createMockUser(userCredentials);
+        await request(app).post("/user/new").send(userCredentials).expect(400);
+      });
+    });
   });
 
   describe("Route: /user/login", () => {

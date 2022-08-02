@@ -4,7 +4,6 @@ import { Api400Error } from "../types/errors";
 import { Credentials, MongooseUser } from "../types/user";
 import { promiseHandler } from "../utils/promise-handler";
 import { tryCatchWrapper } from "../utils/try-catch-wrapper";
-import { hideUserData } from "../utils/hideUserData";
 import jwt from "jsonwebtoken";
 
 type JWTVerifyResult = [unknown, null] | [null, jwt.JwtPayload];
