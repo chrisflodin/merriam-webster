@@ -1,38 +1,41 @@
-import { RequestHandler } from "express";
-import { StatusCodes } from "http-status-codes";
-import { UserModel } from "../models/user";
-import { deleteAllUsers } from "../services/user";
+import { MongooseUser, UserRequest } from "../types/user";
 import { Api500Error } from "../types/errors";
-import { MongooseUser } from "../types/user";
 import { hideUserData } from "../utils/hideUserData";
-import { promiseHandler } from "../utils/promise-handler";
+import * as authService from "../services/authService";
+import * as userService from "../services/user";
+import { StatusCodes } from "http-status-codes";
+import { RequestHandler } from "express";
 
-export const createUser: RequestHandler = async (request, response, next) => {
+export const createNewUser: RequestHandler = async (request, response, next) => {
   const { body } = request;
-  const { email, password } = body;
 
-  const newUser: MongooseUser = new UserModel({ email, password: password, tokens: [] });
-
-  const token = newUser.generateAuthToken!();
-
-  const [err, savedUser] = await promiseHandler(newUser.save());
+  const [err, result] = await userService.createUser(body);
   if (err) return next(err);
 
-  response.status(StatusCodes.CREATED).send({ savedUser: hideUserData(savedUser), token });
+  const data = { savedUser: hideUserData(result.savedUser), token: result.token };
+
+  response.status(StatusCodes.CREATED).send(data);
 };
 
 export const loginUser: RequestHandler = async (request, response, next) => {
-  const user = response.locals.user as MongooseUser;
-  const token = user.generateAuthToken!();
+  const { body } = request as UserRequest;
 
-  const [err, savedUser] = await promiseHandler(user.save());
-  if (err) return next(new Api500Error(false, err.message));
+  const [err, user] = (await authService.verifyUserCredentials(body)) as [Error, MongooseUser];
+  if (err) return next(err);
 
-  response.status(StatusCodes.OK).send({ savedUser: hideUserData(savedUser), token });
+  const [error, result] = await authService.signIn(user);
+  if (error) return next(new Api500Error(false, error.message));
+
+  const data = {
+    savedUser: hideUserData(result.savedUser),
+    token: result.token,
+  };
+
+  response.status(StatusCodes.OK).send(data);
 };
 
 export const removeAllUsers: RequestHandler = async (request, response, next) => {
-  const deletedUsers = await deleteAllUsers();
+  const deletedUsers = await userService.deleteAllUsers();
   if (!deletedUsers.acknowledged) return next(new Api500Error());
   response.status(StatusCodes.OK).send(`${deletedUsers.deletedCount} users were deleted`);
 };

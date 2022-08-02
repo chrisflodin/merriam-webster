@@ -3,6 +3,7 @@ import { createApp } from "../../app";
 import { shutDownDb, startDb } from "../../utils/db";
 import { deleteAllUsers } from "../../services/user";
 import { createMockUser } from "../../utils/createMockUser";
+import { Credentials } from "../../types/user";
 
 interface SaveUserResponse {
   savedUser: {
@@ -15,7 +16,7 @@ interface SaveUserResponse {
 
 const app = createApp();
 
-const userCredentials = {
+const userCredentials: Credentials = {
   email: "chris.flodin@gmail.com",
   password: "1234",
 };

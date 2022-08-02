@@ -9,6 +9,11 @@ export interface IUser {
   generateAuthToken?: () => string;
 }
 
+export type Credentials = {
+  email: string;
+  password: string;
+};
+
 export type MongooseUser = mongoose.Document<any, IUser> & IUser;
 
 export interface UserRequest extends Request {
