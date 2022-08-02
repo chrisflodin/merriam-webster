@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { promiseHandler } from "../utils/promise-handler";
+import { promiseHandler } from "../utils/promiseHandler";
 
 const BASE_URL = `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/`;
 

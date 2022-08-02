@@ -1,5 +1,5 @@
 import { UserModel } from "../models/user";
-import { promiseHandler } from "../utils/promise-handler";
+import { promiseHandler } from "../utils/promiseHandler";
 import { getUserByEmail, verifyJWT } from "./user";
 import { Api400Error, Api500Error } from "../types/errors";
 import bcrypt from "bcrypt";
@@ -20,8 +20,8 @@ export const verifyUserCredentials = async (credentials: Credentials) => {
   const [err, user] = await getUserByEmail(email);
   if (err) return [err, null];
 
-  const pswdMatces = await bcrypt.compare(password, user.password);
-  if (!pswdMatces) return [new Api400Error(true, "Invalid username or password"), null];
+  const pswdMatches = await bcrypt.compare(password, user.password);
+  if (!pswdMatches) return [new Api400Error(true, "Invalid username or password"), null];
 
   return [null, user];
 };

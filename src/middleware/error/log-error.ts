@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { errIsOperational } from "../../utils/error/error-type-check";
+import { errIsOperational } from "../../utils/error/errorTypeCheck";
 import chalk from "chalk";
 import { BaseError } from "../../types/errors";
 import { LOG_OPERATIONAL_ERRORS } from "../../config/dev";

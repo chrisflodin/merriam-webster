@@ -1,4 +1,4 @@
-import { MerriamWord } from "../types/merriam-webster";
+import { MerriamWord } from "../types/merriamWebster";
 
 interface Target {
   tuuid: string;
@@ -33,7 +33,7 @@ interface RootObject {
   shortdef: string[];
 }
 
-export const normalizeMerriamData = (data: [RootObject]): MerriamWord => {
+export const deserializeMerriamData = (data: [RootObject]): MerriamWord => {
   const rootObj = data[0];
 
   return {

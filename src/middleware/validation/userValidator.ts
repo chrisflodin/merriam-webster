@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { Api400Error } from "../../types/errors";
 import { UserRequest } from "../../types/user";
-import { EmailPasswordSchema } from "../validation";
+import { EmailPasswordSchema } from "./validation";
 
 export const userValidator: RequestHandler = async (request, response, next) => {
   const { body } = request as UserRequest;

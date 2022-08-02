@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { promiseHandler } from "../../utils/promise-handler";
+import { promiseHandler } from "../../utils/promiseHandler";
 
 const filePath = path.join(path.join(__dirname), "/", "merriam-mock-data.json");
 

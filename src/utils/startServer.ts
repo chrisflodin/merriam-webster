@@ -1,6 +1,6 @@
 import { createApp } from "../app";
 import { PORT } from "../consts";
-import { setUpExceptionHandlingListeners } from "./error/exception-handlers";
+import { setUpExceptionHandlingListeners } from "./error/exceptionHandlers";
 
 const app = createApp();
 
