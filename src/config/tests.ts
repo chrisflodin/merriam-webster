@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { LOG_OPERATIONAL_ERRORS } from "./dev";
+import { LOG_OPERATIONAL_ERRORS } from "./development";
 
 // Environment Variables
 process.env.MONGODB_URI =

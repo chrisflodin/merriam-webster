@@ -5,7 +5,7 @@ export const setUpExceptionHandlingListeners = (server: Server) => {
   process.on("unhandledRejection", (err) => shutDownServer(err, server));
 };
 
-const shutDownServer = (err: any, server: Server) => {
+export const shutDownServer = (err: any, server: Server) => {
   console.error(err);
 
   server.close(() => {
