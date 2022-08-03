@@ -90,13 +90,11 @@ describe("User routes", () => {
     });
 
     describe("given user already exists", () => {
-      // beforeAll(async () => {
-      //   await createMockUser(userCredentials);
-      // });
+      beforeAll(async () => {
+        await createMockUser(userCredentials);
+      });
 
       it("should return a 400 status code", async () => {
-        // Arrange
-        const [err, user] = await createMockUser(userCredentials);
         await request(app).post("/user/new").send(userCredentials).expect(400);
       });
     });
