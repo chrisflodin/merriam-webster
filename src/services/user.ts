@@ -2,6 +2,7 @@ import { JWT_SECRET } from "../consts";
 import { UserModel } from "../models/user";
 import { Credentials, MongooseUser } from "../types/user";
 import jwt from "jsonwebtoken";
+import { Api500Error } from "../types/errors";
 
 export const getUserByEmail = async (email: string): Promise<MongooseUser | null> => {
   return UserModel.findOne({ email }).exec();
@@ -11,20 +12,31 @@ export const getUserById = async (id: string): Promise<MongooseUser | null> => {
   return UserModel.findOne({ id }).exec();
 };
 
-export const saveUser = (user: MongooseUser): any => {
+export const saveUser = async (user: MongooseUser): Promise<MongooseUser | undefined> => {
   try {
-    return user.save();
+    const saved = await user.save();
+    return saved;
   } catch (e: any) {
     if (e instanceof Error) throw e;
   }
 };
+
+// export const saveUser = async (user: MongooseUser): Promise<MongooseUser | null> => {
+//   try {
+//     const saved = await user.save();
+//     return saved;
+//   } catch (e) {
+//     if (e instanceof Error) throw e;
+//   }
+//   return null;
+// };
 
 export const createUser = async (credentials: Credentials) => {
   const newUser = new UserModel({ ...credentials, tokens: [] });
 
   const token = newUser.generateAuthToken!();
 
-  const savedUser = await saveUser(newUser);
+  const savedUser = (await saveUser(newUser)) as MongooseUser;
 
   return { savedUser, token };
 };

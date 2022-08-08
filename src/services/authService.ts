@@ -22,6 +22,6 @@ export const verifyUserCredentials = async (credentials: Credentials) => {
 
 export const signIn = async (user: MongooseUser) => {
   const token = user.generateAuthToken!();
-  const savedUser = await saveUser(user);
+  const savedUser = (await saveUser(user)) as MongooseUser;
   return { savedUser, token };
 };

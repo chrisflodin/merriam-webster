@@ -8,5 +8,5 @@ export const createMockUser = async (userCredentials: { email: string; password:
     tokens: [],
   });
 
-  return await promiseHandler(saveUser(mockUser));
+  return await saveUser(mockUser);
 };
