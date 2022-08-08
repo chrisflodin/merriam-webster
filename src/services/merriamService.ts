@@ -1,10 +1,12 @@
 import fetch from "node-fetch";
-import { promiseHandler } from "../utils/promiseHandler";
 
 const BASE_URL = `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/`;
 
 export const fetchWord = async (search: string) => {
-  const response = await fetch(`${BASE_URL}${search}?key=${process.env.API_KEY}`);
-  const data = response.json();
-  return promiseHandler(data);
+  try {
+    const response = await fetch(`${BASE_URL}${search}?key=${process.env.API_KEY}`);
+    return response.json();
+  } catch (e) {
+    if (e instanceof Error) throw e;
+  }
 };

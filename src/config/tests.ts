@@ -7,7 +7,7 @@ process.env.MONGODB_URI =
 
 // Remove logging when testing
 if (!LOG_OPERATIONAL_ERRORS) {
-  jest.mock("../middleware/error/log-error.ts", () => {
+  jest.mock("../middleware/error/logError.ts", () => {
     return {
       logError: jest.fn(),
     };

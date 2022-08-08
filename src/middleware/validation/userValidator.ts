@@ -7,7 +7,7 @@ export const userValidator: RequestHandler = async (request, response, next) => 
   const { body } = request as UserRequest;
   const { error } = EmailPasswordSchema.validate(body);
 
-  if (error) return next(new Api400Error(true, "Email or password is invalid", error));
+  if (error) throw new Api400Error(true, "Email or password is invalid", error);
 
   next();
 };

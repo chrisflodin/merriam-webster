@@ -8,8 +8,7 @@ export const getData: RequestHandler = async (request, response, next) => {
   const { query } = request;
   if (typeof query.search !== "string") return;
 
-  const [err, data] = await merriamService.fetchWord(query.search);
-  if (err) return next(err);
+  const data = await merriamService.fetchWord(query.search);
 
   response.status(StatusCodes.OK).json(deserializeMerriamData(data));
 };

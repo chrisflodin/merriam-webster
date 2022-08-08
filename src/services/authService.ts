@@ -1,36 +1,27 @@
 import { UserModel } from "../models/user";
-import { promiseHandler } from "../utils/promiseHandler";
-import { getUserByEmail, verifyJWT } from "./user";
-import { Api400Error, Api500Error } from "../types/errors";
+import { getUserByEmail, saveUser, verifyJWT } from "./user";
 import bcrypt from "bcrypt";
 import { Credentials, MongooseUser } from "../types/user";
 
 export const authorizeUser = async (token: string) => {
-  const [verifyErr, verifiedJWT] = verifyJWT(token);
-  if (!verifiedJWT) return [verifyErr, null];
-
-  const [err] = await promiseHandler(UserModel.findOne({ _id: verifiedJWT._id, "tokens.token": token }).exec());
-  if (err) return [err, null];
-
-  return [null, verifiedJWT];
+  const verified = verifyJWT(token);
+  if (!verified) return null;
+  return await UserModel.findOne({ _id: verified._id, "tokens.token": token }).exec();
 };
 
 export const verifyUserCredentials = async (credentials: Credentials) => {
   const { email, password } = credentials;
-  const [err, user] = await getUserByEmail(email);
-  if (err) return [err, null];
+  const user = await getUserByEmail(email);
+  if (!user) return null;
 
   const pswdMatches = await bcrypt.compare(password, user.password);
-  if (!pswdMatches) return [new Api400Error(true, "Invalid username or password"), null];
+  if (!pswdMatches) return null;
 
-  return [null, user];
+  return user;
 };
 
 export const signIn = async (user: MongooseUser) => {
   const token = user.generateAuthToken!();
-
-  const [err, savedUser] = await promiseHandler(user.save());
-  if (err) return [new Api500Error(false, err.message), null] as const;
-
-  return [null, { savedUser, token }] as const;
+  const savedUser = await saveUser(user);
+  return { savedUser, token };
 };

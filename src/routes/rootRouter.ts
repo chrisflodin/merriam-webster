@@ -1,7 +1,7 @@
 import express from "express";
 import { Api404Error } from "../types/errors";
-import userRouter from "./user";
-import merriamWebsterRouter from "./merriamWebster";
+import userRouter from "./userRouter";
+import merriamWebsterRouter from "./merriamWebsterRouter";
 
 const router = express.Router();
 

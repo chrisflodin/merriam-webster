@@ -11,8 +11,8 @@ export const authorizeResource = async (req: Request, res: AuthResponse, next: N
   const authStr = req.get("Authorization") || "";
 
   const token = authStr.replace("Bearer ", "");
-  const [err, decoded] = await authService.authorizeUser(token);
-  if (err) return next(new Api401Error(true));
+  const user = await authService.authorizeUser(token);
+  if (!user) throw new Api401Error(true);
 
   next();
 };

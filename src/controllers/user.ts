@@ -1,4 +1,4 @@
-import { MongooseUser, UserRequest } from "../types/user";
+import { MongooseUser } from "../types/user";
 import { Api500Error } from "../types/errors";
 import { hideUserData } from "../utils/hideUserData";
 import * as authService from "../services/authService";
@@ -9,8 +9,7 @@ import { RequestHandler } from "express";
 export const createNewUser: RequestHandler = async (request, response, next) => {
   const { body } = request;
 
-  const [err, result] = await userService.createUser(body);
-  if (err) return next(err);
+  const result = await userService.createUser(body);
 
   const data = { savedUser: hideUserData(result.savedUser), token: result.token };
 
@@ -20,8 +19,7 @@ export const createNewUser: RequestHandler = async (request, response, next) => 
 export const loginUser: RequestHandler = async (request, response, next) => {
   const user: MongooseUser = response.locals.user;
 
-  const [error, result] = await authService.signIn(user);
-  if (error) return next(new Api500Error(false, error.message));
+  const result = await authService.signIn(user);
 
   const data = {
     savedUser: hideUserData(result.savedUser),
@@ -33,6 +31,6 @@ export const loginUser: RequestHandler = async (request, response, next) => {
 
 export const removeAllUsers: RequestHandler = async (request, response, next) => {
   const deletedUsers = await userService.deleteAllUsers();
-  if (!deletedUsers.acknowledged) return next(new Api500Error());
+  if (!deletedUsers.acknowledged) throw new Api500Error();
   response.status(StatusCodes.OK).send(`${deletedUsers.deletedCount} users were deleted`);
 };

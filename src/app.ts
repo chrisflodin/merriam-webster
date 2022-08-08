@@ -1,8 +1,9 @@
 import "dotenv/config";
+import "express-async-errors";
 import express from "express";
 import bodyParser from "body-parser";
-import { returnError } from "./middleware/error/return-error";
-import { logError } from "./middleware/error/log-error";
+import { returnError } from "./middleware/error/returnError";
+import { logError } from "./middleware/error/logError";
 import rootRouter from "./routes/rootRouter";
 
 export const createApp = () => {

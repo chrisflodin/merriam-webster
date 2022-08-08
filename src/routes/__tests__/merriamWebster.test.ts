@@ -42,41 +42,30 @@ describe("Merriam webster Routes", () => {
       it("should return a 200 status code", async () => {
         const fetchWordMock = jest.spyOn(merriamWebster, "fetchWord").mockReturnValue(mockFetchWord());
 
-        const { status } = await request(app)
+        await request(app)
           .get("/fetch-data/?search=strength")
-          .set("Authorization", `Bearer ${userData.tokens![0].token}`);
+          .set("Authorization", `Bearer ${userData.tokens![0].token}`)
+          .expect(200);
 
         expect(fetchWordMock).toHaveBeenCalled();
-        expect(status).toBe(200);
       });
     });
 
     describe("given no query string", () => {
-      it("should return a 400 status code", async () => {
-        const fetchWordMock = jest.spyOn(merriamWebster, "fetchWord");
-
-        const { status } = await request(app)
-          .get("/fetch-data/")
-          .set("Authorization", `Bearer ${userData.tokens![0].token}`);
-
-        // .spyOn calls the function once, should not be called in-app
-        expect(fetchWordMock).toHaveBeenCalledTimes(1);
-        expect(status).toBe(400);
+      it("should return a 401 status code", async () => {
+        await request(app).get("/fetch-data").set("Authorization", `Bearer ${userData.tokens![0].token}`).expect(401);
       });
     });
 
     describe("given the user does not have a JWT", () => {
       it("should return a 401 status code", async () => {
-        const { status } = await request(app).get("/fetch-data/?search=strength").expect(401);
+        await request(app).get("/fetch-data/?search=strength").expect(401);
       });
     });
 
     describe("given the user has an invalid JWT", () => {
       it("should return a 401 status code", async () => {
-        const { status } = await request(app)
-          .get("/fetch-data/?search=strength")
-          .set("Authorization", `Bearer 1234`)
-          .expect(401);
+        await request(app).get("/fetch-data/?search=strength").set("Authorization", `Bearer 1234`).expect(401);
       });
     });
   });
