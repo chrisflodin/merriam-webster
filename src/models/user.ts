@@ -1,9 +1,9 @@
 import { IUser } from "../types/user";
-import { hashText } from "../utils/bcrypt";
-import jwt from "jsonwebtoken";
-import mongoose, { Model } from "mongoose";
-import validator from "validator";
 import { JWT_EXPIRATION, JWT_SECRET } from "../consts";
+import jwt from "jsonwebtoken";
+import { hashText } from "../utils/bcrypt";
+import validator from "validator";
+import mongoose, { Model } from "mongoose";
 
 export const userSchema = new mongoose.Schema<IUser>({
   email: {

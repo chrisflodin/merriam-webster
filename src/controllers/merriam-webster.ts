@@ -1,8 +1,8 @@
 import { RequestHandler } from "express";
-import { StatusCodes } from "http-status-codes";
 import * as merriamService from "../services/merriamService";
 import { Api500Error } from "../types/errors";
 import { deserializeMerriamData } from "../utils/merriamWebster";
+import { StatusCodes } from "http-status-codes";
 
 export const getData: RequestHandler = async (request, response) => {
   const { query } = request;

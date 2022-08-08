@@ -1,10 +1,10 @@
-import { MongooseUser } from "../types/user";
-import { Api500Error } from "../types/errors";
-import { hideUserData } from "../utils/hideUserData";
+import { RequestHandler } from "express";
 import * as authService from "../services/authService";
 import * as userService from "../services/user";
+import { Api500Error } from "../types/errors";
+import { MongooseUser } from "../types/user";
+import { hideUserData } from "../utils/hideUserData";
 import { StatusCodes } from "http-status-codes";
-import { RequestHandler } from "express";
 
 export const createNewUser: RequestHandler = async (request, response) => {
   const { body } = request;

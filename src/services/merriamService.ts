@@ -1,5 +1,5 @@
-import fetch from "node-fetch";
 import { RootObject } from "../utils/merriamWebster";
+import fetch from "node-fetch";
 
 const BASE_URL = `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/`;
 

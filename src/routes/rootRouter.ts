@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.use("/user", userRouter);
 router.use("/fetch-data", merriamWebsterRouter);
-router.use((req, res, next) => {
+router.use(() => {
   throw new Api404Error();
 });
 
