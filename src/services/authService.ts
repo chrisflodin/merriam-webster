@@ -3,7 +3,7 @@ import { getUserByEmail, saveUser, verifyJWT } from "./user";
 import bcrypt from "bcrypt";
 import { Credentials, MongooseUser } from "../types/user";
 
-export const authorizeUser = async (token: string) => {
+export const authorizeUser = async (token: string): Promise<MongooseUser | null> => {
   const verified = verifyJWT(token);
   if (!verified) return null;
   return await UserModel.findOne({ _id: verified._id, "tokens.token": token }).exec();

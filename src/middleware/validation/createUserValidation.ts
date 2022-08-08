@@ -8,7 +8,7 @@ export const createUserValidation: RequestHandler = async (request, response, ne
   const { email } = body;
 
   const user = await userService.getUserByEmail(email);
-  if (user) throw new Api400Error(true, "User already exists");
+  if (user) throw new Api400Error("User already exists");
 
   next();
 };

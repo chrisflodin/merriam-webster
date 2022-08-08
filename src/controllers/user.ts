@@ -31,6 +31,6 @@ export const loginUser: RequestHandler = async (request, response, next) => {
 
 export const removeAllUsers: RequestHandler = async (request, response, next) => {
   const deletedUsers = await userService.deleteAllUsers();
-  if (!deletedUsers.acknowledged) throw new Api500Error();
+  if (!deletedUsers.acknowledged) throw new Api500Error("Error when attempting to delete all users", false);
   response.status(StatusCodes.OK).send(`${deletedUsers.deletedCount} users were deleted`);
 };

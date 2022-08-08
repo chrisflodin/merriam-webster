@@ -2,10 +2,10 @@ import { StatusCodes } from "http-status-codes";
 
 export class BaseError extends Error {
   constructor(
-    public isOperational: boolean = false,
     public message: string,
-    public statusCode: number,
-    public log: any
+    public isOperational: boolean = true,
+    public log: any,
+    public statusCode: number
   ) {
     super(message);
     this.name = this.constructor.name;
@@ -22,25 +22,25 @@ export class BaseError extends Error {
 }
 
 export class Api400Error extends BaseError {
-  constructor(isOperational?: boolean, message = "Bad request.", log?: any) {
-    super(isOperational, message, StatusCodes.BAD_REQUEST, log);
+  constructor(message?: string, isOperational?: boolean, log?: any) {
+    super(message || "Bad request.", isOperational, log, StatusCodes.BAD_REQUEST);
   }
 }
 
 export class Api401Error extends BaseError {
-  constructor(isOperational?: boolean, message = "Unauthorized.", log?: any) {
-    super(isOperational, message, StatusCodes.UNAUTHORIZED, log);
+  constructor(message?: string, isOperational?: boolean, log?: any) {
+    super(message || "Unauthorized.", isOperational, log, StatusCodes.UNAUTHORIZED);
   }
 }
 
 export class Api404Error extends BaseError {
-  constructor(isOperational?: boolean, message = "Not found.", log?: any) {
-    super(isOperational, message, StatusCodes.NOT_FOUND, log);
+  constructor(message?: string, isOperational?: boolean, log?: any) {
+    super(message || "Not found.", isOperational, log, StatusCodes.NOT_FOUND);
   }
 }
 
 export class Api500Error extends BaseError {
-  constructor(isOperational?: boolean, message = "Internal server error.", log?: any) {
-    super(isOperational, message, StatusCodes.INTERNAL_SERVER_ERROR, log);
+  constructor(message?: string, isOperational?: boolean, log?: any) {
+    super(message || "Internal server error.", isOperational, log, StatusCodes.INTERNAL_SERVER_ERROR);
   }
 }

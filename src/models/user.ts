@@ -1,8 +1,8 @@
-import { IUser } from "../types/user";
+import "dotenv/config";
+import { IUser, MongooseUser } from "../types/user";
 import { hashText } from "../utils/bcrypt";
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
-import "dotenv/config";
+import mongoose, { Model } from "mongoose";
 import validator from "validator";
 import { JWT_EXPIRATION, JWT_SECRET } from "../consts";
 
@@ -36,12 +36,12 @@ userSchema.pre("save", async function () {
 });
 
 userSchema.methods.generateAuthToken = function (): string {
-  // To do: Type this
-  const user: any = this;
+  // To-do: Type this
+  const user = this;
   const token = jwt.sign({ _id: user._id.toString() }, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
 
   user.tokens = user.tokens.concat({ token });
   return token;
 };
 
-export const UserModel = mongoose.model("user", userSchema);
+export const UserModel: Model<IUser> = mongoose.model("user", userSchema);
