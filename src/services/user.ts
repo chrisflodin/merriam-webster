@@ -3,11 +3,11 @@ import { UserModel } from "../models/user";
 import { Credentials, MongooseUser } from "../types/user";
 import jwt from "jsonwebtoken";
 
-export const getUserByEmail = async (email: string): Promise<MongooseUser | null> => {
+export const getUserByEmail = (email: string): Promise<MongooseUser | null> => {
   return UserModel.findOne({ email }).exec();
 };
 
-export const getUserById = async (id: string): Promise<MongooseUser | null> => {
+export const getUserById = (id: string): Promise<MongooseUser | null> => {
   return UserModel.findOne({ id }).exec();
 };
 
