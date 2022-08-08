@@ -3,7 +3,7 @@ import { UserRequest } from "../../types/user";
 import { Api400Error } from "../../types/errors";
 import * as userService from "../../services/user";
 
-export const createUserValidation: RequestHandler = async (request, response, next) => {
+export const createUserValidation: RequestHandler = async (request, _, next) => {
   const { body } = request as UserRequest;
   const { email } = body;
 

@@ -6,7 +6,7 @@ import * as userService from "../services/user";
 import { StatusCodes } from "http-status-codes";
 import { RequestHandler } from "express";
 
-export const createNewUser: RequestHandler = async (request, response, next) => {
+export const createNewUser: RequestHandler = async (request, response) => {
   const { body } = request;
 
   const result = await userService.createUser(body);
@@ -16,7 +16,7 @@ export const createNewUser: RequestHandler = async (request, response, next) => 
   response.status(StatusCodes.CREATED).send(data);
 };
 
-export const loginUser: RequestHandler = async (request, response, next) => {
+export const loginUser: RequestHandler = async (_, response) => {
   const user: MongooseUser = response.locals.user;
 
   const result = await authService.signIn(user);
@@ -29,7 +29,7 @@ export const loginUser: RequestHandler = async (request, response, next) => {
   response.status(StatusCodes.OK).send(data);
 };
 
-export const removeAllUsers: RequestHandler = async (request, response, next) => {
+export const removeAllUsers: RequestHandler = async (_, response) => {
   const deletedUsers = await userService.deleteAllUsers();
   if (!deletedUsers.acknowledged) throw new Api500Error("Error when attempting to delete all users", false);
   response.status(StatusCodes.OK).send(`${deletedUsers.deletedCount} users were deleted`);
