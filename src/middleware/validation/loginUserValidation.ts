@@ -7,7 +7,7 @@ export const loginUserValidation: RequestHandler = async (request, response, nex
   const { body } = request as UserRequest;
 
   const user = await authService.verifyUserCredentials(body);
-  // if (!user) throw new Api400Error(true, "Invalid username or password");
+  if (!user) throw new Api400Error("Invalid username or password");
 
   response.locals.user = user;
 
