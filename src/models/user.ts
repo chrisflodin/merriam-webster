@@ -1,5 +1,4 @@
-import "dotenv/config";
-import { IUser, MongooseUser } from "../types/user";
+import { IUser } from "../types/user";
 import { hashText } from "../utils/bcrypt";
 import jwt from "jsonwebtoken";
 import mongoose, { Model } from "mongoose";

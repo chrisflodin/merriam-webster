@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { LOG_OPERATIONAL_ERRORS } from "./development";
 
 // Environment Variables
