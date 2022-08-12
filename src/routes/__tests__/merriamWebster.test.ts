@@ -2,7 +2,6 @@ import request from "supertest";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { createApp } from "../../app";
-import { IUser } from "../../types/user";
 import { shutDownDb, startDb } from "../../utils/db";
 import { UserModel } from "../../models/user";
 import * as merriamWebster from "../../services/merriamService";
@@ -13,14 +12,15 @@ import { JWT_SECRET } from "../../consts";
 const app = createApp();
 
 const userId = new mongoose.Types.ObjectId();
+const token = jwt.sign({ _id: userId.toString() }, JWT_SECRET);
 
-const userData: IUser = {
+const userData = {
   _id: userId.toString(),
-  email: "alba.cross@gmail.com",
+  email: "chris.flodin@gmail.com",
   password: "1234",
   tokens: [
     {
-      token: jwt.sign({ _id: userId.toString() }, JWT_SECRET),
+      token: token,
     },
   ],
 };

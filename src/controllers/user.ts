@@ -9,28 +9,24 @@ import { StatusCodes } from "http-status-codes";
 export const createNewUser: RequestHandler = async (request, response) => {
   const { body } = request;
 
-  const result = await userService.createUser(body);
+  const { savedUser, token } = await userService.createUser(body);
 
-  const data = { savedUser: hideUserData(result.savedUser), token: result.token };
-
-  response.status(StatusCodes.CREATED).send(data);
+  response.status(StatusCodes.CREATED).send({ savedUser: hideUserData(savedUser), token: token });
 };
 
 export const loginUser: RequestHandler = async (_, response) => {
   const user: MongooseUser = response.locals.user;
 
-  const result = await authService.signIn(user);
+  const { savedUser, token } = await authService.signIn(user);
 
-  const data = {
-    savedUser: hideUserData(result.savedUser),
-    token: result.token,
-  };
-
-  response.status(StatusCodes.OK).send(data);
+  response.status(StatusCodes.OK).send({
+    savedUser: hideUserData(savedUser),
+    token: token,
+  });
 };
 
 export const removeAllUsers: RequestHandler = async (_, response) => {
-  const deletedUsers = await userService.deleteAllUsers();
-  if (!deletedUsers.acknowledged) throw new Api500Error("Error when attempting to delete all users", false);
-  response.status(StatusCodes.OK).send(`${deletedUsers.deletedCount} users were deleted`);
+  const { deletedCount, acknowledged } = await userService.deleteAllUsers();
+  if (!acknowledged) throw new Api500Error("Error when attempting to delete all users", false);
+  response.status(StatusCodes.OK).send(`${deletedCount} users were deleted`);
 };

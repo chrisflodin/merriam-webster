@@ -11,21 +11,16 @@ export const getUserById = (id: string): Promise<MongooseUser | null> => {
   return UserModel.findOne({ id }).exec();
 };
 
-export const saveUser = async (user: MongooseUser): Promise<MongooseUser | undefined> => {
-  try {
-    const saved = await user.save();
-    return saved;
-  } catch (e: any) {
-    if (e instanceof Error) throw e;
-  }
+export const saveUser = async (user: MongooseUser): Promise<MongooseUser> => {
+  return user.save();
 };
 
 export const createUser = async (credentials: Credentials) => {
   const newUser = new UserModel({ ...credentials, tokens: [] });
 
-  const token = newUser.generateAuthToken!();
+  const token = newUser.generateAuthToken();
 
-  const savedUser = (await saveUser(newUser)) as MongooseUser;
+  const savedUser = await saveUser(newUser);
 
   return { savedUser, token };
 };

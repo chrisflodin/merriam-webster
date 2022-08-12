@@ -2,12 +2,14 @@ import mongoose from "mongoose";
 import { Request } from "express";
 
 export interface IUser {
-  _id?: string | mongoose.Types.ObjectId;
+  _id: string | mongoose.Types.ObjectId;
   email: string;
   password: string;
-  tokens?: { token: string }[];
-  generateAuthToken?: () => string;
+  tokens: { token: string }[];
+  generateAuthToken: () => string;
 }
+
+export type UserDTO = Pick<IUser, "email" | "password">;
 
 export type Credentials = {
   email: string;

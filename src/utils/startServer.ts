@@ -4,10 +4,9 @@ import { setUpExceptionHandlingListeners } from "./error/exceptionHandlers";
 
 const app = createApp();
 
-export const startServer = () => {
-  const server = app.listen(PORT, () => {
-    console.log("App is running on port: " + PORT);
-  });
+export const startServer = async () => {
+  const server = await app.listen(PORT);
+  console.log("App is running on port: " + PORT);
   setUpExceptionHandlingListeners(server);
   return server;
 };

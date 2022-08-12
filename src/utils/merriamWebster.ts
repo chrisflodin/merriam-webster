@@ -33,14 +33,17 @@ export interface RootObject {
   shortdef: string[];
 }
 
-export const deserializeMerriamData = (data: RootObject): MerriamWord => {
+export const deserializeMerriamData = (data: [RootObject]): MerriamWord => {
+  const word = data[0];
+  const { meta, shortdef } = word;
+
   return {
-    id: data.meta.id,
-    senses: data.meta.syns.map((word, i) => {
+    id: meta.id,
+    senses: meta.syns.map((word, i) => {
       return {
-        meaning: data.shortdef[i],
-        synonyms: data.meta.syns[i],
-        antonyms: data.meta.ants[i],
+        meaning: shortdef[i],
+        synonyms: meta.syns[i],
+        antonyms: meta.ants[i],
       };
     }),
   };
