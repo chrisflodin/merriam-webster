@@ -5,15 +5,6 @@ import { FormState, InputField, InputType } from "../types";
 const SignUpForm: FormState = {
   inputFields: [
     {
-      type: InputType.USERNAME,
-      label: "Username",
-      textType: "text",
-      placeholder: "Username",
-      validator: (val: string) => {
-        return val.length >= 3 && validator.isAlphanumeric(val);
-      },
-    },
-    {
       type: InputType.EMAIL,
       label: "Enter email",
       textType: "text",

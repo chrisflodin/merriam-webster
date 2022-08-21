@@ -2,7 +2,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import Main from "./main";
 import Login from "./login/routes";
 import { useContext } from "react";
-import { AuthContext } from "../context/auth-context";
+import { AuthContext } from "../providers/AuthContextProvider";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 
 const Routes = () => {
@@ -17,7 +17,8 @@ const Routes = () => {
 
         <Route
           path={"/login"}
-          render={() => (isAuthenticated ? <Redirect to="/"></Redirect> : <Login></Login>)}
+          // render={() => (isAuthenticated ? <Redirect to="/"></Redirect> : <Login></Login>)}
+          render={() => <Login></Login>}
         ></Route>
 
         <Route path="*">

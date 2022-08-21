@@ -14,7 +14,7 @@ export const AuthContext = React.createContext<AuthorizationContext>({
   handleSignIn: () => {},
 });
 
-export const AuthContextProvider = (props: { children: any }) => {
+export const AuthContextProvider = ({ children }: { children: React.ReactElement[] | React.ReactElement }) => {
   const [token, setToken] = useState(localStorage.getItem("Authorization") || "");
   const isAuthenticated = token.length > 0;
 
@@ -35,5 +35,5 @@ export const AuthContextProvider = (props: { children: any }) => {
     handleSignOut,
   };
 
-  return <AuthContext.Provider value={context}>{props.children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>;
 };

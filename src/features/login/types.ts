@@ -17,7 +17,6 @@ export interface InputField {
 }
 
 export enum InputType {
-  USERNAME = "USERNAME",
   PASSWORD = "PASSWORD",
   CONFIRM_PASSWORD = "CONFIRM_PASSWORD",
   EMAIL = "EMAIL",

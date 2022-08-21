@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useQuery } from "../../hooks/useQuery";
 import { fetchWord } from "../../api/merriam-webster";
 import { MerriamWord } from "../../api/merriam-webster/types";
-import { AuthContext } from "../../context/auth-context";
+import { AuthContext } from "../../providers/AuthContextProvider";
 import { DefaultWord, WordFilterMap } from "./config";
 import { updateUrl } from "./components/SynonymsList/utils";
 import { getActiveFilter, validateQuery } from "./components/utils";

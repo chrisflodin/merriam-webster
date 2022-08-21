@@ -2,38 +2,18 @@ import { SyntheticEvent } from "react";
 import { InputField } from "../../features/login/types";
 import inputStyles from "./TextInput.module.scss";
 
-const { container, isValid, isInvalid } = inputStyles;
+const { container } = inputStyles;
 
 interface TextInputProps extends InputField {
   handleInputChange: (event: SyntheticEvent) => void;
 }
 
-const TextInput = ({
-  showsValidation = true,
-  label,
-  placeholder,
-  type,
-  textType,
-  touched,
-  valid,
-  value,
-  handleInputChange,
-}: TextInputProps) => {
-  let validationStyles;
-  if (showsValidation) validationStyles = valid ? isValid : touched ? isInvalid : "";
-
+const TextInput = ({ label, placeholder, type, textType, value }: TextInputProps) => {
   return (
     <>
       <div className={container}>
         <label>{label}</label>
-        <input
-          className={validationStyles}
-          value={value}
-          onChange={handleInputChange}
-          id={type}
-          type={textType}
-          placeholder={placeholder}
-        />
+        <input value={value} id={type} type={textType} placeholder={placeholder} />
       </div>
     </>
   );

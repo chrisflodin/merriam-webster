@@ -4,7 +4,6 @@ export const formReducer: InputReducer = (prevState, action) => {
   let state: FormState;
 
   switch (action.inputType) {
-    case InputType.USERNAME:
     case InputType.EMAIL:
     case InputType.PASSWORD:
     case InputType.CONFIRM_PASSWORD:
