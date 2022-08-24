@@ -13,6 +13,13 @@ export const useCreateUser = () =>
     },
   });
 
+export const useSignIn = () =>
+  useMutation<IAuthData, ServerError, UserDTO, IAuthData>((data) => axios.post(URLS.SIGN_IN_URL, data), {
+    onError: (err) => {
+      handleAxiosError(err);
+    },
+  });
+
 export const signInUser = async (credentials: UserDTO): Promise<IUser> => {
   let data;
   return {

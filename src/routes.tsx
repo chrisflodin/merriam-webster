@@ -3,12 +3,13 @@ import Main from "./features/main";
 import { useContext } from "react";
 import { AuthContext } from "./providers/AuthContextProvider";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import SignIn from "./features/login/sign-in/signIn";
-import SignUp from "./features/login/sign-up/signUp";
 import { routing } from "./config/routing";
+import SignIn from "./features/login/SignIn";
+import { SignInConfig, SignUpConfig } from "./features/login/config";
 
 const Routes = () => {
   const { isAuthenticated } = useContext(AuthContext);
+  const { SIGN_IN, SIGN_UP } = routing;
 
   return (
     <div style={{ height: "100vh" }}>
@@ -17,12 +18,12 @@ const Routes = () => {
           <Main />
         </ProtectedRoute>
 
-        <Route exact path={routing.SIGNIN}>
-          <SignIn />
+        <Route exact path={SIGN_IN}>
+          <SignIn {...SignInConfig} />
         </Route>
 
-        <Route exact path={routing.SIGNUP}>
-          <SignUp />
+        <Route exact path={SIGN_UP}>
+          <SignIn {...SignUpConfig} />
         </Route>
 
         <Route path="*">

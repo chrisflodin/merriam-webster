@@ -1,13 +1,13 @@
-import SignUp from "../signUp";
-import { mountComponentWithDeps } from "../../../../utils/tests/mountComponentWithDeps";
-import * as userHooks from "../../../../api/auth/userHooks";
-import { ServerError } from "../../../../types/errors";
-import { IAuthData } from "../../../../types/responseData";
+import { mountComponentWithDeps } from "../../../utils/tests/mountComponentWithDeps";
+import * as userHooks from "../../../api/auth/userHooks";
+import { ServerError } from "../../../types/errors";
+import { IAuthData } from "../../../types/responseData";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { UserDTO } from "../../../../types/user";
-import { handleAxiosError } from "../../../../utils/axios";
+import { UserDTO } from "../../../types/user";
+import { handleAxiosError } from "../../../utils/axios";
 import axios, { AxiosResponse } from "axios";
+import SignIn from "../SignIn";
 
 const mockEmail = "firstname.lastname@gmail.com",
   mockPassword = "1234",
@@ -37,7 +37,7 @@ describe("Sign Up form", () => {
 
   // Arrange
   beforeEach(() => {
-    mountComponentWithDeps(<SignUp></SignUp>);
+    mountComponentWithDeps(<SignIn></SignIn>);
   });
 
   it("fills out the form and submits", async () => {

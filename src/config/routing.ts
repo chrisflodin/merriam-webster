@@ -1,4 +1,4 @@
 export const routing = {
-  SIGNIN: "/login",
-  SIGNUP: "/sign-up",
+  SIGN_IN: "/login",
+  SIGN_UP: "/sign-up",
 };
