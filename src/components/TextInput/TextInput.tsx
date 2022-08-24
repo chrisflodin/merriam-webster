@@ -1,22 +1,23 @@
-import { SyntheticEvent } from "react";
-import { InputField } from "../../features/login/types";
-import inputStyles from "./TextInput.module.scss";
+export const temp = {};
 
-const { container } = inputStyles;
+// import { SyntheticEvent } from "react";
+// import inputStyles from "./TextInput.module.scss";
 
-interface TextInputProps extends InputField {
-  handleInputChange: (event: SyntheticEvent) => void;
-}
+// const { container } = inputStyles;
 
-const TextInput = ({ label, placeholder, type, textType, value }: TextInputProps) => {
-  return (
-    <>
-      <div className={container}>
-        <label>{label}</label>
-        <input value={value} id={type} type={textType} placeholder={placeholder} />
-      </div>
-    </>
-  );
-};
+// // interface TextInputProps {
+// //   handleInputChange: (event: SyntheticEvent) => void;
+// // }
 
-export default TextInput;
+// const TextInput = ({ label, placeholder, type, textType, value }: TextInputProps) => {
+//   return (
+//     <>
+//       <div className={container}>
+//         <label>{label}</label>
+//         <input value={value} id={type} type={textType} placeholder={placeholder} />
+//       </div>
+//     </>
+//   );
+// };
+
+// export default TextInput;

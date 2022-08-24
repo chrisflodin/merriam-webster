@@ -1,6 +1,5 @@
 import URLS from "../urls";
 import { IUser, UserDTO } from "../../types/user";
-import { LoginCredentials } from "./types";
 import { IAuthData } from "../../types/responseData";
 import axios from "axios";
 import { ServerError } from "../../types/errors";
@@ -14,7 +13,7 @@ export const useCreateUser = () =>
     },
   });
 
-export const signInUser = async (credentials: LoginCredentials): Promise<IUser> => {
+export const signInUser = async (credentials: UserDTO): Promise<IUser> => {
   let data;
   return {
     email: "",

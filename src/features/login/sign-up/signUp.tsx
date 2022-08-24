@@ -1,44 +1,40 @@
 import { useContext, useEffect } from "react";
-import loginStyles from "../Login.module.scss";
+import loginStyles from "../style.module.scss";
 import { Link, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { UserDTO } from "../../../types/user";
 import { AuthContext } from "../../../providers/AuthContextProvider";
 import { useCreateUser } from "../../../api/auth/userHooks";
+import { getError } from "../../../utils/getError";
+import EmailField from "../components/EmailField";
+import { SignUpConfig } from "../config";
+import PasswordField from "../components/PasswordField";
 
-export type MutationFunction<TResult, TVariables = unknown> = (variables: TVariables) => Promise<TResult>;
-
-const { page, container, title, subTitle, switchPrompt, formError } = loginStyles;
+const { page, container, title, subTitle, switchPrompt, errorStyle } = loginStyles;
 
 const SignUp = () => {
   // Question: Why does this component render twice? (without React.StrictMode)
   const {
-    register,
     handleSubmit,
+    register,
     formState: { errors },
     reset,
     getValues,
   } = useForm<UserDTO>();
 
+  const authCtx = useContext(AuthContext),
+    history = useHistory();
+
   const { mutate, data, isError, error } = useCreateUser();
-
-  const history = useHistory();
-  const authCtx = useContext(AuthContext);
-
-  const getError = (error: unknown) => {
-    if (error instanceof Error) return error.message;
-    return "";
-  };
 
   const submitHandler = async (userData: UserDTO) => {
     mutate(userData);
     reset();
-
     history.replace("/");
   };
 
   useEffect(() => {
-    if (!!data && !(data instanceof Error)) authCtx.handleSignIn(data.data._id.toString());
+    if (data) authCtx.handleSignIn(data.data._id.toString());
   }, [data]);
 
   return (
@@ -46,24 +42,13 @@ const SignUp = () => {
       <form name="signUpForm" className={container} onSubmit={handleSubmit(() => submitHandler(getValues()))}>
         <h1 className={title}>merriam webster</h1>
         <h3 className={subTitle}>SIGN UP</h3>
-        <input placeholder="john.doe@gmail.com" {...register("email", { required: "Email is required" })}></input>
-        {errors?.email && <p className={formError}>{errors.email?.message}</p>}
-        <input
-          placeholder="password"
-          {...register("password", {
-            required: "Password is required",
-            minLength: {
-              value: 4,
-              message: "Minimum length is 4 characters",
-            },
-          })}
-        ></input>
-        {errors?.password && <p className={formError}>{errors.password?.message}</p>}
+        <EmailField errors={errors} register={register}></EmailField>
+        <PasswordField errors={errors} register={register}></PasswordField>
         <input name="signUpButton" type="submit"></input>
         <p className={switchPrompt}>
           Already have an account? <Link to={"/login"}>Log in</Link>
         </p>
-        {isError && <p className={formError}>{getError(error)}</p>}
+        {isError && <p className={errorStyle}>{getError(error)}</p>}
       </form>
     </div>
   );
