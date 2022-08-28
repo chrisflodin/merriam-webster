@@ -1,7 +1,5 @@
-import { UseFormHandleSubmit } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { ServerError } from "../../../../types/errors";
-import { UserDTO } from "../../../../types/user";
 import { FormLayoutConfig } from "../../config";
 import { FormError } from "../FormError";
 import style from "./FormLayout.module.scss";
@@ -16,6 +14,9 @@ type FormLayoutProps = {
 };
 
 export const UserForm = ({ config, error, submitHandler, children }: FormLayoutProps) => {
+  // console.log("Layout");
+  // console.log(error);
+
   const { title, route, textEnd, textStart } = config;
 
   return (
@@ -25,7 +26,7 @@ export const UserForm = ({ config, error, submitHandler, children }: FormLayoutP
         <h3>{title}</h3>
         {children}
         <p className={switchPromptStyle}>
-          {textStart} <Link to={route}>{textEnd}</Link>
+          {textStart} <Link to={() => route}>{textEnd}</Link>
         </p>
         <FormError error={error} />
       </div>

@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import loginStyles from "./style.module.scss";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { UserDTO } from "../../types/user";
 import { AuthContext } from "../../providers/AuthContextProvider";
@@ -31,9 +31,10 @@ const SignIn = ({ config }: SignUpProps) => {
   } = useForm<UserDTO>(validation);
 
   const authCtx = useContext(AuthContext),
-    history = useHistory();
+    history = useHistory(),
+    location = useLocation();
 
-  const { mutate, data, error } = mutateHook();
+  const { mutate, data, error, reset: resetMutation } = mutateHook();
 
   const submitHandler = async (userData: UserDTO) => {
     mutate(userData, {
@@ -43,6 +44,11 @@ const SignIn = ({ config }: SignUpProps) => {
       },
     });
   };
+
+  useEffect(() => {
+    reset();
+    resetMutation();
+  }, [location]);
 
   useEffect(() => {
     if (data) authCtx.handleSignIn(data.data._id.toString());
