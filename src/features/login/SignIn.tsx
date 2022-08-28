@@ -1,45 +1,48 @@
 import { useContext, useEffect } from "react";
 import loginStyles from "./style.module.scss";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { UserDTO } from "../../types/user";
 import { AuthContext } from "../../providers/AuthContextProvider";
-import { FormConfig } from "./types";
-import { FormFields } from "./components/FormFields";
-import { FormError } from "./components/FormError";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { signUpSchema } from "./validation";
+import { UserForm } from "./components/FormLayout/FormLayout";
+import { FormConfig } from "./config";
+import Button from "../../components/Button/Button";
+import TextInput from "../../components/TextInput/TextInput";
+import { useCreateUser } from "../../api/auth/userHooks";
 
-const { page, container, titleStye, subTitle, switchPrompt, errorStyle } = loginStyles;
+const { page } = loginStyles;
+type SignUpProps = {
+  config: FormConfig;
+};
 
-const SignIn = ({
-  displayValidation,
-  fields,
-  layout: {
-    link: { textStart, textEnd },
-    formName,
-    url,
-  },
-  useFormMutation,
-  validationSchema,
-}: FormConfig) => {
+const SignIn = ({ config }: SignUpProps) => {
+  const { formConfig, layoutConfig } = config;
+  const { formName, mutateHook, validationSchema } = formConfig;
   // Question: Why does this component render twice? (without React.StrictMode)
+  const validation = validationSchema ? { resolver: yupResolver(signUpSchema) } : undefined;
+
   const {
     handleSubmit,
     register,
     formState: { errors },
     reset,
     getValues,
-  } = useForm<UserDTO>({ resolver: yupResolver(validationSchema) });
+  } = useForm<UserDTO>(validation);
 
   const authCtx = useContext(AuthContext),
     history = useHistory();
 
-  const { mutate, data, isError, error } = useFormMutation();
+  const { mutate, data, error } = mutateHook();
 
   const submitHandler = async (userData: UserDTO) => {
-    mutate(userData);
-    reset();
-    history.replace("/");
+    mutate(userData, {
+      onSuccess: () => {
+        history.replace("/");
+        reset();
+      },
+    });
   };
 
   useEffect(() => {
@@ -48,18 +51,13 @@ const SignIn = ({
 
   return (
     <div className={page}>
-      <form name={formName} className={container} onSubmit={handleSubmit(() => submitHandler(getValues()))}>
-        <h1 className={titleStye}>merriam webster</h1>
-        <h3 className={subTitle}>{formName}</h3>
-        <FormFields errors={errors} displayValidation={displayValidation} fields={fields} register={register} />
-        <button name={`${formName}-button`} type="submit">
-          {formName}
-        </button>
-        <p className={switchPrompt}>
-          {textStart} <Link to={url}>{textEnd}</Link>
-        </p>
-        <FormError error={error} isError />
-      </form>
+      <UserForm config={layoutConfig} error={error} submitHandler={handleSubmit(() => submitHandler(getValues()))}>
+        <TextInput register={register("email")} placeholder="john.doe@gmail.com" errorMsg={errors.email?.message} />
+        <TextInput register={register("password")} placeholder="password" errorMsg={errors.password?.message} />
+        <Button name={`${formName}-button`} type="submit" variant="outlined">
+          Login
+        </Button>
+      </UserForm>
     </div>
   );
 };

@@ -1,8 +1,8 @@
-import { FieldProps } from "../types";
-import loginStyles from "../style.module.scss";
+import { FieldProps } from "../../types";
+import styles from "../../style.module.scss";
 
-const PasswordField = ({ register, errors, displayValidation }: FieldProps) => {
-  const { errorStyle } = loginStyles;
+const ConfirmField = ({ register, errors, displayValidation }: FieldProps) => {
+  const { errorStyle } = styles;
   const validation = displayValidation
     ? {
         required: "Password is required",
@@ -21,4 +21,4 @@ const PasswordField = ({ register, errors, displayValidation }: FieldProps) => {
   );
 };
 
-export default PasswordField;
+export default ConfirmField;

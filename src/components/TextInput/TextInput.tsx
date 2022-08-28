@@ -1,23 +1,42 @@
-export const temp = {};
+import { SyntheticEvent } from "react";
+import { UseFormRegisterReturn } from "react-hook-form";
+import inputStyles from "./TextInput.module.scss";
 
-// import { SyntheticEvent } from "react";
-// import inputStyles from "./TextInput.module.scss";
+const { container, errorStyle } = inputStyles;
 
-// const { container } = inputStyles;
+interface TextInputProps {
+  handleInputChange?: (event: SyntheticEvent) => void;
+  label?: string;
+  placeholder?: string;
+  type?: string;
+  textType?: string;
+  value?: any;
+  style?: React.CSSProperties;
+  errorMsg?: string | undefined;
+  register?: UseFormRegisterReturn;
+  //   validation?: RegisterOptions | undefined;
+}
 
-// // interface TextInputProps {
-// //   handleInputChange: (event: SyntheticEvent) => void;
-// // }
+const TextInput = ({
+  label,
+  placeholder,
+  type,
+  textType,
+  value,
+  style,
+  errorMsg,
+  register,
+  ...rest
+}: TextInputProps) => {
+  return (
+    <>
+      <div className={container}>
+        {label && <label>{label}</label>}
+        <input {...register} value={value} id={type} type={textType} placeholder={placeholder} {...rest} />
+        {errorMsg && <p className={errorStyle}>{errorMsg}</p>}
+      </div>
+    </>
+  );
+};
 
-// const TextInput = ({ label, placeholder, type, textType, value }: TextInputProps) => {
-//   return (
-//     <>
-//       <div className={container}>
-//         <label>{label}</label>
-//         <input value={value} id={type} type={textType} placeholder={placeholder} />
-//       </div>
-//     </>
-//   );
-// };
-
-// export default TextInput;
+export default TextInput;

@@ -5,7 +5,7 @@ import { AuthContext } from "./providers/AuthContextProvider";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { routing } from "./config/routing";
 import SignIn from "./features/login/SignIn";
-import { SignInConfig, SignUpConfig } from "./features/login/config";
+import { LoginConfig, SignUpConfig } from "./features/login/config";
 
 const Routes = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -18,12 +18,12 @@ const Routes = () => {
           <Main />
         </ProtectedRoute>
 
-        <Route exact path={SIGN_IN}>
-          <SignIn {...SignInConfig} />
+        <Route exact path={SIGN_UP}>
+          <SignIn config={SignUpConfig} />
         </Route>
 
-        <Route exact path={SIGN_UP}>
-          <SignIn {...SignUpConfig} />
+        <Route exact path={SIGN_IN}>
+          <SignIn config={LoginConfig} />
         </Route>
 
         <Route path="*">

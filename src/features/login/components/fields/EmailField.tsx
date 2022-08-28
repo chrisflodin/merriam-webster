@@ -1,13 +1,14 @@
-import { FieldProps } from "../types";
-import loginStyles from "../style.module.scss";
+import { FieldProps } from "../../types";
+import styles from "../../style.module.scss";
+import TextInput from "../../../../components/TextInput/TextInput";
 
 const EmailField = ({ register, errors, displayValidation }: FieldProps) => {
-  const { errorStyle } = loginStyles;
+  const { errorStyle } = styles;
   const validation = displayValidation ? { required: "Email is required" } : undefined;
 
   return (
     <>
-      <input placeholder="john.doe@gmail.com" {...register("email", validation)}></input>
+      <TextInput placeholder="john.doe@gmail.com" {...register("email", validation)} style={{ width: "100%" }} />
       {errors?.email && <p className={errorStyle}>{errors.email?.message}</p>}
     </>
   );

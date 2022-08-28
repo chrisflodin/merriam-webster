@@ -2,7 +2,7 @@ import style from "./Button.module.scss";
 import classNames from "classnames";
 import { MouseEventHandler } from "react";
 
-const { flat, outlined, selectedStyle } = style;
+const { flat, outlined, selectedStyle, baseStyle } = style;
 
 interface ButtonProps {
   children?: string;
@@ -10,7 +10,9 @@ interface ButtonProps {
   classes?: string;
   selected?: boolean;
   type?: "button" | "submit" | "reset" | undefined;
+  name?: string;
   variant?: "flat" | "outlined";
+  style?: React.CSSProperties;
 }
 
 const Button = ({
@@ -20,18 +22,20 @@ const Button = ({
   selected = false,
   type = "button",
   variant = "flat",
+  name,
   ...rest
 }: ButtonProps) => {
   const variantStyle = variant === "outlined" ? outlined : flat;
   const styles = classNames({
+    [baseStyle]: baseStyle,
     [selectedStyle]: selected,
-    [classes]: classes,
     [variantStyle]: variantStyle,
+    [classes]: classes,
   });
 
   return (
     <>
-      <button type={type} className={styles} onClick={onClick} {...rest}>
+      <button type={type} className={styles} onClick={onClick} name={name} {...rest}>
         {children}
       </button>
     </>
