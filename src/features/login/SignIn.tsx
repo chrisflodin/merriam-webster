@@ -10,7 +10,6 @@ import { UserForm } from "./components/FormLayout/FormLayout";
 import { FormConfig } from "./config";
 import Button from "../../components/Button/Button";
 import TextInput from "../../components/TextInput/TextInput";
-import { useCreateUser } from "../../api/auth/userHooks";
 
 const { page } = loginStyles;
 type SignUpProps = {
