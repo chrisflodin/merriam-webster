@@ -1,10 +1,11 @@
 import { UseMutationResult } from "@tanstack/react-query";
 import { useCreateUser, useSignIn } from "../../api/auth/userHooks";
 import { ServerError } from "../../types/errors";
-import { IAuthData } from "../../types/responseData";
+import { IAuthData, IServerError } from "../../types/responseData";
 import { UserDTO } from "../../types/user";
 import { signUpSchema } from "./validation";
 import * as yup from "yup";
+import { AxiosError } from "axios";
 
 export type FormLayoutConfig = {
   title: string;
@@ -16,7 +17,7 @@ export type FormLayoutConfig = {
 export type FormConfig = {
   layoutConfig: FormLayoutConfig;
   formConfig: {
-    mutateHook: () => UseMutationResult<IAuthData, ServerError, UserDTO, IAuthData>;
+    mutateHook: () => UseMutationResult<IAuthData, AxiosError<IServerError>, UserDTO, IAuthData>;
     formName: string;
     validationSchema: yup.SchemaOf<UserDTO> | null;
   };

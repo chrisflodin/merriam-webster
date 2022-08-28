@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { ServerError } from "../../../../types/errors";
-import { FormLayoutConfig } from "../../config";
-import { FormError } from "../FormError";
+import { ServerError } from "../../../types/errors";
+import { FormLayoutConfig } from "../config";
+import { FormError } from "./FormError";
 import style from "./FormLayout.module.scss";
 
 const { switchPromptStyle, container } = style;
@@ -14,10 +14,8 @@ type FormLayoutProps = {
 };
 
 export const UserForm = ({ config, error, submitHandler, children }: FormLayoutProps) => {
-  // console.log("Layout");
-  // console.log(error);
-
   const { title, route, textEnd, textStart } = config;
+  console.log(error);
 
   return (
     <form name={title} onSubmit={submitHandler}>

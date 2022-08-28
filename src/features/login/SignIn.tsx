@@ -1,15 +1,16 @@
 import { useContext, useEffect } from "react";
-import loginStyles from "./style.module.scss";
+import loginStyles from "./SignIn.module.scss";
 import { useHistory, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { UserDTO } from "../../types/user";
 import { AuthContext } from "../../providers/AuthContextProvider";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signUpSchema } from "./validation";
-import { UserForm } from "./components/FormLayout/FormLayout";
 import { FormConfig } from "./config";
 import Button from "../../components/Button/Button";
 import TextInput from "../../components/TextInput/TextInput";
+import { UserForm } from "./components/FormLayout";
+import { transformAxiosError } from "../../utils/axios";
 
 const { page } = loginStyles;
 type SignUpProps = {
@@ -35,6 +36,7 @@ const SignIn = ({ config }: SignUpProps) => {
     location = useLocation();
 
   const { mutate, data, error, reset: resetMutation } = mutateHook();
+  const serverError = transformAxiosError(error);
 
   const submitHandler = async (userData: UserDTO) => {
     mutate(userData, {
@@ -56,11 +58,15 @@ const SignIn = ({ config }: SignUpProps) => {
 
   return (
     <div className={page}>
-      <UserForm config={layoutConfig} error={error} submitHandler={handleSubmit(() => submitHandler(getValues()))}>
+      <UserForm
+        config={layoutConfig}
+        error={serverError}
+        submitHandler={handleSubmit(() => submitHandler(getValues()))}
+      >
         <TextInput register={register("email")} placeholder="john.doe@gmail.com" errorMsg={errors.email?.message} />
         <TextInput register={register("password")} placeholder="password" errorMsg={errors.password?.message} />
         <Button name={`${formName}-button`} type="submit" variant="outlined">
-          Login
+          {layoutConfig.title}
         </Button>
       </UserForm>
     </div>
