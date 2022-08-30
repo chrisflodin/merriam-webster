@@ -1,11 +1,7 @@
-import { UseMutationResult } from "@tanstack/react-query";
-import { useCreateUser, useSignIn } from "../../api/auth/userHooks";
-import { ServerError } from "../../types/errors";
-import { IAuthData, IServerError } from "../../types/responseData";
 import { UserDTO } from "../../types/user";
 import { signUpSchema } from "./validation";
 import * as yup from "yup";
-import { AxiosError } from "axios";
+import URLS from "../../api/urls";
 
 export type FormLayoutConfig = {
   title: string;
@@ -17,17 +13,11 @@ export type FormLayoutConfig = {
 export type FormConfig = {
   layoutConfig: FormLayoutConfig;
   formConfig: {
-    mutateHook: () => UseMutationResult<IAuthData, AxiosError<IServerError>, UserDTO, IAuthData>;
+    apiUri: string;
     formName: string;
     validationSchema: yup.SchemaOf<UserDTO> | null;
   };
 };
-
-// export const LoginFormConfig: FormConfig = {
-//   mutateHook: useCreateUser,
-//   formName: "login",
-//   schema: null,
-// };
 
 export const SignUpConfig: FormConfig = {
   layoutConfig: {
@@ -37,7 +27,7 @@ export const SignUpConfig: FormConfig = {
     textEnd: "Login",
   },
   formConfig: {
-    mutateHook: useCreateUser,
+    apiUri: URLS.SIGN_UP_URL,
     formName: "signUp",
     validationSchema: signUpSchema,
   },
@@ -51,7 +41,7 @@ export const LoginConfig: FormConfig = {
     textEnd: "Sign-up",
   },
   formConfig: {
-    mutateHook: useSignIn,
+    apiUri: URLS.SIGN_IN_URL,
     formName: "login",
     validationSchema: signUpSchema,
   },

@@ -10,12 +10,12 @@ type FormLayoutProps = {
   children?: React.ReactElement[] | React.ReactElement;
   config: FormLayoutConfig;
   error: ServerError | null;
+  isError: boolean;
   submitHandler: (e?: React.BaseSyntheticEvent<any> | undefined) => Promise<void>;
 };
 
-export const UserForm = ({ config, error, submitHandler, children }: FormLayoutProps) => {
+export const UserForm = ({ config, isError, error, submitHandler, children }: FormLayoutProps) => {
   const { title, route, textEnd, textStart } = config;
-  console.log(error);
 
   return (
     <form name={title} onSubmit={submitHandler}>
@@ -26,7 +26,7 @@ export const UserForm = ({ config, error, submitHandler, children }: FormLayoutP
         <p className={switchPromptStyle}>
           {textStart} <Link to={() => route}>{textEnd}</Link>
         </p>
-        <FormError error={error} />
+        {isError && <FormError error={error} />}
       </div>
     </form>
   );

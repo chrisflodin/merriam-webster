@@ -1,3 +1,4 @@
+import axios, { AxiosError } from "axios";
 import { IServerError } from "./responseData";
 
 export class ServerError extends Error {
@@ -14,6 +15,19 @@ export class ServerError extends Error {
     this.type = type;
     this.statusCode = statusCode;
     return this;
+  };
+
+  fromAxios = (axiosError: AxiosError<IServerError>): ServerError | Error => {
+    const { response, message } = axiosError;
+    if (!(axiosError instanceof AxiosError) || !response) throw Error("Axios call does not return axios error");
+
+    // Request never received a response with data
+    const { data } = response;
+    if (!data) return new Error(message);
+
+    // Request received a response
+    const { error, statusCode, type } = data;
+    return new ServerError(error, statusCode, type);
   };
 
   getError = () => {
