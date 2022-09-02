@@ -2,7 +2,7 @@ import mongoose, { ObjectId } from "mongoose";
 
 export interface IAuthData {
   token: string;
-  data: {
+  user: {
     _id: mongoose.Types.ObjectId | string;
     email: string;
   };

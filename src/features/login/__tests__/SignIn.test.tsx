@@ -1,13 +1,10 @@
 import { mountComponentWithDeps } from "../../../utils/tests/mountComponentWithDeps";
-import * as userHooks from "../../../api/auth/userHooks";
-import { ServerError } from "../../../types/errors";
 import { IAuthData } from "../../../types/responseData";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { UserDTO } from "../../../types/user";
-import { handleAxiosError } from "../../../utils/axios";
 import axios, { AxiosResponse } from "axios";
 import SignIn from "../SignIn";
+import { SignUpConfig } from "../config";
 
 const mockEmail = "firstname.lastname@gmail.com",
   mockPassword = "1234",
@@ -15,14 +12,14 @@ const mockEmail = "firstname.lastname@gmail.com",
   //   mockId = new mongoose.Types.ObjectId(),
   mockToken = "123456789";
 
-function axiosResponse(): Promise<AxiosResponse<IAuthData>> {
+function mockAxiosResponse(): Promise<AxiosResponse<IAuthData>> {
   const response = {
     status: 200,
     config: {},
     headers: {},
     statusText: "Mock",
     data: {
-      data: {
+      user: {
         email: mockEmail,
         _id: mockId,
       },
@@ -33,27 +30,29 @@ function axiosResponse(): Promise<AxiosResponse<IAuthData>> {
 }
 
 describe("Sign Up form", () => {
-  const mock = jest.spyOn(axios, "post").mockReturnValue(axiosResponse());
+  const mock = jest.spyOn(axios, "post").mockReturnValue(mockAxiosResponse());
 
   // Arrange
   beforeEach(() => {
-    mountComponentWithDeps(<SignIn></SignIn>);
+    mountComponentWithDeps(<SignIn config={SignUpConfig}></SignIn>);
   });
 
   it("fills out the form and submits", async () => {
+    // Arrange
+    const emailField = screen.getByPlaceholderText(/john.doe@gmail.com/);
+    const passwordField = screen.getByPlaceholderText(/password/);
+    const btn = screen.getByRole("button");
+
     // Act
-    userEvent.type(screen.getByPlaceholderText(/john.doe@gmail.com/), mockEmail);
-    userEvent.type(screen.getByPlaceholderText(/password/), mockPassword);
-    userEvent.click(screen.getByRole("button"));
+    userEvent.type(emailField, mockEmail);
+    userEvent.type(passwordField, mockPassword);
+    userEvent.click(btn);
 
     // Assert
     await waitFor(() => {
-      expect(screen.getByPlaceholderText(/john.doe@gmail.com/)).toHaveValue("");
-      expect(screen.getByPlaceholderText(/password/)).toHaveValue("");
+      expect(emailField).toHaveValue("");
+      expect(passwordField).toHaveValue("");
     });
     expect(mock).toHaveBeenCalled();
   });
 });
-function useMutation<T, U, V, W>(arg0: (data: any) => any, arg1: { onError: (err: any) => void }) {
-  throw new Error("Function not implemented.");
-}

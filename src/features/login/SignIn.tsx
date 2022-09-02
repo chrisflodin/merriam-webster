@@ -52,7 +52,7 @@ const SignIn = ({ config }: SignUpProps) => {
   }, [location]);
 
   useEffect(() => {
-    // if (data) authCtx.handleSignIn(data.data._id.toString());
+    // if (data) authCtx.handleSignIn(data.user._id.toString());
   }, [data]);
 
   return (
@@ -65,7 +65,7 @@ const SignIn = ({ config }: SignUpProps) => {
       >
         <TextInput register={register("email")} placeholder="john.doe@gmail.com" errorMsg={errors.email?.message} />
         <TextInput register={register("password")} placeholder="password" errorMsg={errors.password?.message} />
-        <Button name={`${formName}-button`} type="submit" variant="outlined">
+        <Button classes="" name={`${formName}-button`} type="submit" variant="outlined">
           {layoutConfig.title}
         </Button>
       </UserForm>

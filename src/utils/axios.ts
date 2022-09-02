@@ -21,10 +21,9 @@ export const handleAxiosError = (e: any): ServerError => {
   return new ServerError();
 };
 
-export const generateAxiosMethod = async <T>(axiosMethod: AxiosMethod, url: string, payload: any): Promise<T> => {
+export const handleAxiosMethod = async <T>(axiosMethod: AxiosMethod, url: string, payload: any): Promise<T> => {
   try {
-    const response = axiosMethod<T>(url, payload);
-    return (await response).data;
+    return axiosMethod(url, payload);
   } catch (err) {
     if (err instanceof AxiosError) return Promise.reject(new ServerError().fromAxios(err));
     return Promise.reject(new ServerError());

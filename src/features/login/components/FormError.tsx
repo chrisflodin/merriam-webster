@@ -9,4 +9,10 @@ type FormFieldProps = {
 };
 
 export const FormError = ({ error }: FormFieldProps) =>
-  error ? <p className={errorStyle}>{getError(error)}</p> : <></>;
+  error ? (
+    <p id="FormError" className={errorStyle}>
+      {getError(error)}
+    </p>
+  ) : (
+    <></>
+  );

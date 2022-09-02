@@ -32,7 +32,7 @@ const TextInput = ({
     <>
       <div className={container}>
         {label && <label>{label}</label>}
-        <input {...register} value={value} id={type} type={textType} placeholder={placeholder} {...rest} />
+        <input value={value} id={type} type={textType} placeholder={placeholder} {...register} {...rest} />
         {errorMsg && <p className={errorStyle}>{errorMsg}</p>}
       </div>
     </>
