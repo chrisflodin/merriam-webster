@@ -1,4 +1,4 @@
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Main from "./features/main";
 import { useContext } from "react";
 import { AuthContext } from "./providers/AuthContextProvider";
@@ -14,7 +14,7 @@ const Routes = () => {
   return (
     <div style={{ height: "100vh" }}>
       <Switch>
-        <ProtectedRoute exact path="/">
+        <ProtectedRoute exact path="/merriam-webster">
           <Main />
         </ProtectedRoute>
 
@@ -25,6 +25,8 @@ const Routes = () => {
         <Route exact path={SIGN_IN}>
           <SignIn config={LoginConfig} />
         </Route>
+
+        <Redirect path="/" to="/merriam-webster"></Redirect>
 
         <Route path="*">
           <div>404</div>

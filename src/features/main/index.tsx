@@ -12,66 +12,37 @@ import Button from "../../components/Button/Button";
 import Loader from "../../components/Loader/Loader";
 import KeywordFilter from "./components/KeywordFilter/KeywordFilter";
 import SynonymsList from "./components/SynonymsList/SynonymsList";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import URLS from "../../api/urls";
+import { ServerError } from "../../types/errors";
+import { MerriamDTO } from "./types";
 
 const { signOutButton, h1, container } = style;
 
 const Main = () => {
-  const auth = useContext(AuthContext);
-  const history = useHistory();
-  const query = useQuery();
-  const [isLoading, setIsLoading] = useState(true);
-  const [wordData, setWordData] = useState<MerriamWord>();
-  const [filter, setFilter] = useState<Map<string, boolean>>(WordFilterMap);
+  const { handleSignOut } = useContext(AuthContext);
+  // const [filter, setFilter] = useState<Map<string, boolean>>(WordFilterMap);
+  const { token } = useContext(AuthContext);
 
-  const updateFilterHandler = (filterItem: string): void => {
-    setIsLoading(true);
-    updateUrl(filterItem, history);
-    setActiveFilter(filterItem);
-  };
-
-  const setActiveFilter = (filterItem: string): void => {
-    const newFilter = new Map(filter);
-
-    for (let [key, val] of newFilter.entries()) {
-      if (val) newFilter.set(key, false);
-    }
-
-    newFilter.set(filterItem, true);
-    setFilter(newFilter);
-  };
-
-  const getMerriamData = async (filterItem: string): Promise<void> => {
-    const data = await fetchWord(filterItem, auth.token);
-    setWordData(data);
-    setIsLoading(false);
-  };
-
-  const setDefaultQueryString = (): void => {
-    history.push({
-      pathname: "",
-      search: "?search=" + DefaultWord,
-    });
-
-    setActiveFilter(DefaultWord);
-  };
-
-  useEffect(() => {
-    getMerriamData(getActiveFilter(filter));
-  }, [filter]);
-
-  useEffect(() => {
-    if (validateQuery(query.get("search"), filter)) return;
-    setDefaultQueryString();
-  }, [history]);
+  const { mutate } = useMutation<MerriamWord, ServerError, MerriamDTO, MerriamWord>(fetchWord, {
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
 
   return (
     <div className={container}>
       <h1 className={h1}>keywords</h1>
-      <KeywordFilter filter={filter} updateFilterHandler={updateFilterHandler}></KeywordFilter>
-      {isLoading ? <Loader /> : <SynonymsList data={wordData}></SynonymsList>}
-      <Button classes={signOutButton} onClick={auth.handleSignOut}>
+      {/* <KeywordFilter filter={filter} updateFilterHandler={updateFilterHandler}></KeywordFilter> */}
+      {/* {isLoading ? <Loader /> : <SynonymsList data={wordData}></SynonymsList>} */}
+      <Button classes={signOutButton} onClick={handleSignOut}>
         Sign out
       </Button>
+      <Button onClick={() => mutate({ searchTerm: "strength", token: token })}>Fetch</Button>
     </div>
   );
 };

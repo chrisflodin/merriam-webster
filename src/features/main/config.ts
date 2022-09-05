@@ -1,6 +1,6 @@
 export const WordFilterMap: Map<string, boolean> = new Map();
 
-["strength", "intellect", "dexterity"].forEach((word, i, arr) => {
+["strength", "intellect", "dexterity"].forEach((word, i) => {
   if (i === 0) {
     WordFilterMap.set(word, true);
     return;

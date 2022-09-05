@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import React, { useState } from "react";
 
 interface AuthorizationContext {
@@ -15,16 +16,16 @@ export const AuthContext = React.createContext<AuthorizationContext>({
 });
 
 export const AuthContextProvider = ({ children }: { children: React.ReactElement[] | React.ReactElement }) => {
-  const [token, setToken] = useState(localStorage.getItem("Authorization") || "");
+  const [token, setToken] = useState(Cookies.get("Authorization") || "");
   const isAuthenticated = token.length > 0;
 
   const handleSignIn = (token: string) => {
-    localStorage.setItem("Authorization", token);
+    Cookies.set("Authorization", token);
     setToken(token);
   };
 
   const handleSignOut = () => {
-    localStorage.removeItem("Authorization");
+    Cookies.remove("Authorization");
     setToken("");
   };
 

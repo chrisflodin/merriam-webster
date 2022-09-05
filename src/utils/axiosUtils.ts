@@ -1,12 +1,16 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { ServerError } from "../types/errors";
-import { IAuthData, IServerError } from "../types/responseData";
+import { IServerError } from "../types/responseData";
 
-type AxiosMethod = <T = any, R = AxiosResponse<T>, D = any>(
+type AxiosPost = <T = any, R = AxiosResponse<T>, D = any>(
   url: string,
   data?: D,
   config?: AxiosRequestConfig<D>
 ) => Promise<R>;
+
+type AxiosGet = <T = any, R = AxiosResponse<T>, D = any>(url: string, config?: AxiosRequestConfig<D>) => Promise<R>;
+
+type AxiosMethod = AxiosPost | AxiosGet;
 
 export const transformAxiosError = (axiosErr: AxiosError<IServerError> | null): ServerError | null => {
   if (axiosErr && axiosErr.response?.data) return new ServerError().buildError(axiosErr.response.data);
@@ -21,9 +25,9 @@ export const handleAxiosError = (e: any): ServerError => {
   return new ServerError();
 };
 
-export const handleAxiosMethod = async <T>(axiosMethod: AxiosMethod, url: string, payload: any): Promise<T> => {
+export const handleAxiosMethod = async <T>(axiosMethod: any): Promise<T> => {
   try {
-    return axiosMethod(url, payload);
+    return (await axiosMethod()).data;
   } catch (err) {
     if (err instanceof AxiosError) return Promise.reject(new ServerError().fromAxios(err));
     return Promise.reject(new ServerError());

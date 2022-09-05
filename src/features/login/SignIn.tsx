@@ -10,7 +10,7 @@ import { FormConfig } from "./config";
 import Button from "../../components/Button/Button";
 import TextInput from "../../components/TextInput/TextInput";
 import { UserForm } from "./components/FormLayout";
-import { useAuthMutation } from "../../api/auth/userHooks";
+import { useAuthMutation } from "../../api/auth/userMutation";
 
 const { page } = loginStyles;
 type SignUpProps = {
@@ -31,16 +31,17 @@ const SignIn = ({ config }: SignUpProps) => {
     getValues,
   } = useForm<UserDTO>(validation);
 
-  const authCtx = useContext(AuthContext),
+  const { handleSignIn } = useContext(AuthContext),
     history = useHistory(),
     location = useLocation();
 
-  const { mutate, data, isError, error, reset: resetMutation } = useAuthMutation(apiUri);
+  const { mutate, isError, error, reset: resetMutation } = useAuthMutation(apiUri);
 
   const submitHandler = async (userData: UserDTO) => {
     mutate(userData, {
-      onSuccess: () => {
-        // history.replace("/");
+      onSuccess: (authData) => {
+        history.replace("/");
+        if (authData) handleSignIn(authData.token);
         reset();
       },
     });
@@ -51,10 +52,6 @@ const SignIn = ({ config }: SignUpProps) => {
     resetMutation();
   }, [location]);
 
-  useEffect(() => {
-    // if (data) authCtx.handleSignIn(data.user._id.toString());
-  }, [data]);
-
   return (
     <div className={page}>
       <UserForm
@@ -64,8 +61,13 @@ const SignIn = ({ config }: SignUpProps) => {
         submitHandler={handleSubmit(() => submitHandler(getValues()))}
       >
         <TextInput register={register("email")} placeholder="john.doe@gmail.com" errorMsg={errors.email?.message} />
-        <TextInput register={register("password")} placeholder="password" errorMsg={errors.password?.message} />
-        <Button classes="" name={`${formName}-button`} type="submit" variant="outlined">
+        <TextInput
+          register={register("password")}
+          placeholder="password"
+          errorMsg={errors.password?.message}
+          type="password"
+        />
+        <Button name={`${formName}-button`} type="submit" variant="outlined">
           {layoutConfig.title}
         </Button>
       </UserForm>

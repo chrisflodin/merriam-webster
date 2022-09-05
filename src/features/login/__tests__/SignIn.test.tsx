@@ -1,36 +1,15 @@
 import { mountComponentWithDeps } from "../../../utils/tests/mountComponentWithDeps";
-import { IAuthData } from "../../../types/responseData";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import axios, { AxiosResponse } from "axios";
 import SignIn from "../SignIn";
 import { SignUpConfig } from "../config";
+import * as axiosUtils from "../../../utils/axiosUtils";
 
 const mockEmail = "firstname.lastname@gmail.com",
-  mockPassword = "1234",
-  mockId = "123456789",
-  //   mockId = new mongoose.Types.ObjectId(),
-  mockToken = "123456789";
-
-function mockAxiosResponse(): Promise<AxiosResponse<IAuthData>> {
-  const response = {
-    status: 200,
-    config: {},
-    headers: {},
-    statusText: "Mock",
-    data: {
-      user: {
-        email: mockEmail,
-        _id: mockId,
-      },
-      token: mockToken,
-    },
-  } as AxiosResponse<IAuthData>;
-  return Promise.resolve(response);
-}
+  mockPassword = "1234";
 
 describe("Sign Up form", () => {
-  const mock = jest.spyOn(axios, "post").mockReturnValue(mockAxiosResponse());
+  const mock = jest.spyOn(axiosUtils, "handleAxiosMethod");
 
   // Arrange
   beforeEach(() => {

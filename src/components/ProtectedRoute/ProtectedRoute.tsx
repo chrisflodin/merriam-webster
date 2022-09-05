@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children, path, exact = false }: ProtectedRouteProps) 
     <Route
       exact={exact}
       path={path}
-      render={() => (isAuthenticated ? children : <Redirect to={"/login"}></Redirect>)}
+      render={() => (isAuthenticated ? children : <Redirect to="/login"></Redirect>)}
     ></Route>
   );
 };
