@@ -2,35 +2,35 @@ import Cookies from "js-cookie";
 import React, { useState } from "react";
 
 interface AuthorizationContext {
-  token: string;
+  authToken: string;
   isAuthenticated: boolean;
-  handleSignIn: (token: string) => void;
+  handleSignIn: (authToken: string) => void;
   handleSignOut: () => void;
 }
 
 export const AuthContext = React.createContext<AuthorizationContext>({
-  token: "",
+  authToken: "",
   isAuthenticated: false,
   handleSignOut: () => {},
   handleSignIn: () => {},
 });
 
 export const AuthContextProvider = ({ children }: { children: React.ReactElement[] | React.ReactElement }) => {
-  const [token, setToken] = useState(Cookies.get("Authorization") || "");
-  const isAuthenticated = token.length > 0;
+  const [authToken, setAuthToken] = useState(Cookies.get("Authorization") || "");
+  const isAuthenticated = authToken.length > 0;
 
-  const handleSignIn = (token: string) => {
-    Cookies.set("Authorization", token);
-    setToken(token);
+  const handleSignIn = (authToken: string) => {
+    Cookies.set("Authorization", authToken);
+    setAuthToken(authToken);
   };
 
   const handleSignOut = () => {
     Cookies.remove("Authorization");
-    setToken("");
+    setAuthToken("");
   };
 
   const context = {
-    token,
+    authToken,
     isAuthenticated,
     handleSignIn,
     handleSignOut,

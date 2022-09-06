@@ -2,7 +2,7 @@ import style from "./Button.module.scss";
 import classNames from "classnames";
 import { MouseEventHandler } from "react";
 
-const { flat, outlined, selectedStyle, baseStyle } = style;
+const { flat, outlined, selectedStyle } = style;
 
 interface ButtonProps {
   children?: string;
@@ -27,7 +27,6 @@ const Button = ({
 }: ButtonProps) => {
   const variantStyle = variant === "outlined" ? outlined : flat;
   const styles = classNames({
-    [baseStyle]: baseStyle,
     [selectedStyle]: selected,
     [variantStyle]: variantStyle,
     [classes]: classes,

@@ -1,15 +1,19 @@
 import style from "./SynonymsList.module.scss";
 import { MerriamWord } from "../../../../api/merriam-webster/types";
 import { formatWords } from "./utils";
+import Loader from "../../../../components/Loader/Loader";
 
 const { container, h1, sense, meaning, synsPara, antonymTitle, synNumber } = style;
 
 interface SynonymsProps {
   data: MerriamWord | undefined;
+  isSuccess: boolean;
 }
 
-const SynonymsList = ({ data }: SynonymsProps) => {
-  const senses = data?.senses.map((word, num) => {
+const SynonymsList = ({ data, isSuccess }: SynonymsProps) => {
+  if (!isSuccess || !data) return <Loader />;
+
+  const wordList = data.senses.map((word, num) => {
     const antonyms = formatWords(word.antonyms);
     const synonyms = formatWords(word.synonyms);
 
@@ -27,7 +31,7 @@ const SynonymsList = ({ data }: SynonymsProps) => {
   return (
     <div className={container}>
       <h2 className={h1}>synonyms</h2>
-      {senses}
+      {wordList}
     </div>
   );
 };
