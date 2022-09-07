@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { IServerError } from "./responseData";
 
 export class ServerError extends Error {
@@ -8,14 +8,6 @@ export class ServerError extends Error {
     this.type = type || null;
     this.statusCode = statusCode || 500;
   }
-
-  buildError = (err: IServerError) => {
-    const { error, type, statusCode } = err;
-    this.message = error;
-    this.type = type;
-    this.statusCode = statusCode;
-    return this;
-  };
 
   fromAxios = (axiosError: AxiosError<IServerError>): ServerError | Error => {
     const { response, message } = axiosError;

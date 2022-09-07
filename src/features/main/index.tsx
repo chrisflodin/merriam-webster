@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthContextProvider";
 import Button from "../../components/Button/Button";
 import KeywordFilter from "./components/KeywordFilter/KeywordFilter";
-import { useMerriam } from "../../api/merriam-webster";
+import { useMerriam } from "../../api/merriam-webster/useMerriam";
 import SynonymsList from "./components/SynonymsList/SynonymsList";
 
 const { signOutButton, h1, container } = style;

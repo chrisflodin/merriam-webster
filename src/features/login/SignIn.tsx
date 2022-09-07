@@ -10,7 +10,7 @@ import { FormConfig } from "./config";
 import Button from "../../components/Button/Button";
 import TextInput from "../../components/TextInput/TextInput";
 import { UserForm } from "./components/FormLayout";
-import { useAuthMutation } from "../../api/auth/userMutation";
+import { useAuth } from "../../api/auth/useAuth";
 
 const { page } = loginStyles;
 type SignUpProps = {
@@ -20,14 +20,13 @@ type SignUpProps = {
 const SignIn = ({ config }: SignUpProps) => {
   const { formConfig, layoutConfig } = config;
   const { formName, apiUri, validationSchema } = formConfig;
-  // Question: Why does this component render twice? (without React.StrictMode)
   const validation = validationSchema ? { resolver: yupResolver(signUpSchema) } : undefined;
 
   const {
     handleSubmit,
     register,
     formState: { errors },
-    reset,
+    reset: resetForm,
     getValues,
   } = useForm<UserDTO>(validation);
 
@@ -35,20 +34,20 @@ const SignIn = ({ config }: SignUpProps) => {
     history = useHistory(),
     location = useLocation();
 
-  const { mutate, isError, error, reset: resetMutation } = useAuthMutation(apiUri);
+  const { mutate, isError, error, reset: resetMutation } = useAuth(apiUri);
 
   const submitHandler = async (userData: UserDTO) => {
     mutate(userData, {
       onSuccess: (authData) => {
         history.replace("/");
         if (authData) handleSignIn(authData.token);
-        reset();
+        resetForm();
       },
     });
   };
 
   useEffect(() => {
-    reset();
+    resetForm();
     resetMutation();
   }, [location]);
 
