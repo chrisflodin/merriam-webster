@@ -1,4 +1,4 @@
-# Merriam Webster
+# Merriam Webster frontend
 
 1. Clone the frontend and backend repos from GitHub
    - Frontend - https://github.com/ChrisFlodin/chris-frontend
