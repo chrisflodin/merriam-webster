@@ -1,3 +1,5 @@
+# Merriam Webster
+
 ## Installation instructions
 
 1. Clone the frontend and backend repos from GitHub
