@@ -6,7 +6,7 @@ import { shutDownDb, startDb } from "../../utils/db";
 import { UserModel } from "../../models/user";
 import * as merriamWebster from "../../services/merriamService";
 import { mockFetchWord } from "../../services/mocks/merriamWebster";
-import { deleteAllUsers, saveUser } from "../../services/user";
+import { deleteAllUsers, saveUser } from "../../services/userService";
 import { JWT_SECRET } from "../../consts";
 
 const app = createApp();

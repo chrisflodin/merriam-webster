@@ -2,6 +2,7 @@ import { JWT_SECRET } from "../consts";
 import { UserModel } from "../models/user";
 import { Credentials, MongooseUser } from "../types/user";
 import jwt from "jsonwebtoken";
+import { AuthSuccessResponse } from "../types/response";
 
 export const getUserByEmail = (email: string): Promise<MongooseUser | null> => {
   return UserModel.findOne({ email }).exec();
@@ -15,14 +16,14 @@ export const saveUser = async (user: MongooseUser): Promise<MongooseUser> => {
   return user.save();
 };
 
-export const createUser = async (credentials: Credentials) => {
-  const newUser = new UserModel({ ...credentials, tokens: [] });
+export const createUser = async (credentials: Credentials): Promise<AuthSuccessResponse> => {
+  const newUser = new UserModel({ ...credentials });
 
   const token = newUser.generateAuthToken();
 
-  const savedUser = await saveUser(newUser);
+  const user = await saveUser(newUser);
 
-  return { savedUser, token };
+  return { user, token };
 };
 
 export const verifyJWT = (token: string) => {

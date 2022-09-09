@@ -1,26 +1,22 @@
 import { RequestHandler } from "express";
 import * as authService from "../services/authService";
-import * as userService from "../services/user";
+import * as userService from "../services/userService";
 import { Api500Error } from "../types/errors";
-import { MongooseUser } from "../types/user";
 import { hideUserData } from "../utils/hideUserData";
 import { StatusCodes } from "http-status-codes";
 
 export const createNewUser: RequestHandler = async (request, response) => {
   const { body } = request;
+  const { user, token } = await userService.createUser(body);
 
-  const { savedUser, token } = await userService.createUser(body);
-
-  response.status(StatusCodes.CREATED).send({ savedUser: hideUserData(savedUser), token: token });
+  response.status(StatusCodes.CREATED).send({ user: hideUserData(user), token: token });
 };
 
 export const loginUser: RequestHandler = async (_, response) => {
-  const user: MongooseUser = response.locals.user;
-
-  const { savedUser, token } = await authService.signIn(user);
+  const { user, token } = await authService.signIn(response.locals.user);
 
   response.status(StatusCodes.OK).send({
-    savedUser: hideUserData(savedUser),
+    user: hideUserData(user),
     token: token,
   });
 };

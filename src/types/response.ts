@@ -1,4 +1,4 @@
-import { IUser } from "./user";
+import { MongooseUser } from "./user";
 
 export interface ServerError {
   message: string;
@@ -10,5 +10,5 @@ export interface Response {
 }
 export interface AuthSuccessResponse {
   token: string;
-  data: IUser;
+  user: MongooseUser;
 }

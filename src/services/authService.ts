@@ -1,5 +1,6 @@
 import { UserModel } from "../models/user";
-import { getUserByEmail, saveUser, verifyJWT } from "./user";
+import { AuthSuccessResponse } from "../types/response";
+import { getUserByEmail, saveUser, verifyJWT } from "./userService";
 import { Credentials, MongooseUser } from "../types/user";
 import { Api400Error, Api401Error } from "../types/errors";
 import bcrypt from "bcrypt";
@@ -25,8 +26,8 @@ export const verifyUserCredentials = async (credentials: Credentials): Promise<M
   return user;
 };
 
-export const signIn = async (user: MongooseUser): Promise<{ savedUser: MongooseUser; token: string }> => {
-  const token = user.generateAuthToken();
-  const savedUser = await saveUser(user);
-  return { savedUser, token };
+export const signIn = async (u: MongooseUser): Promise<AuthSuccessResponse> => {
+  const token = u.generateAuthToken();
+  const user = await saveUser(u);
+  return { user, token };
 };

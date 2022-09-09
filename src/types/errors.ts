@@ -13,7 +13,8 @@ export class BaseError extends Error {
 
   getError = () => {
     return {
-      message: `${this.name}: ${this.message}`,
+      type: this.name,
+      error: this.message,
       statusCode: this.statusCode,
     };
   };
