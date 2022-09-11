@@ -7,11 +7,11 @@ import { ServerError } from "../../types/errors";
 
 export const useAuth = (apiUri: string): UseMutationResult<IAuthData, ServerError, UserDTO, any> =>
   useMutation<IAuthData, ServerError, UserDTO>(async (userDto) => {
-    const axiosConfig: AxiosRequestConfig = {
+    const authRequest: AxiosRequestConfig = {
       method: "post",
       url: apiUri,
       data: userDto,
     };
 
-    return handleAxiosMethod<IAuthData>(axiosConfig);
+    return handleAxiosMethod<IAuthData>(authRequest);
   });
