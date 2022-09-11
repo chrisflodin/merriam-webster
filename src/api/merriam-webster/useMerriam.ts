@@ -16,11 +16,11 @@ export const useMerriam = (params: Params): UseQueryResult<MerriamWord, ServerEr
   useQuery<MerriamWord, ServerError, MerriamWord, MerriamQueryKey>(["merriamWord", params], ({ queryKey }) => {
     const { filter, authToken } = queryKey[1];
 
-    const axiosConfig: AxiosRequestConfig = {
+    const getMerriamRequest: AxiosRequestConfig = {
       method: "get",
       url: `${URLS.FETCH_WORD}${filter}`,
       headers: { Authorization: authToken || "" },
     };
 
-    return handleAxiosMethod<MerriamWord>(axiosConfig);
+    return handleAxiosMethod<MerriamWord>(getMerriamRequest);
   });

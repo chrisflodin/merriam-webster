@@ -5,12 +5,12 @@ const { containerStyle, searchTermButton } = style;
 
 interface KeywordFilterProps {
   updateFilterHandler: (index: number) => void;
-  filterWords: string[];
+  filterOptions: string[];
   activeFilterIndex: number;
 }
 
-const KeywordFilter = ({ updateFilterHandler, activeFilterIndex, filterWords }: KeywordFilterProps) => {
-  const keywords = filterWords.map((word, i) => {
+const KeywordFilter = ({ updateFilterHandler, activeFilterIndex, filterOptions }: KeywordFilterProps) => {
+  const keywords = filterOptions.map((word, i) => {
     return (
       <Button
         classes={searchTermButton}
