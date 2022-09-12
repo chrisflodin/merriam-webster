@@ -1,4 +1,4 @@
-import style from "./Main.module.scss";
+import style from "./Merriam.module.scss";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthContextProvider";
 import Button from "../../components/Button/Button";
@@ -9,7 +9,7 @@ import SynonymsList from "./components/SynonymsList/SynonymsList";
 const { signOutButton, h1, container } = style;
 export const FilterOptions = ["strength", "intellect", "dexterity"];
 
-const Main = () => {
+const Merriam = () => {
   const [activeFilterIndex, setActiveFilterIndex] = useState(0);
   const filter = FilterOptions[activeFilterIndex];
   const { authToken } = useContext(AuthContext);
@@ -32,4 +32,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default Merriam;

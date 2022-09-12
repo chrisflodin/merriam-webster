@@ -1,5 +1,5 @@
 import { Redirect, Route, Switch } from "react-router-dom";
-import Main from "./features/main/main";
+import Merriam from "./features/merriam/Merriam";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { routing } from "./config/routing";
 import SignIn from "./features/login/SignIn";
@@ -12,7 +12,7 @@ const Routes = () => {
     <div style={{ height: "100vh" }}>
       <Switch>
         <ProtectedRoute exact path={MERRIAM}>
-          <Main />
+          <Merriam />
         </ProtectedRoute>
 
         <Route exact path={SIGN_UP}>
