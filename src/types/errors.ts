@@ -4,7 +4,7 @@ import { IServerError } from "./responseData";
 export class ServerError extends Error {
   constructor(public message: string = "Server Error", public statusCode?: number, public type?: string | null) {
     super(message);
-    this.message = message || "Server Error";
+    this.message = message || "Server Errorr";
     this.type = type || null;
     this.statusCode = statusCode || 500;
   }
