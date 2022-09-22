@@ -1,11 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAuth } from "../../../api/auth/useAuth";
 import Button from "../../../components/Button/Button";
 import TextInput from "../../../components/TextInput/TextInput";
-import { AuthContext } from "../../../providers/AuthContextProvider";
 import { UserDTO } from "../../../types/user";
 import { FormConfig } from "../config";
 import { signUpSchema } from "../validation";
@@ -20,52 +19,42 @@ type UserFormProps = {
 };
 
 export const UserForm = ({ config }: UserFormProps) => {
-  const { name, apiUri, validationSchema, title, type } = config;
+  const { name, validationSchema, title, type } = config;
   const validation = validationSchema ? { resolver: yupResolver(signUpSchema) } : undefined;
 
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors: formErrors },
     reset: resetForm,
     getValues,
   } = useForm<UserDTO>(validation);
 
-  const { handleSignIn } = useContext(AuthContext),
-    history = useHistory(),
-    location = useLocation();
-
-  const { mutate, isError, error, reset: resetMutation } = useAuth(apiUri);
+  const location = useLocation(),
+    auth = useAuth();
 
   const submitHandler = async (userData: UserDTO) => {
-    mutate(userData, {
-      onSuccess: (authData) => {
-        history.replace("/");
-        if (authData) handleSignIn(authData.token);
-        resetForm();
-      },
-    });
+    await auth.signIn(userData, resetForm);
   };
 
   useEffect(() => {
     resetForm();
-    resetMutation();
   }, [location]);
 
   return (
     <form className={formStyle} name={title} onSubmit={handleSubmit(() => submitHandler(getValues()))}>
-      <TextInput register={register("email")} placeholder="john.doe@gmail.com" errorMsg={errors.email?.message} />
+      <TextInput register={register("email")} placeholder="john.doe@gmail.com" errorMsg={formErrors.email?.message} />
       <TextInput
         register={register("password")}
         placeholder="password"
-        errorMsg={errors.password?.message}
+        errorMsg={formErrors.password?.message}
         type="password"
       />
       <Button classes={buttonStyle} name={`${name}-button`} type="submit" variant="outlined">
         {title}
       </Button>
       <SwitchPrompt type={type} />
-      <FormError isError={isError} error={error}></FormError>
+      <FormError error={auth.error}></FormError>
     </form>
   );
 };

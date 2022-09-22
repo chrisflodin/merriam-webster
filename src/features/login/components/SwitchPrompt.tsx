@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { FormType } from "../config";
 import style from "./SwitchPrompt.module.scss";
 
-const { switchPromptStyle, formStyle, buttonStyle } = style;
+const { switchPromptStyle } = style;
 
 type SwitchPromptProps = {
   type: FormType;

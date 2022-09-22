@@ -6,11 +6,10 @@ const { errorStyle } = style;
 
 type FormFieldProps = {
   error: Error | null;
-  isError: boolean;
 };
 
-export const FormError = ({ error, isError }: FormFieldProps) => {
-  if (isError)
+export const FormError = ({ error }: FormFieldProps) => {
+  if (error)
     return (
       <p id="FormError" className={errorStyle}>
         {getError(error)}
