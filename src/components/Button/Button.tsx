@@ -13,6 +13,7 @@ interface ButtonProps {
   name?: string;
   variant?: "flat" | "outlined";
   style?: React.CSSProperties;
+  disabled?: boolean;
 }
 
 const Button = ({
@@ -23,6 +24,7 @@ const Button = ({
   type = "button",
   variant = "flat",
   name,
+  disabled = false,
   ...rest
 }: ButtonProps) => {
   const variantStyle = variant === "outlined" ? outlined : flat;
@@ -34,7 +36,7 @@ const Button = ({
 
   return (
     <>
-      <button type={type} className={styles} onClick={onClick} name={name} {...rest}>
+      <button type={type} className={styles} onClick={onClick} name={name} disabled={disabled} {...rest}>
         {children}
       </button>
     </>

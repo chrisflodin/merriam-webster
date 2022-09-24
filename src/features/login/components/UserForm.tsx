@@ -28,14 +28,13 @@ export const UserForm = ({ config }: UserFormProps) => {
     formState: { errors: formErrors },
     reset: resetForm,
     getValues,
+    watch,
   } = useForm<UserDTO>(validation);
 
   const location = useLocation(),
     auth = useAuth();
 
-  const submitHandler = async (userData: UserDTO) => {
-    await auth.signIn(userData, resetForm);
-  };
+  const submitHandler = async (userData: UserDTO) => await auth.signIn(userData, resetForm);
 
   useEffect(() => {
     resetForm();
@@ -50,8 +49,8 @@ export const UserForm = ({ config }: UserFormProps) => {
         errorMsg={formErrors.password?.message}
         type="password"
       />
-      <Button classes={buttonStyle} name={`${name}-button`} type="submit" variant="outlined">
-        {title}
+      <Button classes={buttonStyle} name={`${name}-button`} type="submit" variant="outlined" disabled={auth.isLoading}>
+        {auth.isLoading ? "Loading..." : title}
       </Button>
       <SwitchPrompt type={type} />
       <FormError error={auth.error}></FormError>

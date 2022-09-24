@@ -9,13 +9,14 @@ import { useEffect } from "react";
 import Cookies from "js-cookie";
 import URLS from "../urls";
 
-interface UseAuth {
+export interface AuthState {
   signIn: (userData: UserDTO, cb: Function) => Promise<IAuthData>;
   signUp: (userData: UserDTO, cb: Function) => Promise<IAuthData>;
   signOut: () => void;
   error: ServerError | null;
   isAuthenticated: boolean;
   token: string | null;
+  isLoading: boolean;
 }
 
 interface Variables {
@@ -24,18 +25,20 @@ interface Variables {
   apiUrl?: string;
 }
 
-export const useAuth = (): UseAuth => {
+export const useAuth = (): AuthState => {
   const history = useHistory();
   const location = useLocation();
-  const { reset, mutateAsync, error } = useMutation<IAuthData, ServerError, Variables>(async ({ userDTO, apiUrl }) => {
-    const authRequest: AxiosRequestConfig = {
-      method: "post",
-      url: apiUrl,
-      data: userDTO,
-    };
+  const { reset, mutateAsync, error, isLoading } = useMutation<IAuthData, ServerError, Variables>(
+    async ({ userDTO, apiUrl }) => {
+      const authRequest: AxiosRequestConfig = {
+        method: "post",
+        url: apiUrl,
+        data: userDTO,
+      };
 
-    return handleAxiosMethod<IAuthData>(authRequest);
-  });
+      return handleAxiosMethod<IAuthData>(authRequest);
+    }
+  );
 
   useEffect(() => {
     reset();
@@ -63,5 +66,6 @@ export const useAuth = (): UseAuth => {
     error: error,
     isAuthenticated: Cookies.get("Authorization") && Cookies.get("Authorization")!.length > 0 ? true : false,
     token: Cookies.get("Authorization") || null,
+    isLoading,
   };
 };
