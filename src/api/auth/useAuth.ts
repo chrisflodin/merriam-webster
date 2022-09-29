@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import Cookies from "js-cookie";
 import URLS from "../urls";
 
-export interface AuthState {
+export interface Auth {
   signIn: (userData: UserDTO, cb: Function) => Promise<IAuthData>;
   signUp: (userData: UserDTO, cb: Function) => Promise<IAuthData>;
   signOut: () => void;
@@ -25,7 +25,7 @@ interface Variables {
   apiUrl?: string;
 }
 
-export const useAuth = (): AuthState => {
+export const useAuth = (): Auth => {
   const history = useHistory();
   const location = useLocation();
   const { reset, mutateAsync, error, isLoading } = useMutation<IAuthData, ServerError, Variables>(

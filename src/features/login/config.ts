@@ -5,21 +5,21 @@ import * as yup from "yup";
 export type FormType = "login" | "signup";
 
 export type FormConfig = {
-  type: FormType;
+  formType: FormType;
   title: string;
   name: string;
   validationSchema: yup.SchemaOf<UserDTO> | null;
 };
 
 export const SignUpConfig: FormConfig = {
-  type: "signup",
+  formType: "signup",
   title: "Sign up",
   name: "signUp",
   validationSchema: signUpSchema,
 };
 
 export const LoginConfig: FormConfig = {
-  type: "login",
+  formType: "login",
   title: "Login",
   name: "login",
   validationSchema: signUpSchema,

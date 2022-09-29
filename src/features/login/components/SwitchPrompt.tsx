@@ -5,11 +5,11 @@ import style from "./SwitchPrompt.module.scss";
 const { switchPromptStyle } = style;
 
 type SwitchPromptProps = {
-  type: FormType;
+  formType: FormType;
 };
 
-export const SwitchPrompt = ({ type }: SwitchPromptProps) => {
-  if (type === "login") {
+export const SwitchPrompt = ({ formType }: SwitchPromptProps) => {
+  if (formType === "login") {
     return (
       <p className={switchPromptStyle}>
         Don't have an account? <Link to={() => "/sign-up"}>Sign up</Link>

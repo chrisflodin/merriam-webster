@@ -19,7 +19,7 @@ type UserFormProps = {
 };
 
 export const UserForm = ({ config }: UserFormProps) => {
-  const { name, validationSchema, title, type } = config;
+  const { name, validationSchema, title, formType } = config;
   const validation = validationSchema ? { resolver: yupResolver(signUpSchema) } : undefined;
 
   const {
@@ -28,20 +28,24 @@ export const UserForm = ({ config }: UserFormProps) => {
     formState: { errors: formErrors },
     reset: resetForm,
     getValues,
-    watch,
   } = useForm<UserDTO>(validation);
 
   const location = useLocation(),
     auth = useAuth();
 
-  const submitHandler = async (userData: UserDTO) => await auth.signIn(userData, resetForm);
+  const submitHandler = async () => {
+    if (formType === "login") await auth.signIn(getValues(), resetForm);
+    else {
+      await auth.signUp(getValues(), resetForm);
+    }
+  };
 
   useEffect(() => {
     resetForm();
   }, [location]);
 
   return (
-    <form className={formStyle} name={title} onSubmit={handleSubmit(() => submitHandler(getValues()))}>
+    <form className={formStyle} name={title} onSubmit={handleSubmit(() => submitHandler())}>
       <TextInput register={register("email")} placeholder="john.doe@gmail.com" errorMsg={formErrors.email?.message} />
       <TextInput
         register={register("password")}
@@ -52,7 +56,7 @@ export const UserForm = ({ config }: UserFormProps) => {
       <Button classes={buttonStyle} name={`${name}-button`} type="submit" variant="outlined" disabled={auth.isLoading}>
         {auth.isLoading ? "Loading..." : title}
       </Button>
-      <SwitchPrompt type={type} />
+      <SwitchPrompt formType={formType} />
       <FormError error={auth.error}></FormError>
     </form>
   );
