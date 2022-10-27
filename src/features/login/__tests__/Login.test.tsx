@@ -1,7 +1,7 @@
 import { mountComponentWithDeps } from "../../../utils/tests/mountComponentWithDeps";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import SignIn from "../SignIn";
+import Login from "../Login";
 import { SignUpConfig } from "../config";
 import * as axiosUtils from "../../../utils/axiosUtils";
 
@@ -13,7 +13,7 @@ describe("Sign Up form", () => {
 
   // Arrange
   beforeEach(() => {
-    mountComponentWithDeps(<SignIn config={SignUpConfig}></SignIn>);
+    mountComponentWithDeps(<Login config={SignUpConfig}></Login>);
   });
 
   it("fills out the form and submits", async () => {

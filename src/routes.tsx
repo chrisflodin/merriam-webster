@@ -2,7 +2,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import Merriam from "./features/merriam/Merriam";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { routing } from "./config/routing";
-import SignIn from "./features/login/SignIn";
+import Login from "./features/login/Login";
 import { LoginConfig, SignUpConfig } from "./features/login/config";
 
 const Routes = () => {
@@ -16,11 +16,11 @@ const Routes = () => {
         </ProtectedRoute>
 
         <Route exact path={SIGN_UP}>
-          <SignIn config={SignUpConfig} />
+          <Login config={SignUpConfig} />
         </Route>
 
         <Route exact path={SIGN_IN}>
-          <SignIn config={LoginConfig} />
+          <Login config={LoginConfig} />
         </Route>
 
         <Redirect path="/" to={MERRIAM}></Redirect>

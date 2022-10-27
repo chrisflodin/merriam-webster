@@ -1,14 +1,14 @@
 import { FormConfig } from "./config";
 import { UserForm } from "./components/UserForm";
-import styles from "./SignIn.module.scss";
+import styles from "./Login.module.scss";
 
-type SignInProps = {
+type LoginProps = {
   config: FormConfig;
 };
 
 const { container, pageStyle } = styles;
 
-const SignIn = ({ config }: SignInProps) => {
+const Login = ({ config }: LoginProps) => {
   const { title } = config;
 
   return (
@@ -22,4 +22,4 @@ const SignIn = ({ config }: SignInProps) => {
   );
 };
 
-export default SignIn;
+export default Login;
