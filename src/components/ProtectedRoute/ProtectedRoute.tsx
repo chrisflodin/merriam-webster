@@ -1,7 +1,6 @@
 import { Redirect, Route } from "react-router-dom";
-import { useContext } from "react";
-// import { AuthContext } from "../../providers/AuthContextProvider";
 import { useAuth } from "../../api/auth/useAuth";
+import { routing } from "../../config/routing";
 
 interface ProtectedRouteProps {
   children: any;
@@ -16,7 +15,7 @@ const ProtectedRoute = ({ children, path, exact = false }: ProtectedRouteProps) 
     <Route
       exact={exact}
       path={path}
-      render={() => (auth.isAuthenticated ? children : <Redirect to="/login"></Redirect>)}
+      render={() => (auth.isAuthenticated ? children : <Redirect to={routing.SIGN_UP}></Redirect>)}
     ></Route>
   );
 };
