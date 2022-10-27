@@ -1,7 +1,9 @@
 import { MongooseUser } from "./user";
 
 export interface ServerError {
-  message: string;
+  type: string;
+  error: string;
+  statusCode: number;
 }
 
 export interface Response {

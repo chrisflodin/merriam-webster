@@ -1,104 +1,64 @@
-it("is Work in progress!", () => {});
+import request from "supertest";
+import { HTTPError } from "superagent";
+import { createApp } from "../../app";
+import { createUser, deleteAllUsers } from "../../services/userService";
+import { UserDTO, SaveUserResponse } from "../../types/user";
+import { ServerError } from "../../types/response";
 
-// import request from "supertest";
-// import { createApp } from "../../app";
-// import { shutDownDb, startDb } from "../../utils/db";
-// import { createUser, deleteAllUsers } from "../../services/user";
-// import { Credentials } from "../../types/user";
-// import { UserModel } from "../../models/user";
-// import { logDBUsers } from "../../utils/test/user";
+const app = createApp();
 
-// interface SaveUserResponse {
-//   user: {
-//     email: string;
-//     _id: string;
-//     password: string;
-//   };
-//   token: string;
-// }
+const validCredentials: UserDTO = {
+  email: "test@gmail.com",
+  password: "1234",
+};
 
-// const app = createApp();
+const invalidCredentials: UserDTO = {
+  email: "testgmail.com",
+  password: "123",
+};
 
-// const userCredentials: Credentials = {
-//   email: "chris.flodin@gmail.com",
-//   password: "1234",
-// };
+afterEach(async () => {
+  await deleteAllUsers();
+});
 
-// describe("User routes", () => {
-//   beforeAll(async () => {
-//     await startDb();
-//   });
+describe("Route: /user/new", () => {
+  describe("given user has valid credentials", () => {
+    it("should return 201 and possess a correct object structure", async () => {
+      const response = await request(app).post("/user/new").send(validCredentials).expect(201);
+      const body = response.body as SaveUserResponse;
 
-//   afterEach(async () => {
-//     await deleteAllUsers();
-//   });
+      expect(response.status).toBe(201);
+      expect(body).toEqual(
+        expect.objectContaining({
+          user: expect.objectContaining({
+            _id: expect.any(String),
+            email: expect.any(String),
+          }),
+          token: expect.any(String),
+        })
+      );
+    });
+  });
+  describe("given user has invalid credentials", () => {
+    it("should return 400", async () => {
+      await request(app).post("/user/new").send(invalidCredentials).expect(400);
+    });
+  });
+  describe("given user has no credentials", () => {
+    it("should return 400", async () => {
+      await request(app).post("/user/new").send().expect(400);
+    });
+  });
+  describe("given user already exists", () => {
+    it("should return 400", async () => {
+      // Arrange
+      await createUser(validCredentials);
 
-//   afterAll(async () => {
-//     await shutDownDb();
-//   });
-
-//   describe("Route: /user/new", () => {
-//     describe("given user has valid credentials", () => {
-//       it("should return a 201 status code", async () => {
-//         await logDBUsers();
-//         const { status, body }: { status: number; body: SaveUserResponse } = await request(app)
-//           .post("/user/new")
-//           .send(userCredentials);
-
-//         const { user, token } = body;
-
-//         expect(status).toBe(201);
-//         expect(token).toEqual(expect.any(String));
-//         expect(user).toEqual(
-//           expect.objectContaining({
-//             email: expect.any(String),
-//             _id: expect.any(String),
-//           })
-//         );
-//       });
-
-//       it("should only return: EMAIL, ID, TOKEN", async () => {
-//         const { body }: { status: number; body: SaveUserResponse } = await request(app)
-//           .post("/user/new")
-//           .send(userCredentials);
-
-//         const { user } = body;
-
-//         expect(Object.keys(body)).toEqual(["user", "token"]);
-//         expect(body).toEqual(
-//           expect.objectContaining({
-//             user: expect.any(Object),
-//             token: expect.any(String),
-//           })
-//         );
-
-//         expect(Object.keys(user)).toEqual(["email", "_id"]);
-//         expect(user).toEqual(
-//           expect.objectContaining({
-//             _id: expect.any(String),
-//             email: expect.any(String),
-//           })
-//         );
-//       });
-//     });
-
-//     describe("given user has invalid credentials", () => {
-//       it("should return a 400 status code", async () => {
-//         await request(app).post("/user/new").send({ email: "invalid email", password: "invalid password" }).expect(400);
-//       });
-//     });
-
-//     describe("given user has no credentials", () => {
-//       it("should return a 400 status code", async () => {
-//         await request(app).post("/user/new").expect(400);
-//       });
-//     });
-
-//     describe("given user already exists", () => {
-//       it("should return a 400 status code", async () => {
-//         await createUser(userCredentials);
-//         await request(app).post("/user/new").send(userCredentials).expect(400);
-//       });
-//     });
-//   });
-// });
+      // Act & Assert
+      const res = await request(app).post("/user/new").send(validCredentials).expect(400);
+      const error = res.error as HTTPError;
+      const serverError = JSON.parse(error.text) as ServerError;
+      expect(serverError.error).toBe("User already exists");
+    });
+  });
+});
