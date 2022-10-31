@@ -2,7 +2,7 @@
 
 A simple full stack application for demonstration purposes 💫
 
-# Starting the application
+## Starting the application
 
 ### With Docker
 
@@ -33,7 +33,7 @@ This simple application allows you to create and sign in as a user. It fetches s
 - Run tests with `npm run test`
 - Environment variables are exposed with sensitive information, normally this is **really bad,** but for this demonstrative project, there are no consequences with exposing secret keys etc.
 
-# Used stack
+## Used stack
 
 ### Frontend
 
