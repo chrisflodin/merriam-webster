@@ -58,6 +58,7 @@
     "@types/classnames": "^2.3.1",
     "@types/mongoose": "^5.11.97",
     "@types/validator": "^13.7.2",
+    "nodemon": "^2.0.20",
     "sass": "^1.52.2"
   }
 }
