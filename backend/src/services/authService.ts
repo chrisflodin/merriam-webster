@@ -3,7 +3,7 @@ import { AuthSuccessResponse } from "../types/response";
 import { getUserByEmail, saveUser, verifyJWT } from "./userService";
 import { Credentials, MongooseUser } from "../types/user";
 import { Api400Error, Api401Error } from "../types/errors";
-import bcrypt from "bcrypt";
+const bcrypt = require("bcryptjs");
 
 export const authorizeUser = async (token: string): Promise<MongooseUser | null> => {
   const verified = verifyJWT(token);

@@ -1,3 +1,3 @@
-import { hash } from "bcrypt";
+const bcrypt = require("bcryptjs");
 
-export const hashText = (text: string) => hash(text, 8);
+export const hashText = (text: string) => bcrypt.hashSync("bacon", 8);
