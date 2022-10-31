@@ -1,13 +1,14 @@
+import { useEffect } from "react";
+import { handleAxiosMethod } from "../../utils/axiosUtils";
 import { UserDTO } from "../../types/user";
 import { IAuthData } from "../../types/responseData";
 import { AxiosRequestConfig } from "axios";
 import { MutateOptions, useMutation } from "@tanstack/react-query";
-import { handleAxiosMethod } from "../../utils/axiosUtils";
 import { ServerError } from "../../types/errors";
 import { useHistory, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
+import { routing } from "../../config/routing";
 import URLS from "../urls";
+import Cookies from "js-cookie";
 
 export interface Auth {
   signIn: (userData: UserDTO, cb: Function) => Promise<IAuthData>;
@@ -61,7 +62,7 @@ export const useAuth = (): Auth => {
     },
     signOut: () => {
       Cookies.remove("Authorization");
-      history.push("/");
+      history.push(routing.SIGN_IN);
     },
     error: error,
     isAuthenticated: Cookies.get("Authorization") && Cookies.get("Authorization")!.length > 0 ? true : false,
