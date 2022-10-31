@@ -6,6 +6,7 @@ services:
       - 3000:3000
     volumes:
       - ./frontend/:/app
+      - /app/node_modules
 
   backend:
     build: ./backend
@@ -13,3 +14,4 @@ services:
       - 5001:5001
     volumes:
       - ./backend/:/app
+      - /app/node_modules
