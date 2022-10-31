@@ -1,0 +1,43 @@
+.container {
+  width: 32vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.h1 {
+  font-size: 2.4rem;
+  margin-bottom: 2.2rem;
+}
+
+.sense {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.meaning {
+  font-size: 2rem;
+  opacity: 60%;
+  margin-bottom: 0.5rem;
+}
+
+.synsPara {
+  font-size: 1.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.synStyle {
+  margin-right: 0.5rem;
+}
+
+.antonymTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.synNumber {
+  position: absolute;
+  font-size: 2rem;
+  left: -3rem;
+  opacity: 60%;
+}

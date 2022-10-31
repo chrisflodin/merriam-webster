@@ -1,0 +1,22 @@
+.flat {
+  font-size: 1.7rem;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  background-color: var(--white);
+  border-radius: 3px;
+  font-weight: 400;
+
+  &:hover {
+    background-color: rgb(239, 239, 239);
+    cursor: pointer;
+  }
+}
+
+.selectedStyle {
+  background-color: rgb(239, 239, 239);
+}
+
+.outlined {
+  @extend .flat;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
